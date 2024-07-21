@@ -35,7 +35,7 @@ export default async function WeeklyView() {
   completedTaskDates.forEach((taskDate) => {
     const currentGoal = goals.find((goal) => goal.id == taskDate.task_id);
 
-    currentGoal.completedDates.push({
+    currentGoal?.completedDates.push({
       day: taskDate.completion_date.getDay(),
       date: new Date(taskDate.completion_date),
       id: taskDate.id,
@@ -44,7 +44,7 @@ export default async function WeeklyView() {
 
   return (
     <div className="mb-10">
-      <div className="text-tertiary w-full overflow-x-auto rounded-lg bg-gray-50 scrollbar scrollbar-track-slate-300 scrollbar-thumb-primary scrollbar-track-rounded scrollbar-thumb-rounded scrollbar-h-3 dark:bg-primary dark:text-white dark:scrollbar-thumb-active">
+      <div className="w-full overflow-x-auto rounded-lg bg-gray-50 text-tertiary scrollbar scrollbar-track-slate-300 scrollbar-thumb-primary scrollbar-track-rounded scrollbar-thumb-rounded scrollbar-h-3 dark:bg-primary dark:text-white dark:scrollbar-thumb-active">
         <div className="table text-left text-sm font-normal">
           <div className="flex w-full flex-row flex-nowrap items-center border-b-[1px] border-gray-200 dark:border-active">
             <div className="inline-block w-[255px] px-4 py-3 pb-2 font-medium sm:pl-6"></div>

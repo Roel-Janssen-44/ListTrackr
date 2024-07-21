@@ -22,7 +22,7 @@ export default function Navbar() {
           </div>
         </Link>
         <div className="flex flex-row gap-4">
-          <ThemeSwitcher />
+          {/* <ThemeSwitcher /> */}
           <Link
             href={'/login'}
             className={

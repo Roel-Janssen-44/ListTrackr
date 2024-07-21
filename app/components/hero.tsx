@@ -5,11 +5,11 @@ import Image from 'next/image';
 export default function Hero() {
   return (
     <div className="mx-auto min-h-screen max-w-[85rem] px-4 pt-40 sm:px-6 lg:px-8">
-      <div className="grid gap-4 text-tertiary dark:text-white md:grid-cols-2 md:items-center md:gap-8 xl:gap-20">
+      <div className="grid gap-4 text-tertiary md:grid-cols-2 md:items-center md:gap-8 xl:gap-20">
         <div>
           <h1 className="block text-3xl font-bold sm:text-4xl lg:text-6xl lg:leading-tight">
             Start your journey with{' '}
-            <span className="text-primary dark:text-active">Listtrackr</span>
+            <span className="text-primary">Listtrackr</span>
           </h1>
           <p className="mt-3 text-lg">
             Effortlessly manage tasks and keep track of your goals
