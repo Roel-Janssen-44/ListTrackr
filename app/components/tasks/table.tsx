@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Task, Table } from '@/app/lib/definitions';
 import { Input } from '@/app/components/chadcn/input';
 
@@ -30,12 +30,31 @@ export default function TaskTable({
   const deleteTableWithId = deleteTable.bind(null, table.id);
   const [state, dispatch] = useFormState(deleteTableWithId, initialState);
 
+  const [tasksToRender, setTasksToRender] = useState<Task[]>(tasks);
+
   if (!tasks) return null;
 
   const handleTitleChange = (newValue: string) => {
     if (newValue == table.title) return;
     updateTableName(table.id, newValue);
   };
+
+  const addTaskToState = (taskTitle: string) => {
+    setTasksToRender([
+      ...tasksToRender,
+      {
+        // Todo - Generate unique id or see if the backend can revalidate the page
+        id: '1',
+        title: taskTitle,
+        completed: false,
+        status: '',
+        priority: '',
+        table_id: table.id,
+      },
+    ]);
+  };
+
+  // Todo - Update and delete tasks from state
 
   return (
     <div className="relative my-6 rounded-lg bg-white p-3 text-tertiary dark:bg-primary dark:text-white">
@@ -62,7 +81,7 @@ export default function TaskTable({
         )}
       </h2>
       <div className="w-full overflow-x-auto rounded-lg bg-white scrollbar scrollbar-track-slate-300 scrollbar-thumb-active scrollbar-track-rounded scrollbar-thumb-rounded scrollbar-h-3 dark:bg-secondary">
-        {tasks.length != 0 && (
+        {tasksToRender.length != 0 && (
           <div className="ml-[50px] table text-left text-sm font-normal">
             <div className="flex w-full flex-row flex-nowrap items-center">
               <div className="inline-block w-[350px] px-4 py-3 pb-2 font-medium sm:pl-6">
@@ -81,18 +100,33 @@ export default function TaskTable({
           </div>
         )}
         <div className="relative table w-full max-w-full">
-          {tasks.length != 0 &&
-            tasks.map((task: Task) => (
+          {tasksToRender.length != 0 &&
+            tasksToRender.map((task: Task) => (
               <TableRow task={task} tableId={table.id} key={task.id} />
             ))}
           {date == 'today' && (
-            <CreateTask table_id={table.id} date="today" type="task" />
+            <CreateTask
+              addTask={addTaskToState}
+              table_id={table.id}
+              date="today"
+              type="task"
+            />
           )}
           {date == 'tomorrow' && (
-            <CreateTask table_id={table.id} date="tomorrow" type="task" />
+            <CreateTask
+              addTask={addTaskToState}
+              table_id={table.id}
+              date="tomorrow"
+              type="task"
+            />
           )}
           {date == null && (
-            <CreateTask table_id={table.id} date="" type="task" />
+            <CreateTask
+              addTask={addTaskToState}
+              table_id={table.id}
+              date=""
+              type="task"
+            />
           )}
         </div>
       </div>

@@ -2,8 +2,8 @@ export type Task = {
   id: string;
   title: string;
   completed: boolean;
-  status?: 'planned' | 'working on it' | 'done' | 'stuck';
-  priority?: 'low' | 'medium' | 'high';
+  status: '' | 'planned' | 'working on it' | 'done' | 'stuck';
+  priority: '' | 'low' | 'medium' | 'high';
   date?: string;
   table_id: string;
 };

@@ -112,9 +112,6 @@ export async function createTask(
   prevState: TaskState,
   formData: FormData,
 ) {
-  console.log('createTask');
-  console.log('formData');
-  console.log(formData);
   const session = await auth();
   const userId = session?.user?.id;
   if (!userId) return;
@@ -163,9 +160,11 @@ export async function createTask(
       message: 'Database Error: Failed to Create Task.',
     };
   }
-  revalidatePath('/dashboard');
-  revalidatePath('/dashboard/tasks');
-  revalidatePath('/dashboard/goals');
+  // revalidatePath('/dashboard');
+  // revalidatePath('/dashboard/tasks');
+  // revalidatePath('/dashboard/goals');
+  revalidatePath('/', 'layout');
+
   // redirect('/dashboard/tasks');
 }
 

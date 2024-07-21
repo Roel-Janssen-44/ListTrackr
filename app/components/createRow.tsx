@@ -1,18 +1,21 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import { createTask } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
 import { Input } from '@/app/components/chadcn/input';
+import { Task } from '@/app/lib/definitions';
 
 export default function CreateTask({
   table_id,
   type,
   date,
+  addTask,
 }: {
   table_id: string;
   type: 'goal' | 'task';
   date: string;
+  addTask: Function;
 }) {
   const initialState = { message: null, errors: {} };
 
@@ -21,8 +24,8 @@ export default function CreateTask({
 
   const handleBlur = () => {
     if (formRef.current) {
+      addTask(inputRef.current.value);
       formRef.current.requestSubmit();
-      console.log('Submitting form');
     }
   };
 

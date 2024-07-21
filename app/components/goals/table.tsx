@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+
 import { Goal, Table } from '@/app/lib/definitions';
 import { Input } from '@/app/components/chadcn/input';
 
@@ -24,6 +26,9 @@ export default function TaskTableRow({
   const initialState = { message: null, errors: {} };
   const deleteTableWithId = deleteTable.bind(null, table.id);
   const [state, dispatch] = useFormState(deleteTableWithId, initialState);
+
+  const [goalsToRender, setGoalsToRender] = useState<Goal[]>(goals);
+
   if (!goals) return null;
 
   const handleTitleChange = (newValue: string) => {
@@ -31,8 +36,25 @@ export default function TaskTableRow({
     updateTableName(table.id, newValue);
   };
 
+  const addGoalToState = (taskTitle: string) => {
+    setGoalsToRender([
+      ...goalsToRender,
+      {
+        // Todo - Generate unique id or see if the backend can revalidate the page
+        id: '1',
+        title: taskTitle,
+        completed: false,
+        status: '',
+        priority: '',
+        table_id: table.id,
+      },
+    ]);
+  };
+
+  // Todo - Update and delete tasks from state
+
   return (
-    <div className="text-tertiary relative my-10 rounded-lg bg-white p-3 dark:bg-primary dark:text-white">
+    <div className="relative my-10 rounded-lg bg-white p-3 text-tertiary dark:bg-primary dark:text-white">
       <h2 className="text- my-2 flex flex-row justify-between">
         <Input
           className={`w-[300px] font-bold ${exo.className} border-none bg-transparent text-xl dark:bg-transparent`}
@@ -73,7 +95,12 @@ export default function TaskTableRow({
             goals.map((goal: Goal) => (
               <TableRow goal={goal} tableId={table.id} key={goal.id} />
             ))}
-          <CreateTask table_id={table.id} type="goal" date={null} />
+          <CreateTask
+            table_id={table.id}
+            type="goal"
+            date={null}
+            addTask={addGoalToState}
+          />
         </div>
       </div>
     </div>
