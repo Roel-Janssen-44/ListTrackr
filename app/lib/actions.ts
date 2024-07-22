@@ -116,20 +116,33 @@ export async function createTask(
   const userId = session?.user?.id;
   if (!userId) return;
 
+  const generatedId = formData.get('generatedId');
+  // console.log('formData');
+  // console.log(formData);
   const title = formData.get('title');
   const date = formData.get('date').toString();
-
+  let status = '';
   let setDate: string | null;
   if (date == 'today') {
     const currentDate = new Date();
     setDate = currentDate.toDateString();
+    status = 'planned';
   } else if (date == 'tomorrow') {
     const currentDate = new Date();
     const tomorrow = new Date(currentDate);
     tomorrow.setDate(tomorrow.getDate() + 1);
     setDate = tomorrow.toDateString();
+    status = 'planned';
   } else {
     setDate = null;
+  }
+
+  if (typeof generatedId !== 'string') {
+    console.log('Validation failed: Id is required.');
+    return {
+      errors: { Id: ['Id is required'] },
+      message: 'Missing Fields. Failed to Create Task.',
+    };
   }
 
   if (typeof title !== 'string' || title.trim() === '') {
@@ -152,8 +165,8 @@ export async function createTask(
 
   try {
     await sql`
-      INSERT INTO tasks (title, table_id, type, user_id, date)
-      VALUES (${title}, ${table_id}, ${type}, ${userId}, ${setDate})
+      INSERT INTO tasks (id, title, table_id, type, user_id, date, status)
+      VALUES (${generatedId}, ${title}, ${table_id}, ${type}, ${userId}, ${setDate}, ${status})
     `;
   } catch (error) {
     return {
@@ -164,8 +177,6 @@ export async function createTask(
   // revalidatePath('/dashboard/tasks');
   // revalidatePath('/dashboard/goals');
   revalidatePath('/', 'layout');
-
-  // redirect('/dashboard/tasks');
 }
 
 export async function updateTask(

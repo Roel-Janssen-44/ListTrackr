@@ -23,9 +23,11 @@ import { useFormState } from 'react-dom';
 export default function GoalTableRow({
   tableId,
   goal,
+  removeGoal,
 }: {
   tableId: string;
   goal: Goal;
+  removeGoal: Function;
 }) {
   const initialState = { message: null, errors: {} };
 
@@ -38,6 +40,11 @@ export default function GoalTableRow({
   };
   const updateGoalWithId = updateGoal.bind(null, tableId, goal.id);
   const [state, dispatch] = useFormState(updateGoalWithId, initialState);
+
+  const handleDeleteGoal = (id: string) => {
+    removeGoal(id);
+    deleteTask(id);
+  };
 
   return (
     <form
@@ -93,7 +100,7 @@ export default function GoalTableRow({
 
         <div className="px-3">
           <Button
-            onClick={() => deleteTask(goal.id)}
+            onClick={() => handleDeleteGoal(goal.id)}
             size="icon"
             variant="outline"
           >

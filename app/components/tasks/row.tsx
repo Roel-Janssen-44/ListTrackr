@@ -32,9 +32,13 @@ import { useFormState } from 'react-dom';
 export default function TaskTable({
   tableId,
   task,
+  removeTask,
+  updateTaskState,
 }: {
   tableId: string;
   task: Task;
+  removeTask: Function;
+  updateTaskState: Function;
 }) {
   const initialState = { message: null, errors: {} };
 
@@ -50,6 +54,60 @@ export default function TaskTable({
 
   const updateTaskWithId = updateTask.bind(null, tableId, task.id);
   const [state, dispatch] = useFormState(updateTaskWithId, initialState);
+
+  const handleDeleteTask = (id: string) => {
+    removeTask(id);
+    deleteTask(id);
+  };
+
+  const handleUpdateTask = (changedField: string, newValue: any) => {
+    if (changedField == 'completed') {
+      updateTaskState({
+        id: task.id,
+        completed: newValue,
+        title: task.title,
+        priority: task.priority,
+        date: task.date,
+        status: task.status,
+      });
+    } else if (changedField == 'title') {
+      updateTaskState({
+        id: task.id,
+        completed: task.completed,
+        title: newValue,
+        priority: task.priority,
+        date: task.date,
+        status: task.status,
+      });
+    } else if (changedField == 'priority') {
+      updateTaskState({
+        id: task.id,
+        completed: task.completed,
+        title: task.title,
+        priority: newValue,
+        date: task.date,
+        status: task.status,
+      });
+    } else if (changedField == 'date') {
+      updateTaskState({
+        id: task.id,
+        completed: task.completed,
+        title: task.title,
+        priority: task.priority,
+        date: newValue,
+        status: task.status,
+      });
+    } else if (changedField == 'status') {
+      updateTaskState({
+        id: task.id,
+        completed: task.completed,
+        title: task.title,
+        priority: task.priority,
+        date: task.date,
+        status: newValue,
+      });
+    }
+  };
 
   return (
     <form
@@ -74,6 +132,7 @@ export default function TaskTable({
             name="completed"
             defaultChecked={task.completed}
             onCheckedChange={(value) => {
+              handleUpdateTask('completed', value);
               handleBlur();
             }}
           />
@@ -90,6 +149,7 @@ export default function TaskTable({
             onBlur={(e) => {
               if (e.target.value == '') return;
               if (e.target.value == task.title) return;
+              handleUpdateTask('title', e.target.value);
               handleBlur();
             }}
           />
@@ -102,6 +162,7 @@ export default function TaskTable({
             onValueChange={(value) => {
               if (value == '') return;
               if (value == task.priority) return;
+              handleUpdateTask('priority', value);
               handleBlur();
             }}
           >
@@ -161,6 +222,7 @@ export default function TaskTable({
                     dateInputRef.current.value = '';
                     return;
                   }
+                  handleUpdateTask('date', e);
                   handleBlur();
                 }}
                 initialFocus
@@ -187,7 +249,7 @@ export default function TaskTable({
         </div>
         <div className="z-30 flex h-full items-center bg-transparent px-3">
           <Button
-            onClick={() => deleteTask(task.id)}
+            onClick={() => handleDeleteTask(task.id)}
             size="icon"
             variant="outline"
             className="border-transparent bg-red-600 text-white hover:bg-red-400 hover:text-white dark:border-transparent dark:bg-red-600 dark:hover:bg-red-400"

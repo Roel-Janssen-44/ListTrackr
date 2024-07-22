@@ -36,12 +36,11 @@ export default function TaskTableRow({
     updateTableName(table.id, newValue);
   };
 
-  const addGoalToState = (taskTitle: string) => {
+  const addGoalToState = (newId: string, taskTitle: string) => {
     setGoalsToRender([
       ...goalsToRender,
       {
-        // Todo - Generate unique id or see if the backend can revalidate the page
-        id: '1',
+        id: newId,
         title: taskTitle,
         completed: false,
         status: '',
@@ -51,7 +50,13 @@ export default function TaskTableRow({
     ]);
   };
 
-  // Todo - Update and delete tasks from state
+  const removeGoalFromState = (id: string) => {
+    setGoalsToRender([
+      ...goalsToRender.filter((goal) => {
+        return goal.id != id;
+      }),
+    ]);
+  };
 
   return (
     <div className="relative my-10 rounded-lg bg-white p-3 text-tertiary dark:bg-primary dark:text-white">
@@ -93,7 +98,12 @@ export default function TaskTableRow({
         <div className="relative table w-full max-w-full">
           {goals.length != 0 &&
             goals.map((goal: Goal) => (
-              <TableRow goal={goal} tableId={table.id} key={goal.id} />
+              <TableRow
+                removeGoal={removeGoalFromState}
+                goal={goal}
+                tableId={table.id}
+                key={goal.id}
+              />
             ))}
           <CreateTask
             table_id={table.id}

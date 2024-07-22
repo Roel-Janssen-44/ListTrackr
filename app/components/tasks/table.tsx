@@ -39,22 +39,67 @@ export default function TaskTable({
     updateTableName(table.id, newValue);
   };
 
-  const addTaskToState = (taskTitle: string) => {
+  const addTaskToState = (
+    newId: string,
+    completed: boolean,
+    taskTitle: string,
+    status: '' | 'planned' | 'working on it' | 'done' | 'stuck',
+    date: string,
+  ) => {
     setTasksToRender([
       ...tasksToRender,
       {
-        // Todo - Generate unique id or see if the backend can revalidate the page
-        id: '1',
+        id: newId,
         title: taskTitle,
         completed: false,
-        status: '',
+        status: status,
         priority: '',
+        date: date,
         table_id: table.id,
       },
     ]);
   };
 
-  // Todo - Update and delete tasks from state
+  const removeTaskFromState = (id: string) => {
+    setTasksToRender([
+      ...tasksToRender.filter((task) => {
+        return task.id != id;
+      }),
+    ]);
+  };
+
+  const updateTaskFromState = ({
+    id,
+    completed,
+    title,
+    priority,
+    date,
+    status,
+  }: {
+    id: string;
+    completed: boolean;
+    title: string;
+    priority: '' | 'low' | 'medium' | 'high';
+    date: string;
+    status: '' | 'planned' | 'working on it' | 'done' | 'stuck';
+  }) => {
+    // Todo - check if updatedDate is today or tomorrow and add to the correct table
+    setTasksToRender([
+      ...tasksToRender.map((task) => {
+        if (task.id == id) {
+          return {
+            ...task,
+            completed: completed,
+            title: title,
+            priority: priority,
+            date: date,
+            status: status,
+          };
+        }
+        return task;
+      }),
+    ]);
+  };
 
   return (
     <div className="relative my-6 rounded-lg bg-white p-3 text-tertiary dark:bg-primary dark:text-white">
@@ -102,7 +147,13 @@ export default function TaskTable({
         <div className="relative table w-full max-w-full">
           {tasksToRender.length != 0 &&
             tasksToRender.map((task: Task) => (
-              <TableRow task={task} tableId={table.id} key={task.id} />
+              <TableRow
+                removeTask={removeTaskFromState}
+                updateTaskState={updateTaskFromState}
+                task={task}
+                tableId={table.id}
+                key={task.id}
+              />
             ))}
           {date == 'today' && (
             <CreateTask

@@ -5,6 +5,7 @@ import { createTask } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
 import { Input } from '@/app/components/chadcn/input';
 import { Task } from '@/app/lib/definitions';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function CreateTask({
   table_id,
@@ -21,10 +22,24 @@ export default function CreateTask({
 
   const formRef = useRef(null);
   const inputRef = useRef(null);
+  const generatedIdRef = useRef(null);
 
   const handleBlur = () => {
+    const generatedId = uuidv4();
+    if (generatedIdRef.current) {
+      generatedIdRef.current.value = generatedId;
+    }
     if (formRef.current) {
-      addTask(inputRef.current.value);
+      const currentDate = new Date();
+      const today = currentDate.setDate(currentDate.getDate());
+      const tomorrow = currentDate.setDate(currentDate.getDate() + 1);
+      if (date == 'today') {
+        addTask(generatedId, inputRef.current.value, 'planned', today);
+      } else if (date == 'tomorrow') {
+        addTask(generatedId, inputRef.current.value, 'planned', tomorrow);
+      } else {
+        addTask(generatedId, inputRef.current.value, '', '');
+      }
       formRef.current.requestSubmit();
     }
   };
@@ -35,6 +50,7 @@ export default function CreateTask({
   return (
     <form ref={formRef} action={dispatch}>
       <input type="hidden" name="date" value={date} />
+      <input type="hidden" name="generatedId" ref={generatedIdRef} />
       <div className="w-full rounded-md bg-transparent pr-6">
         <div className="mb-1">
           <label
