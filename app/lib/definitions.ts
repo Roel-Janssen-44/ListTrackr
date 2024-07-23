@@ -21,3 +21,43 @@ export type Table = {
   goals?: Goal[];
   type: 'task' | 'goal';
 };
+
+export type Project = {
+  id: string;
+  title: string;
+  number: string;
+  startDate: string;
+  endDate?: string;
+  // Todo - Status misschien nog aanpassen
+  status: 'waiting' | 'in progress' | 'completed';
+  user_id: string;
+  customer_id: string;
+};
+
+export type Customer = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  postalCode?: string;
+  street?: string;
+  streetNumber?: string;
+  country?: string;
+};
+
+export type Invoice = {
+  id: string;
+  number: string;
+  amount: number;
+  status: 'paid' | 'pending';
+  date: string;
+  project_id: string;
+};
+
+export type Comment = {
+  id: string;
+  title: string;
+  date: string;
+  content: string;
+  project_id: string;
+};

@@ -5,6 +5,9 @@ import {
   ClipboardDocumentListIcon,
   ClipboardDocumentCheckIcon,
   Cog6ToothIcon,
+  ChartBarIcon,
+  FolderIcon,
+  UserIcon,
 } from '@heroicons/react/24/outline';
 
 import Link from 'next/link';
@@ -15,6 +18,21 @@ const links = [
   { name: 'Home', href: '/dashboard', icon: HomeIcon },
   { name: 'Tasks', href: '/dashboard/tasks', icon: ClipboardDocumentListIcon },
   { name: 'Goals', href: '/dashboard/goals', icon: ClipboardDocumentCheckIcon },
+  {
+    name: 'Projects',
+    href: '/dashboard/projects',
+    icon: FolderIcon,
+  },
+  {
+    name: 'Customers',
+    href: '/dashboard/customers',
+    icon: UserIcon,
+  },
+  {
+    name: 'Invoices',
+    href: '/dashboard/invoices',
+    icon: ChartBarIcon,
+  },
   { name: 'Settings', href: '/dashboard/settings', icon: Cog6ToothIcon },
 ];
 

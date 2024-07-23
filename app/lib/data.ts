@@ -163,3 +163,25 @@ export async function fetchCompletedTaskDatesThisWeek() {
     throw new Error('Failed to fetch tasks.');
   }
 }
+
+// Customers
+export async function fetchCustomers() {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return;
+
+  try {
+    const data = await sql`
+      SELECT
+        id,
+        name,
+      FROM customers
+      ORDER BY name ASC
+      WHERE user_id = ${userId} 
+    `;
+    return data.rows;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch all customers.');
+  }
+}

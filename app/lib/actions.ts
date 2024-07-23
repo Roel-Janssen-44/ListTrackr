@@ -455,3 +455,41 @@ export async function updateWeeklyTask(
   revalidatePath('/dashboard');
   // // redirect('/dashboard/tasks');
 }
+
+// Customers
+
+export async function createCustomer() {
+// taskId: string,
+// prevState: WeeklyTaskState,
+// formData: FormData,
+  // console.log('updateWeeklyTask');
+  // console.log('formData', formData);
+  // console.log('taskId', taskId);
+  // const day = formData.get('day');
+  // const completed = formData.get('completed');
+  // const currentDate = new Date();
+  // const weekStart = startOfWeek(currentDate, { weekStartsOn: 1 });
+  // const mondayDate = format(addDays(weekStart, 0), 'yyyy-MM-dd');
+  // let selectedDay: string;
+  // let isCompleted: boolean;
+  // if (completed == 'on') {
+  //   isCompleted = true;
+  // }
+  // if (day == 'monday') {
+  //   selectedDay = mondayDate;
+  // }
+  // try {
+  //   sql`
+  //   INSERT INTO task_completions (task_id, completion_date )
+  //   VALUES (${taskId}, ${selectedDay})
+  //   `;
+  // } catch (error) {
+  //   console.log('error');
+  //   console.log(error);
+  //   return {
+  //     message: 'Database Error: Failed to Update Task.',
+  //   };
+  // }
+  // revalidatePath('/dashboard');
+  // // redirect('/dashboard/tasks');
+}

@@ -50,7 +50,7 @@ export default async function RootLayout({
       <body
         className={`${inter.className} bg-[#f5f5f5] text-primary antialiased`}
       >
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="light">
           <SessionProvider session={session}>{children}</SessionProvider>
         </ThemeProvider>
       </body>

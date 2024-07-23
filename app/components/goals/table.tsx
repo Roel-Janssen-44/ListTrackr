@@ -41,8 +41,8 @@ export default function TaskTableRow({
       ...goalsToRender,
       {
         id: newId,
-        title: taskTitle,
         completed: false,
+        title: taskTitle,
         status: '',
         priority: '',
         table_id: table.id,

@@ -34,11 +34,17 @@ export default function CreateTask({
       const today = currentDate.setDate(currentDate.getDate());
       const tomorrow = currentDate.setDate(currentDate.getDate() + 1);
       if (date == 'today') {
-        addTask(generatedId, inputRef.current.value, 'planned', today);
+        addTask(generatedId, false, inputRef.current.value, 'planned', today);
       } else if (date == 'tomorrow') {
-        addTask(generatedId, inputRef.current.value, 'planned', tomorrow);
+        addTask(
+          generatedId,
+          false,
+          inputRef.current.value,
+          'planned',
+          tomorrow,
+        );
       } else {
-        addTask(generatedId, inputRef.current.value, '', '');
+        addTask(generatedId, false, inputRef.current.value, '', '');
       }
       formRef.current.requestSubmit();
     }
