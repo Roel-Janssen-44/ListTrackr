@@ -41,7 +41,7 @@ export type Customer = {
   phone: string;
   postalCode?: string;
   street?: string;
-  streetNumber?: string;
+  houseNumber?: string;
   country?: string;
 };
 

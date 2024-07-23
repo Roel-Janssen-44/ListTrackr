@@ -463,8 +463,6 @@ export async function createCustomer(formData: FormData) {
   const userId = session?.user?.id;
   if (!userId) return;
 
-  console.log('create customer');
-  console.log('formData', formData);
   const name = formData.get('name').toString();
   const email = formData.get('email').toString();
   const phone = formData.get('phone').toString();

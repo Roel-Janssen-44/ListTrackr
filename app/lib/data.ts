@@ -1,6 +1,6 @@
 import { sql } from '@vercel/postgres';
 import { auth } from 'auth';
-
+import { Customer } from '@/app/lib/definitions';
 // import { unstable_noStore as noStore } from 'next/cache';
 
 // Fetch tables
@@ -177,6 +177,33 @@ export async function fetchCustomers() {
       ORDER BY name ASC
     `;
     return data.rows;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch all customers.');
+  }
+}
+
+export async function fetchCustomer(customerId: string) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return;
+
+  try {
+    const data = await sql`
+      select name, email, phone_number,streetname, housenumber, postalcode, country from customers
+      WHERE id = ${customerId}
+    `;
+    const customer: Customer = {
+      id: customerId,
+      name: data.rows[0].name,
+      email: data.rows[0].email,
+      phone: data.rows[0].phone_number,
+      street: data.rows[0].streetname,
+      houseNumber: data.rows[0].housenumber,
+      postalCode: data.rows[0].postalcode,
+      country: data.rows[0].country,
+    };
+    return customer;
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch all customers.');
