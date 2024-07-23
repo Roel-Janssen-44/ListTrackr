@@ -458,38 +458,33 @@ export async function updateWeeklyTask(
 
 // Customers
 
-export async function createCustomer() {
-// taskId: string,
-// prevState: WeeklyTaskState,
-// formData: FormData,
-  // console.log('updateWeeklyTask');
-  // console.log('formData', formData);
-  // console.log('taskId', taskId);
-  // const day = formData.get('day');
-  // const completed = formData.get('completed');
-  // const currentDate = new Date();
-  // const weekStart = startOfWeek(currentDate, { weekStartsOn: 1 });
-  // const mondayDate = format(addDays(weekStart, 0), 'yyyy-MM-dd');
-  // let selectedDay: string;
-  // let isCompleted: boolean;
-  // if (completed == 'on') {
-  //   isCompleted = true;
-  // }
-  // if (day == 'monday') {
-  //   selectedDay = mondayDate;
-  // }
-  // try {
-  //   sql`
-  //   INSERT INTO task_completions (task_id, completion_date )
-  //   VALUES (${taskId}, ${selectedDay})
-  //   `;
-  // } catch (error) {
-  //   console.log('error');
-  //   console.log(error);
-  //   return {
-  //     message: 'Database Error: Failed to Update Task.',
-  //   };
-  // }
+export async function createCustomer(formData: FormData) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return;
+
+  console.log('create customer');
+  console.log('formData', formData);
+  const name = formData.get('name').toString();
+  const email = formData.get('email').toString();
+  const phone = formData.get('phone').toString();
+  const streetname = formData.get('streetname').toString() || '';
+  const housenumber = formData.get('housenumber').toString() || '';
+  const postalcode = formData.get('postalcode').toString() || '';
+  const country = formData.get('country').toString() || '';
+
+  try {
+    sql`
+    insert into customers(name, email, phone_number,streetname, housenumber, postalcode, country, user_id)
+    VALUES (${name}, ${email}, ${phone}, ${streetname}, ${housenumber}, ${postalcode}, ${country}, ${userId})
+    `;
+    return { success: true, message: '' };
+  } catch (error) {
+    console.log('error');
+    console.log(error);
+    return { success: false, message: 'Error creating customer' };
+  }
+
   // revalidatePath('/dashboard');
   // // redirect('/dashboard/tasks');
 }

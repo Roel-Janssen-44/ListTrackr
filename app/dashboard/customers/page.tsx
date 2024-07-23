@@ -1,145 +1,56 @@
-import Image from 'next/image';
-// import Search from '@/app/ui/search';
+'use server';
+
+import { exo } from '@/app/components/fonts';
+import { Suspense } from 'react';
 import { fetchCustomers } from '@/app/lib/data';
 import { Customer } from '@/app/lib/definitions';
-import { Button } from '@/app/components/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/app/components/chadcn/dialog';
+import Link from 'next/link';
 import CustomerCreationForm from '@/app/components/customers/createForm';
 
 export default async function Customers() {
-  //   const customers = await fetchCustomers();
-  const customers = [];
-  console.log('customers');
-  console.log(customers);
-
+  const customers = await fetchCustomers();
   return (
     <div className="w-full">
-      <h1 className={`mb-8 text-xl md:text-2xl`}>Customers</h1>
-      {/* <Search placeholder="Search customers..." /> */}
-      <div className="mt-6 flow-root">
-        <div className="overflow-x-auto">
-          <div className="inline-block min-w-full align-middle">
-            <div className="overflow-hidden rounded-md bg-gray-50 p-2 md:pt-0">
-              <div className="md:hidden">
-                {customers?.map((customer) => (
-                  <div
-                    key={customer.id}
-                    className="mb-2 w-full rounded-md bg-white p-4"
-                  >
-                    <div className="flex items-center justify-between border-b pb-4">
-                      <div>
-                        <div className="mb-2 flex items-center">
-                          <div className="flex items-center gap-3">
-                            {/* <Image
-                              src={customer.image_url}
-                              className="rounded-full"
-                              alt={`${customer.name}'s profile picture`}
-                              width={28}
-                              height={28}
-                            /> */}
-                            <p>{customer.name}</p>
-                          </div>
-                        </div>
-                        <p className="text-sm text-gray-500">
-                          {customer.email}
-                        </p>
-                      </div>
-                    </div>
-                    {/* <div className="flex w-full items-center justify-between border-b py-5">
-                      <div className="flex w-1/2 flex-col">
-                        <p className="text-xs">Pending</p>
-                        <p className="font-medium">{customer.total_pending}</p>
-                      </div>
-                      <div className="flex w-1/2 flex-col">
-                        <p className="text-xs">Paid</p>
-                        <p className="font-medium">{customer.total_paid}</p>
-                      </div>
-                    </div>
-                    <div className="pt-4 text-sm">
-                      <p>{customer.total_invoices} invoices</p>
-                    </div> */}
+      <h1 className={`${exo.className} mb-4 text-3xl font-bold`}>Customers</h1>
+      <Suspense fallback={'fallback'}>
+        <div className="relative my-6 rounded-lg bg-white p-3 text-tertiary dark:bg-primary dark:text-white">
+          <div className="w-full overflow-x-auto rounded-lg bg-white scrollbar scrollbar-track-slate-300 scrollbar-thumb-active scrollbar-track-rounded scrollbar-thumb-rounded scrollbar-h-3 dark:bg-secondary">
+            {customers.length != 0 && (
+              <div className="table text-left text-sm font-normal">
+                <div className="flex w-full flex-row flex-nowrap items-center">
+                  <div className="mb-3 inline-block w-[350px] py-3 pb-2 font-medium sm:pl-3">
+                    Name
                   </div>
-                ))}
+                  <div className="mb-3 inline-block w-[350px] py-3 pb-2 font-medium sm:pl-3">
+                    email
+                  </div>
+                </div>
               </div>
-              <table className="hidden min-w-full rounded-md text-gray-900 md:table">
-                <thead className="rounded-md bg-gray-50 text-left text-sm font-normal">
-                  <tr>
-                    <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                      Name
-                    </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
-                      Email
-                    </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
-                      Total Invoices
-                    </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
-                      Total Pending
-                    </th>
-                    <th scope="col" className="px-4 py-5 font-medium">
-                      Total Paid
-                    </th>
-                  </tr>
-                </thead>
-
-                <tbody className="divide-y divide-gray-200 text-gray-900">
-                  {customers.map((customer) => (
-                    <tr key={customer.id} className="group">
-                      <td className="whitespace-nowrap bg-white py-5 pl-4 pr-3 text-sm text-black group-first-of-type:rounded-md group-last-of-type:rounded-md sm:pl-6">
-                        <div className="flex items-center gap-3">
-                          {/* <Image
-                            src={customer.image_url}
-                            className="rounded-full"
-                            alt={`${customer.name}'s profile picture`}
-                            width={28}
-                            height={28}
-                          /> */}
-                          <p>{customer.name}</p>
-                        </div>
-                      </td>
-                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+            )}
+            <div className="relative block max-h-[600px] w-full max-w-full overflow-y-auto scrollbar scrollbar-track-slate-300 scrollbar-thumb-active scrollbar-track-rounded scrollbar-thumb-rounded scrollbar-h-3">
+              {customers.length != 0 &&
+                customers.map((customer: Customer) => (
+                  <Link
+                    href={`/dashboard/customers/${customer.id}`}
+                    key={customer.id}
+                    className={`relative flex flex-row border-t-[1px] border-gray-200 odd:bg-gray-50 dark:border-white dark:border-opacity-10 dark:odd:bg-primary`}
+                  >
+                    <div className="group flex w-full flex-row flex-nowrap items-center text-sm transition-colors hover:bg-gray-100 dark:hover:bg-active">
+                      <div className="w-[350px] px-3 py-4 dark:border-white dark:border-opacity-10">
+                        {customer.name}
+                      </div>
+                      <div className="w-[350px] px-3 py-4 dark:border-white dark:border-opacity-10">
                         {customer.email}
-                      </td>
-                      {/* <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {customer.total_invoices}
-                      </td>
-                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {customer.total_pending}
-                      </td>
-                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
-                        {customer.total_paid}
-                      </td> */}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
             </div>
           </div>
         </div>
-      </div>
+      </Suspense>
       <div className="mt-6">
-        <Dialog>
-          <DialogTrigger>
-            <span className="focus-visible:secondary flex h-10 items-center rounded-lg bg-primary px-4 py-3 text-sm font-medium text-white outline-tertiary transition-colors aria-disabled:cursor-not-allowed aria-disabled:opacity-50 hover:bg-active focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 active:bg-active dark:outline-white">
-              Create customer
-            </span>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle className="mb-4">Create new customer</DialogTitle>
-              <DialogDescription>
-                <CustomerCreationForm />
-              </DialogDescription>
-            </DialogHeader>
-          </DialogContent>
-        </Dialog>
+        <CustomerCreationForm />
       </div>
     </div>
   );

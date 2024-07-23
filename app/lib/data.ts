@@ -172,12 +172,9 @@ export async function fetchCustomers() {
 
   try {
     const data = await sql`
-      SELECT
-        id,
-        name,
-      FROM customers
+      select id, name, email from customers
+      WHERE user_id = ${userId}
       ORDER BY name ASC
-      WHERE user_id = ${userId} 
     `;
     return data.rows;
   } catch (err) {
