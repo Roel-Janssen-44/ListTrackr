@@ -20,6 +20,8 @@ export default async function WeeklyView() {
       daysPerWeek: goal.daysperweek?.toString() || '0',
       completed: goal.completed,
       completedDates: [],
+      status: '',
+      priority: '',
     };
     goals.push(changedGoal);
   });

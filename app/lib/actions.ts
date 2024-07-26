@@ -9,6 +9,7 @@ import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
 
 import { format, startOfWeek, addDays } from 'date-fns';
+import { Customer } from '@/app/lib/definitions';
 
 const TableSchema = z.object({
   id: z.string(),
@@ -485,4 +486,26 @@ export async function createCustomer(formData: FormData) {
 
   // revalidatePath('/dashboard');
   // // redirect('/dashboard/tasks');
+}
+export async function updateCustomer(formData: FormData) {
+  try {
+    // await sql`
+    //   UPDATE tables
+    //   // SET title=${newValue}
+    //   // WHERE id=${tableId}
+    // `;
+    console.log('formData');
+    console.log(formData);
+    return { success: true, message: '' };
+  } catch (error) {
+    return {
+      status: 'error',
+      message: 'Database Error: Failed to Update Task.',
+    };
+  }
+
+  revalidatePath('/dashboard');
+  revalidatePath('/dashboard/tasks');
+  revalidatePath('/dashboard/goals');
+  // redirect('/dashboard/tasks');
 }

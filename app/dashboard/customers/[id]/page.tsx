@@ -18,12 +18,12 @@ export default async function CustomerPage({
   const customer: Customer = await fetchCustomer(params.id);
   return (
     <div className="w-full">
-      <div className="flex flex-row justify-between">
+      <div className="mb-6 flex flex-row justify-between">
         <Link
           href={'/dashboard/customers'}
-          className="group flex flex-row items-center gap-1 hover:text-active"
+          className="group flex flex-row items-center justify-center gap-1 hover:text-active"
         >
-          <span className="mt-3.5 w-4">
+          <span className="mt-1.5 w-4">
             <ChevronLeftIcon className="stroke-[3]" />
           </span>{' '}
           <h2
@@ -33,15 +33,13 @@ export default async function CustomerPage({
           </h2>
         </Link>
 
-        <h1 className="mt-auto self-baseline text-2xl font-bold">
+        {/* <h1 className="mt-auto self-baseline text-2xl font-bold">
           {customer.name}
-        </h1>
-
-        <Suspense fallback={'Loading...'}>
-          {/* @ts-expect-error */}
-          <EditCustomerForm customer={customer} />
-        </Suspense>
+        </h1> */}
       </div>
+      <Suspense fallback={'Loading...'}>
+        <EditCustomerForm customer={customer} />
+      </Suspense>
     </div>
   );
 }
