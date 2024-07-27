@@ -14,7 +14,6 @@ import {
 } from '@/app/components/chadcn/dialog';
 import { Button } from '@/app/components/button';
 import { Customer } from '@/app/lib/definitions';
-import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import { useFormState } from 'react-dom';
 
 export default function CustomerCreationForm({
@@ -25,43 +24,13 @@ export default function CustomerCreationForm({
   const [open, setOpen] = useState(true);
   const [customerState, setCustomerState] = useState(customer);
 
-  //   useEffect(() => {
-  //     console.log('customer');
-  //     console.log(customerState);
-  //     console.log(customerState.name);
-  //   }, [customerState]);
-
   const handleFieldChange = (value: string, field: string) => {
     setCustomerState({ ...customerState, [field]: value });
   };
 
-  async function handleFormSubmission(formData: FormData) {
-    console.log('start on form submission');
-    console.log('formData');
-    console.log(formData);
-    // console.log(customerState);
-    try {
-      //   const status = await updateCustomer(formData);
-      //   if (status.success) {
-      //     setOpen(false);
-      //   } else {
-      //     console.error('Error creating customer:', status.message);
-      //   }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  }
-
   return (
-    // <Dialog open={open} onOpenChange={setOpen}>
-    //   <DialogTrigger className="relative inline-flex h-10 w-auto flex-row items-center px-4 py-3 text-primary transition-colors hover:text-active">
-    //     <PencilSquareIcon className="h-8 w-8" />
-    //   </DialogTrigger>
-    //   <DialogContent>
-    //     <DialogHeader>
-    //       <DialogTitle className="mb-4">Update customer</DialogTitle>
-    //       <DialogDescription>
     <form action={updateCustomer}>
+      <input type="hidden" name="id" value={customer.id} />
       <div className="flex w-full flex-col gap-3 rounded-md bg-transparent pr-6">
         <div className="mb-1">
           <label
@@ -102,6 +71,7 @@ export default function CustomerCreationForm({
               className="mt-1 block w-full max-w-lg rounded-md bg-transparent py-2 pl-3 pr-20 text-sm text-gray-800 outline-2 placeholder:text-gray-300"
               aria-labelledby="email-error"
               required
+              onChange={(e) => handleFieldChange(e.target.value, 'email')}
             />
           </div>
         </div>
@@ -122,6 +92,7 @@ export default function CustomerCreationForm({
               className="mt-1 block w-full max-w-lg rounded-md bg-transparent py-2 pl-3 pr-20 text-sm text-gray-800 outline-2 placeholder:text-gray-300"
               aria-labelledby="phone-error"
               required
+              onChange={(e) => handleFieldChange(e.target.value, 'phone')}
             />
           </div>
         </div>
@@ -142,6 +113,7 @@ export default function CustomerCreationForm({
               placeholder="..."
               className="mt-1 block w-full max-w-lg rounded-md bg-transparent py-2 pl-3 pr-20 text-sm text-gray-800 outline-2 placeholder:text-gray-300"
               aria-labelledby="street-error"
+              onChange={(e) => handleFieldChange(e.target.value, 'street')}
             />
           </div>
         </div>
@@ -161,6 +133,7 @@ export default function CustomerCreationForm({
               placeholder="..."
               className="mt-1 block w-full max-w-lg rounded-md bg-transparent py-2 pl-3 pr-20 text-sm text-gray-800 outline-2 placeholder:text-gray-300"
               aria-labelledby="housenumber-error"
+              onChange={(e) => handleFieldChange(e.target.value, 'houseNumber')}
             />
           </div>
         </div>
@@ -180,6 +153,7 @@ export default function CustomerCreationForm({
               placeholder="..."
               className="mt-1 block w-full max-w-lg rounded-md bg-transparent py-2 pl-3 pr-20 text-sm text-gray-800 outline-2 placeholder:text-gray-300"
               aria-labelledby="postalcode-error"
+              onChange={(e) => handleFieldChange(e.target.value, 'postalCode')}
             />
           </div>
         </div>
@@ -199,6 +173,7 @@ export default function CustomerCreationForm({
               placeholder="..."
               className="mt-1 block w-full max-w-lg rounded-md bg-transparent py-2 pl-3 pr-20 text-sm text-gray-800 outline-2 placeholder:text-gray-300"
               aria-labelledby="country-error"
+              onChange={(e) => handleFieldChange(e.target.value, 'country')}
             />
           </div>
         </div>
@@ -209,9 +184,5 @@ export default function CustomerCreationForm({
         </Button>
       </div>
     </form>
-    //       </DialogDescription>
-    //     </DialogHeader>
-    //   </DialogContent>
-    // </Dialog>
   );
 }

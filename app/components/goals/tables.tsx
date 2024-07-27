@@ -31,6 +31,8 @@ export default async function GoalTables({
         table_id: goal.table_id,
         daysPerWeek: goal.daysperweek?.toString() || '0',
         completed: goal.completed,
+        status: '',
+        priority: '',
       };
 
       table.goals.push(changedGoal);

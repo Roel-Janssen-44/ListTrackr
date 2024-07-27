@@ -488,14 +488,32 @@ export async function createCustomer(formData: FormData) {
   // // redirect('/dashboard/tasks');
 }
 export async function updateCustomer(formData: FormData) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return;
+
+  const id = formData.get('id').toString();
+  const name = formData.get('name').toString();
+  const email = formData.get('email').toString();
+  const phone = formData.get('phone').toString();
+  const streetname = formData.get('streetname').toString() || '';
+  const housenumber = formData.get('housenumber').toString() || '';
+  const postalcode = formData.get('postalcode').toString() || '';
+  const country = formData.get('country').toString() || '';
+
   try {
-    // await sql`
-    //   UPDATE tables
-    //   // SET title=${newValue}
-    //   // WHERE id=${tableId}
-    // `;
-    console.log('formData');
-    console.log(formData);
+    await sql`
+      UPDATE customers
+      SET name=${name},
+      email=${email},
+      phone_number=${phone},
+      streetname=${streetname},
+      housenumber=${housenumber},
+      postalcode=${postalcode},
+      country=${country}
+      WHERE id=${id}
+    `;
+    revalidatePath('/layout');
     return { success: true, message: '' };
   } catch (error) {
     return {
@@ -503,9 +521,4 @@ export async function updateCustomer(formData: FormData) {
       message: 'Database Error: Failed to Update Task.',
     };
   }
-
-  revalidatePath('/dashboard');
-  revalidatePath('/dashboard/tasks');
-  revalidatePath('/dashboard/goals');
-  // redirect('/dashboard/tasks');
 }

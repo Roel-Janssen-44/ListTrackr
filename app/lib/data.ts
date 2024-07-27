@@ -209,3 +209,21 @@ export async function fetchCustomer(customerId: string) {
     throw new Error('Failed to fetch all customers.');
   }
 }
+
+// Invoices
+export async function fetchInvoices() {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return;
+
+  try {
+    const data = await sql`
+      select id, amount, status, date, project_id from invoices
+      WHERE user_id = ${userId}
+    `;
+    return data.rows;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch all invoices.');
+  }
+}
