@@ -9,7 +9,7 @@ export function Button({ children, className, ...rest }: ButtonProps) {
     <button
       {...rest}
       className={clsx(
-        'focus-visible:secondary outline-tertiary flex h-10 items-center rounded-lg bg-primary px-4 py-3 text-sm font-medium text-white transition-colors aria-disabled:cursor-not-allowed aria-disabled:opacity-50 hover:bg-active focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 active:bg-active dark:outline-white',
+        'focus-visible:secondary flex h-10 items-center justify-center rounded-lg bg-primary px-4 py-3 text-center text-sm font-medium text-white outline-tertiary transition-colors aria-disabled:cursor-not-allowed aria-disabled:opacity-50 hover:bg-active focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 active:bg-active dark:outline-white',
         className,
       )}
     >

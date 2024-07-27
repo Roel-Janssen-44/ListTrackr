@@ -54,6 +54,47 @@ export type Invoice = {
   project_id: string;
 };
 
+// Todo - Invoice template
+export type InvoiceTemplate = {
+  id: string;
+  name: string;
+  fieldGroups: FieldGroup[];
+  settings: [
+    {
+      discountType: 'none' | 'percentage' | 'amount';
+    },
+    {
+      discountAmount: number;
+    },
+    {
+      taxSetting: 'excl' | 'incl';
+    },
+    {
+      taxAmount: 21 | 9 | 0;
+    },
+    {
+      invoiceBase: string;
+    },
+    {
+      invoiceAppendix: string;
+    },
+  ];
+};
+
+export type FieldGroup = {
+  id: string;
+  name: string;
+  position?: number;
+  fields: Field[];
+};
+
+export type Field = {
+  id: string;
+  name?: string;
+  data?: string;
+  value?: string;
+};
+
 export type Comment = {
   id: string;
   title: string;

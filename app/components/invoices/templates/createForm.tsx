@@ -13,6 +13,7 @@ import {
   DialogTrigger,
 } from '@/app/components/chadcn/dialog';
 import { Button } from '@/app/components/button';
+import Invoice from '@/app/components/invoice/invoice';
 
 export default function CreateInvoiceTemplate() {
   // const [open, setOpen] = useState(false);
@@ -31,7 +32,10 @@ export default function CreateInvoiceTemplate() {
   // }
 
   return (
-    // <Dialog open={open} onOpenChange={setOpen}>
+    <>
+      <Invoice viewStyle={'template'} />
+
+      {/* // <Dialog open={open} onOpenChange={setOpen}>
     //   <DialogTrigger>
     //     <span className="focus-visible:secondary flex h-10 items-center rounded-lg bg-primary px-4 py-3 text-sm font-medium text-white outline-tertiary transition-colors aria-disabled:cursor-not-allowed aria-disabled:opacity-50 hover:bg-active focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 active:bg-active dark:outline-white">
     //       Create invoice
@@ -72,7 +76,8 @@ export default function CreateInvoiceTemplate() {
     //       </DialogDescription>
     //     </DialogHeader>
     //   </DialogContent>
-    // </Dialog>
-    <p>invoice template create form</p>
+    // </Dialog> */}
+      <p>invoice template create form</p>
+    </>
   );
 }

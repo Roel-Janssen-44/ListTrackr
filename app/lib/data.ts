@@ -227,3 +227,21 @@ export async function fetchInvoices() {
     throw new Error('Failed to fetch all invoices.');
   }
 }
+
+// Invoice templates
+export async function getInvoiceTemplates() {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return;
+
+  // try {
+  //   const data = await sql`
+  //     select id, name, description, amount from invoice_templates
+  //     WHERE user_id = ${userId}
+  //   `;
+  //   return data.rows;
+  // } catch (err) {
+  //   console.error('Database Error:', err);
+  //   throw new Error('Failed to fetch all invoices.');
+  // }
+}

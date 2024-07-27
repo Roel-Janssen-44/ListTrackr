@@ -58,3 +58,10 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export function getCurrentFieldGroup(fieldGroups, fieldGroupName) {
+  const result = fieldGroups.filter(
+    (fieldGroup) => fieldGroup.name == fieldGroupName,
+  );
+  return result[0].fields;
+}
