@@ -9,6 +9,7 @@ import { ChevronLeftIcon } from '@heroicons/react/24/outline';
 import EditCustomerForm from '@/app/components/customers/editForm';
 import { Button } from '@/app/components/button';
 import { Pencil } from 'lucide-react';
+import DeleteCustomerForm from '@/app/components/customers/deleteForm';
 
 export default async function CustomerPage({
   params,
@@ -40,11 +41,14 @@ export default async function CustomerPage({
         </h1>
 
         {/* Edit customer data */}
-        <Link href={`/dashboard/customers/${params.id}/edit`}>
-          <Button className="flex gap-2">
-            <Pencil />
-          </Button>
-        </Link>
+        <div className="flex flex-row justify-center gap-4">
+          <Link href={`/dashboard/customers/${params.id}/edit`}>
+            <Button className="flex gap-2">
+              <Pencil />
+            </Button>
+          </Link>
+          <DeleteCustomerForm customerId={customer.id} />
+        </div>
       </div>
       <Suspense fallback={'Loading...'}>
         {/* <EditCustomerForm customer={customer} /> */}

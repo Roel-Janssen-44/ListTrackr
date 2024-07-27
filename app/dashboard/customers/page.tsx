@@ -9,6 +9,7 @@ import CustomerCreationForm from '@/app/components/customers/createForm';
 
 export default async function Customers() {
   const customers = await fetchCustomers();
+
   return (
     <div className="w-full">
       <h1 className={`${exo.className} mb-4 text-3xl font-bold`}>Customers</h1>

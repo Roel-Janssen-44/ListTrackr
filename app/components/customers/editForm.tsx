@@ -1,35 +1,44 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useState } from 'react';
 import { updateCustomer } from '@/app/lib/actions';
 import { Input } from '@/app/components/chadcn/input';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/app/components/chadcn/dialog';
+
 import { Button } from '@/app/components/button';
 import { Customer } from '@/app/lib/definitions';
-import { useFormState } from 'react-dom';
+import { useRouter } from 'next/navigation';
 
 export default function CustomerCreationForm({
   customer,
 }: {
   customer: Customer;
 }) {
-  const [open, setOpen] = useState(true);
   const [customerState, setCustomerState] = useState(customer);
+  const router = useRouter();
 
   const handleFieldChange = (value: string, field: string) => {
     setCustomerState({ ...customerState, [field]: value });
   };
 
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function handleFormSubmission(formData: FormData) {
+    setIsLoading(true);
+    try {
+      const status = await updateCustomer(formData);
+      if (status.success) {
+        router.push(`/dashboard/customers/${customer.id}`);
+      } else {
+        console.error('Error creating customer:', status.message);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
   return (
-    <form action={updateCustomer}>
+    <form action={handleFormSubmission}>
       <input type="hidden" name="id" value={customer.id} />
       <div className="flex w-full flex-col gap-3 rounded-md bg-transparent pr-6">
         <div className="mb-1">
@@ -180,7 +189,7 @@ export default function CustomerCreationForm({
       </div>
       <div className="flex flex-row gap-4">
         <Button type="submit" className="mt-4">
-          Save
+          {isLoading ? 'Loading...' : 'Update'}
         </Button>
       </div>
     </form>

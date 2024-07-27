@@ -15,25 +15,50 @@ import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 
 const links = [
-  { name: 'Home', href: '/dashboard', icon: HomeIcon },
-  { name: 'Tasks', href: '/dashboard/tasks', icon: ClipboardDocumentListIcon },
-  { name: 'Goals', href: '/dashboard/goals', icon: ClipboardDocumentCheckIcon },
+  {
+    name: 'Home',
+    href: '/dashboard',
+    icon: HomeIcon,
+    activeFilter: 'home',
+  },
+  {
+    name: 'Tasks',
+    href: '/dashboard/tasks',
+    icon: ClipboardDocumentListIcon,
+
+    activeFilter: 'tasks',
+  },
+  {
+    name: 'Goals',
+    href: '/dashboard/goals',
+    icon: ClipboardDocumentCheckIcon,
+    activeFilter: 'goals',
+  },
   {
     name: 'Projects',
     href: '/dashboard/projects',
     icon: FolderIcon,
+    activeFilter: 'projects',
   },
   {
     name: 'Customers',
     href: '/dashboard/customers',
     icon: UserIcon,
+    activeFilter: 'customers',
   },
   {
     name: 'Invoices',
     href: '/dashboard/invoices',
     icon: ChartBarIcon,
+    activeFilter: 'invoices',
   },
-  { name: 'Settings', href: '/dashboard/settings', icon: Cog6ToothIcon },
+
+  {
+    name: 'Settings',
+    href: '/dashboard/settings',
+    icon: Cog6ToothIcon,
+    activeFilter: 'settings',
+  },
 ];
 
 export default function NavLinks() {
@@ -52,10 +77,12 @@ export default function NavLinks() {
                 'flex h-[48px] grow items-center justify-center gap-2 rounded-md  p-3 text-sm font-medium dark:hover:text-white md:flex-none md:justify-start md:p-2 md:px-3',
                 {
                   'bg-active text-white hover:bg-active hover:text-white dark:bg-active dark:text-white':
+                    pathname.includes(link.activeFilter) ||
                     pathname === link.href,
                 },
                 {
                   'bg-gray-50 text-tertiary hover:bg-gray-200 dark:bg-secondary dark:text-white dark:hover:bg-active':
+                    !pathname.includes(link.activeFilter) &&
                     pathname !== link.href,
                 },
               )}
@@ -75,10 +102,12 @@ export default function NavLinks() {
                   'flex h-[48px] grow items-center justify-center gap-2 rounded-md  p-3 text-sm font-medium dark:hover:text-white md:flex-none md:justify-start md:p-2 md:px-3',
                   {
                     'bg-active text-white hover:bg-active hover:text-white dark:bg-active dark:text-white':
+                      pathname.includes(link.activeFilter) ||
                       pathname === link.href,
                   },
                   {
                     'bg-gray-50 text-tertiary hover:bg-gray-200 dark:bg-secondary dark:text-white dark:hover:bg-active':
+                      !pathname.includes(link.activeFilter) ||
                       pathname !== link.href,
                   },
                 )}

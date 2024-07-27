@@ -454,7 +454,6 @@ export async function updateWeeklyTask(
   }
 
   revalidatePath('/dashboard');
-  // // redirect('/dashboard/tasks');
 }
 
 // Customers
@@ -477,16 +476,15 @@ export async function createCustomer(formData: FormData) {
     insert into customers(name, email, phone_number,streetname, housenumber, postalcode, country, user_id)
     VALUES (${name}, ${email}, ${phone}, ${streetname}, ${housenumber}, ${postalcode}, ${country}, ${userId})
     `;
+    revalidatePath('/layout');
     return { success: true, message: '' };
   } catch (error) {
     console.log('error');
     console.log(error);
     return { success: false, message: 'Error creating customer' };
   }
-
-  // revalidatePath('/dashboard');
-  // // redirect('/dashboard/tasks');
 }
+
 export async function updateCustomer(formData: FormData) {
   const session = await auth();
   const userId = session?.user?.id;
@@ -521,4 +519,25 @@ export async function updateCustomer(formData: FormData) {
       message: 'Database Error: Failed to Update Task.',
     };
   }
+}
+
+export async function deleteCustomer(formData: FormData) {
+  const id = formData.get('id').toString();
+
+  try {
+    await sql`
+      DELETE FROM customers WHERE id = ${id}
+    `;
+    revalidatePath('/dashboard/customers');
+    return { success: true, message: '' };
+  } catch (error) {
+    return {
+      status: 'error',
+      message: 'Database Error: Failed to Update Task.',
+    };
+  }
+
+  // revalidatePath('/dashboard/tasks');
+  // revalidatePath('/dashboard/goals');
+  // redirect('/dashboard/tasks');
 }
