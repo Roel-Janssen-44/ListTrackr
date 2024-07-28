@@ -59,6 +59,7 @@ export type InvoiceTemplate = {
   id: string;
   name: string;
   fieldGroups: FieldGroup[];
+  message: string;
   settings: [
     {
       discountType: 'none' | 'percentage' | 'amount';

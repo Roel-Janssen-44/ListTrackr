@@ -5,7 +5,7 @@ import { v4 as uuid } from 'uuid';
 import { InvoiceTemplate } from '@/app/lib/definitions';
 
 export default function Invoice({ viewStyle }) {
-  const template: InvoiceTemplate = {
+  const invoice: InvoiceTemplate = {
     id: uuid(),
     name: 'Main-template',
     fieldGroups: [
@@ -22,19 +22,19 @@ export default function Invoice({ viewStyle }) {
         fields: [
           {
             id: uuid(),
-            name: 'Factuur van: ',
+            name: 'Invoice of: ',
           },
           {
             id: uuid(),
-            name: 'janssen',
+            name: 'John doe',
           },
           {
             id: uuid(),
-            name: 'Straatburglaan 10',
+            name: 'Streetname 10',
           },
           {
             id: uuid(),
-            name: '6137 JC Sittard',
+            name: '7263AP, Cityname',
           },
         ],
       },
@@ -46,7 +46,7 @@ export default function Invoice({ viewStyle }) {
         fields: [
           {
             id: uuid(),
-            name: 'Factuur aan: ',
+            name: 'Invoice of: ',
           },
           {
             id: uuid(),
@@ -69,17 +69,17 @@ export default function Invoice({ viewStyle }) {
         fields: [
           {
             id: uuid(),
-            name: 'Factuurnummer',
+            name: 'Invoice number',
             data: '',
           },
           {
             id: uuid(),
-            name: 'Factuurdatum',
+            name: 'Invoice date',
             data: '',
           },
           {
             id: uuid(),
-            name: 'Betaaltermijn',
+            name: 'Payment due',
             data: '',
           },
         ],
@@ -90,30 +90,31 @@ export default function Invoice({ viewStyle }) {
         fields: [
           {
             id: uuid(),
-            name: 'Omschrijving',
+            name: 'Description',
           },
           {
             id: uuid(),
-            name: 'Bedrag',
+            name: 'Price',
           },
           {
             id: uuid(),
-            name: 'Aantal',
+            name: 'Amount',
           },
           {
             id: uuid(),
-            name: 'Totaal',
+            name: 'Total',
           },
         ],
       },
+
       {
         id: uuid(),
         name: 'total',
         fields: [
           {
             id: uuid(),
-            name: 'Subtotaal:',
-            value: 'Subtotaal ex BTW',
+            name: 'Subtotal:',
+            value: 'Subtotal ex VAT',
           },
           {
             id: uuid(),
@@ -122,12 +123,13 @@ export default function Invoice({ viewStyle }) {
           },
           {
             id: uuid(),
-            name: 'Totaal:',
-            value: 'Totaal',
+            name: 'Total:',
+            value: 'Total',
           },
         ],
       },
     ],
+    message: '',
     settings: [
       { discountType: 'none' },
       { discountAmount: 0 },
@@ -139,6 +141,7 @@ export default function Invoice({ viewStyle }) {
       { invoiceAppendix: '' },
     ],
   };
+
   return (
     <div className="flex max-w-2xl flex-1 flex-row rounded-xl shadow-xl">
       <div
@@ -146,9 +149,9 @@ export default function Invoice({ viewStyle }) {
           viewStyle === 'preview' ? 'h-[950px]' : ''
         } `}
       >
-        <Header invoice={template} viewStyle={viewStyle} />
-        {/* <Body invoice={invoice} viewStyle={viewStyle} />
-        <Footer invoice={invoice} viewStyle={viewStyle} /> */}
+        <Header invoice={invoice} viewStyle={viewStyle} />
+        <Body invoice={invoice} viewStyle={viewStyle} />
+        <Footer invoice={invoice} viewStyle={viewStyle} />
       </div>
     </div>
   );

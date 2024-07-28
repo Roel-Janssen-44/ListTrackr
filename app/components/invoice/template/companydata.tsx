@@ -88,7 +88,6 @@ export default function TemplateCompanyData({ fields = [] }) {
                     // handleChange={handleChangeField}
                     value={field.name}
                     id={field.id}
-                    // label={'Koptekst, leeg laten voor geen title'}
                   />
                 </div>
               )}
