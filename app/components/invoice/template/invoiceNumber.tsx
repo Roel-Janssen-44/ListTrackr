@@ -4,48 +4,64 @@ import { Button } from '@/app/components/button';
 import { Trash } from 'lucide-react';
 import { Input } from '@/app/components/chadcn/input';
 import { Skeleton } from '@/app/components/chadcn/skeleton';
+import {
+  addFieldToFieldGroup,
+  removeFieldFromFieldGroup,
+  editFieldInFieldGroup,
+} from '@/app/lib/utils';
+import { InvoiceTemplate } from '@/app/lib/definitions';
 
-export default function TemplateInvoiceNumber({ fields = [] }) {
+export default function TemplateInvoiceNumber({
+  setInvoice,
+  fields = [],
+  invoice,
+}: {
+  setInvoice: Function;
+  fields: any;
+  invoice: InvoiceTemplate;
+}) {
   const handleChangeTemplateField = ({ newValue, targetId }) => {
-    //     dispatch(editTemplateField({ templateId, fieldId: targetId, newValue }));
+    editFieldInFieldGroup({
+      invoice: invoice,
+      setInvoice: setInvoice,
+      fieldGroupName: 'invoiceNumber',
+      fieldId: targetId,
+      newValue: newValue,
+    });
   };
-
   const handleAddItem = () => {
-    // dispatch(
-    //   addItemToGroup({
-    //     templateId,
-    //     fieldGroupName: "invoiceNumber",
-    //     fieldId: uuid(),
-    //   })
-    // );
+    addFieldToFieldGroup({
+      invoice: invoice,
+      setInvoice: setInvoice,
+      fieldGroupName: 'invoiceNumber',
+    });
   };
   const handleRemoveItem = (fieldId: string) => {
-    //     dispatch(
-    //       removeItemFromGroup({
-    //         templateId,
-    //         fieldGroupName: "invoiceNumber",
-    //         fieldId,
-    //       })
-    //     );
+    removeFieldFromFieldGroup({
+      invoice: invoice,
+      setInvoice: setInvoice,
+      fieldGroupName: 'invoiceNumber',
+      fieldId: fieldId,
+    });
   };
 
-  const onDragEnd = (result) => {
-    //     const { source, destination } = result;
-    //     if (!destination) {
-    //       return;
-    //     }
-    //     const { droppableId: sourceDroppableId, index: sourceIndex } = source;
-    //     const { droppableId: destinationDroppableId, index: destinationIndex } =
-    //       destination;
-    //     dispatch(
-    //       changeItemOrder({
-    //         templateId,
-    //         fieldGroupName: "invoiceNumber",
-    //         startIndex: sourceIndex,
-    //         endIndex: destinationIndex,
-    //       })
-    //     );
-  };
+  // const onDragEnd = (result) => {
+  //     const { source, destination } = result;
+  //     if (!destination) {
+  //       return;
+  //     }
+  //     const { droppableId: sourceDroppableId, index: sourceIndex } = source;
+  //     const { droppableId: destinationDroppableId, index: destinationIndex } =
+  //       destination;
+  //     dispatch(
+  //       changeItemOrder({
+  //         templateId,
+  //         fieldGroupName: "invoiceNumber",
+  //         startIndex: sourceIndex,
+  //         endIndex: destinationIndex,
+  //       })
+  //     );
+  // };
 
   return (
     <>
@@ -57,7 +73,12 @@ export default function TemplateInvoiceNumber({ fields = [] }) {
               className="group relative my-2 flex flex-row items-end justify-end gap-4 first-of-type:mt-0 last-of-type:mb-0"
             >
               <Input
-                // handleChange={handleChangeTemplateField}
+                onChange={(e) =>
+                  handleChangeTemplateField({
+                    newValue: e.target.value,
+                    targetId: field.id,
+                  })
+                }
                 value={field.name}
                 className="w-[156px] py-1"
                 id={field.id}

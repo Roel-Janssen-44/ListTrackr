@@ -1,11 +1,25 @@
 import { Input } from '@/app/components/chadcn/input';
 import { Skeleton } from '@/app/components/chadcn/skeleton';
+import { InvoiceTemplate } from '@/app/lib/definitions';
+import { editFieldInFieldGroup } from '@/app/lib/utils';
 
-export default function TemplateClientData({ fields = [] }) {
-  //   const dispatch = useDispatch();
-  //   const templateId = GetCurrentInvoice();
-  const handleChangeField = ({ newValue, targetId }) => {
-    //     dispatch(editTemplateField({ templateId, fieldId: targetId, newValue }));
+export default function TemplateClientData({
+  setInvoice,
+  fields = [],
+  invoice,
+}: {
+  setInvoice: Function;
+  fields: any;
+  invoice: InvoiceTemplate;
+}) {
+  const handleChangeTemplateField = ({ newValue, targetId }) => {
+    editFieldInFieldGroup({
+      invoice: invoice,
+      setInvoice: setInvoice,
+      fieldGroupName: 'client',
+      fieldId: targetId,
+      newValue: newValue,
+    });
   };
 
   return (
@@ -17,7 +31,12 @@ export default function TemplateClientData({ fields = [] }) {
               {index === 0 && (
                 <div className="w-48">
                   <Input
-                    // handleChange={handleChangeField}
+                    onChange={(e) =>
+                      handleChangeTemplateField({
+                        newValue: e.target.value,
+                        targetId: field.id,
+                      })
+                    }
                     value={field.name}
                     id={field.id}
                     // label={'Koptekst, leeg laten voor geen title'}

@@ -84,7 +84,14 @@ export type InvoiceTemplate = {
 
 export type FieldGroup = {
   id: string;
-  name: string;
+  name:
+    | 'logo'
+    | 'company'
+    | 'client'
+    | 'invoiceNumber'
+    | 'rowDescription'
+    | 'rows'
+    | 'total';
   position?: number;
   fields: Field[];
 };
@@ -94,6 +101,8 @@ export type Field = {
   name?: string;
   data?: string;
   value?: string;
+  price?: number;
+  amount?: number;
 };
 
 export type Comment = {

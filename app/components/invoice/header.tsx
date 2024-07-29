@@ -7,13 +7,17 @@ import { InvoiceTemplate } from '@/app/lib/definitions';
 export default function Header({
   invoice,
   viewStyle,
+  setInvoice,
 }: {
   invoice: InvoiceTemplate;
   viewStyle: string;
+  setInvoice: Function;
 }) {
   return (
     <>
-      {viewStyle === 'template' && <TemplateHeader invoice={invoice} />}
+      {viewStyle === 'template' && (
+        <TemplateHeader setInvoice={setInvoice} invoice={invoice} />
+      )}
       {/* {viewStyle === 'invoice' && <InvoiceHeader />} */}
       {/* {viewStyle === 'preview' && <PreviewHeader />} */}
     </>

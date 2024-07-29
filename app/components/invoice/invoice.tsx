@@ -1,3 +1,7 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+
 import Header from '@/app/components/invoice/header';
 import Body from '@/app/components/invoice/body';
 import Footer from '@/app/components/invoice/footer';
@@ -5,7 +9,7 @@ import { v4 as uuid } from 'uuid';
 import { InvoiceTemplate } from '@/app/lib/definitions';
 
 export default function Invoice({ viewStyle }) {
-  const invoice: InvoiceTemplate = {
+  const tempInvoice: InvoiceTemplate = {
     id: uuid(),
     name: 'Main-template',
     fieldGroups: [
@@ -40,13 +44,12 @@ export default function Invoice({ viewStyle }) {
       },
       {
         id: uuid(),
-
         name: 'client',
         position: 3,
         fields: [
           {
             id: uuid(),
-            name: 'Invoice of: ',
+            name: 'Invoice for: ',
           },
           {
             id: uuid(),
@@ -106,7 +109,36 @@ export default function Invoice({ viewStyle }) {
           },
         ],
       },
-
+      {
+        id: uuid(),
+        name: 'rows',
+        fields: [
+          {
+            id: uuid(),
+            name: 'Product description',
+            price: 100,
+            amount: 1,
+          },
+          {
+            id: uuid(),
+            name: 'Product description',
+            price: 100,
+            amount: 1,
+          },
+          {
+            id: uuid(),
+            name: 'Product description',
+            price: 100,
+            amount: 1,
+          },
+          {
+            id: uuid(),
+            name: 'Product description',
+            price: 100,
+            amount: 1,
+          },
+        ],
+      },
       {
         id: uuid(),
         name: 'total',
@@ -142,6 +174,13 @@ export default function Invoice({ viewStyle }) {
     ],
   };
 
+  const [invoice, setInvoice] = useState(tempInvoice);
+
+  useEffect(() => {
+    console.log('invoice');
+    console.log(invoice);
+  }, [invoice]);
+
   return (
     <div className="flex max-w-2xl flex-1 flex-row rounded-xl shadow-xl">
       <div
@@ -149,9 +188,17 @@ export default function Invoice({ viewStyle }) {
           viewStyle === 'preview' ? 'h-[950px]' : ''
         } `}
       >
-        <Header invoice={invoice} viewStyle={viewStyle} />
-        <Body invoice={invoice} viewStyle={viewStyle} />
-        <Footer invoice={invoice} viewStyle={viewStyle} />
+        <Header
+          invoice={invoice}
+          setInvoice={setInvoice}
+          viewStyle={viewStyle}
+        />
+        <Body invoice={invoice} setInvoice={setInvoice} viewStyle={viewStyle} />
+        <Footer
+          invoice={invoice}
+          setInvoice={setInvoice}
+          viewStyle={viewStyle}
+        />
       </div>
     </div>
   );

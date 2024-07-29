@@ -18,7 +18,13 @@ import {
 
 import { Input } from '@/app/components/chadcn/input';
 
-export default function TemplateTotal({ fields = [] }) {
+export default function TemplateTotal({
+  setInvoice,
+  fields = [],
+}: {
+  setInvoice: Function;
+  fields: any;
+}) {
   //   const dispatch = useDispatch();
   //   const templateId = GetCurrentInvoice();
 

@@ -1,5 +1,7 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { InvoiceTemplate } from '@/app/lib/definitions';
+import { v4 as uuid } from 'uuid';
 
 export const formatCurrency = (amount: number) => {
   return (amount / 100).toLocaleString('en-US', {
@@ -59,9 +61,124 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// Invoice functions
+
 export function getCurrentFieldGroup(fieldGroups, fieldGroupName) {
   const result = fieldGroups.filter(
     (fieldGroup) => fieldGroup.name == fieldGroupName,
   );
   return result[0].fields;
+}
+
+export function addFieldToFieldGroup({
+  invoice,
+  setInvoice,
+  fieldGroupName,
+}: {
+  invoice: InvoiceTemplate;
+  setInvoice: Function;
+  fieldGroupName:
+    | 'logo'
+    | 'company'
+    | 'client'
+    | 'invoiceNumber'
+    | 'rowDescription'
+    | 'rows'
+    | 'total';
+}) {
+  const updatedFieldGroups = invoice.fieldGroups.map((fieldGroup) => {
+    if (fieldGroup.name === fieldGroupName) {
+      return {
+        ...fieldGroup,
+        fields: [
+          ...fieldGroup.fields,
+          {
+            id: uuid(),
+            name: '',
+          },
+        ],
+      };
+    }
+    return fieldGroup;
+  });
+  setInvoice({
+    ...invoice,
+    fieldGroups: [...updatedFieldGroups],
+  });
+}
+
+export function removeFieldFromFieldGroup({
+  invoice,
+  setInvoice,
+  fieldGroupName,
+  fieldId,
+}: {
+  invoice: InvoiceTemplate;
+  setInvoice: Function;
+  fieldGroupName:
+    | 'logo'
+    | 'company'
+    | 'client'
+    | 'invoiceNumber'
+    | 'rowDescription'
+    | 'rows'
+    | 'total';
+  fieldId: string;
+}) {
+  const updatedFieldGroups = invoice.fieldGroups.map((fieldGroup) => {
+    if (fieldGroup.name === fieldGroupName) {
+      return {
+        ...fieldGroup,
+        fields: fieldGroup.fields.filter((field) => field.id !== fieldId),
+      };
+    }
+    return fieldGroup;
+  });
+  setInvoice({
+    ...invoice,
+    fieldGroups: [...updatedFieldGroups],
+  });
+}
+
+export function editFieldInFieldGroup({
+  invoice,
+  setInvoice,
+  fieldGroupName,
+  fieldId,
+  newValue,
+}: {
+  invoice: InvoiceTemplate;
+  setInvoice: Function;
+  fieldGroupName:
+    | 'logo'
+    | 'company'
+    | 'client'
+    | 'invoiceNumber'
+    | 'rowDescription'
+    | 'rows'
+    | 'total';
+  fieldId: string;
+  newValue: string;
+}) {
+  const updatedFieldGroups = invoice.fieldGroups.map((fieldGroup) => {
+    if (fieldGroup.name === fieldGroupName) {
+      return {
+        ...fieldGroup,
+        fields: fieldGroup.fields.map((field) => {
+          if (field.id === fieldId) {
+            return {
+              ...field,
+              name: newValue,
+            };
+          }
+          return field;
+        }),
+      };
+    }
+    return fieldGroup;
+  });
+  setInvoice({
+    ...invoice,
+    fieldGroups: [...updatedFieldGroups],
+  });
 }

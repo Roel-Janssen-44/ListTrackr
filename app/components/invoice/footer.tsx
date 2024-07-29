@@ -6,13 +6,17 @@ import { InvoiceTemplate } from '@/app/lib/definitions';
 export default function Footer({
   invoice,
   viewStyle,
+  setInvoice,
 }: {
   invoice: InvoiceTemplate;
   viewStyle: string;
+  setInvoice: Function;
 }) {
   return (
     <>
-      {viewStyle === 'template' && <TemplateFooter invoice={invoice} />}
+      {viewStyle === 'template' && (
+        <TemplateFooter setInvoice={setInvoice} invoice={invoice} />
+      )}
       {/* {viewStyle === 'invoice' && <InvoiceFooter />}
       {viewStyle === 'preview' && <PreviewFooter />} */}
     </>

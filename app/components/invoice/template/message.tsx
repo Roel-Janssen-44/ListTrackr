@@ -4,7 +4,13 @@
 // import { Input } from '@/app/components/chadcn/input';
 import { Textarea } from '@/app/components/chadcn/textarea';
 
-export default function TemplateMessage({ message }) {
+export default function TemplateMessage({
+  setInvoice,
+  message,
+}: {
+  setInvoice: Function;
+  message: string;
+}) {
   //   const dispatch = useDispatch();
   //   const templateId = GetCurrentInvoice();
   const handleChangeTemplateField = ({ newValue, targetId }) => {

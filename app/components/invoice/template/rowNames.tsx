@@ -3,7 +3,13 @@
 
 import { Input } from '@/app/components/chadcn/input';
 
-export default function TemplateRowNames({ fields = [] }) {
+export default function TemplateRowNames({
+  setInvoice,
+  fields = [],
+}: {
+  setInvoice: Function;
+  fields: any;
+}) {
   //   const dispatch = useDispatch();
   //   const templateId = GetCurrentInvoice();
   const handleChangeTemplateField = ({ newValue, targetId }) => {
