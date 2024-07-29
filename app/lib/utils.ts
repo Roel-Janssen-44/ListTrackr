@@ -182,3 +182,46 @@ export function editFieldInFieldGroup({
     fieldGroups: [...updatedFieldGroups],
   });
 }
+
+export function editFieldValueInFieldGroup({
+  invoice,
+  setInvoice,
+  fieldGroupName,
+  fieldId,
+  newValue,
+}: {
+  invoice: InvoiceTemplate;
+  setInvoice: Function;
+  fieldGroupName:
+    | 'logo'
+    | 'company'
+    | 'client'
+    | 'invoiceNumber'
+    | 'rowDescription'
+    | 'rows'
+    | 'total';
+  fieldId: string;
+  newValue: string;
+}) {
+  const updatedFieldGroups = invoice.fieldGroups.map((fieldGroup) => {
+    if (fieldGroup.name === fieldGroupName) {
+      return {
+        ...fieldGroup,
+        fields: fieldGroup.fields.map((field) => {
+          if (field.id === fieldId) {
+            return {
+              ...field,
+              value: newValue,
+            };
+          }
+          return field;
+        }),
+      };
+    }
+    return fieldGroup;
+  });
+  setInvoice({
+    ...invoice,
+    fieldGroups: [...updatedFieldGroups],
+  });
+}

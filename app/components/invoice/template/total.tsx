@@ -17,36 +17,44 @@ import {
 // import ItemInput from "@components/ItemInput";
 
 import { Input } from '@/app/components/chadcn/input';
+import {
+  editFieldInFieldGroup,
+  editFieldValueInFieldGroup,
+} from '@/app/lib/utils';
+import { InvoiceTemplate } from '@/app/lib/definitions';
 
 export default function TemplateTotal({
   setInvoice,
   fields = [],
+  invoice,
 }: {
   setInvoice: Function;
   fields: any;
+  invoice: InvoiceTemplate;
 }) {
-  //   const dispatch = useDispatch();
-  //   const templateId = GetCurrentInvoice();
-
   const handleChangeTemplateField = ({ newValue, targetId }) => {
-    //     dispatch(editTemplateField({ templateId, fieldId: targetId, newValue }));
+    editFieldInFieldGroup({
+      invoice: invoice,
+      setInvoice: setInvoice,
+      fieldGroupName: 'total',
+      fieldId: targetId,
+      newValue: newValue,
+    });
   };
 
   const handleSelectChange = ({ targetId, newValue }) => {
-    //     console.log("editTemplateSelect");
-    //     dispatch(
-    //       editTemplateSelect({
-    //         templateId,
-    //         fieldGroupName: "total",
-    //         fieldId: targetId,
-    //         value: newValue,
-    //       })
-    //     );
+    editFieldValueInFieldGroup({
+      invoice: invoice,
+      setInvoice: setInvoice,
+      fieldGroupName: 'total',
+      fieldId: targetId,
+      newValue: newValue,
+    });
   };
 
   return (
     <>
-      <div className="flex flex-col items-end justify-end">
+      <div className="flex h-full flex-col items-end justify-end">
         <div className="-mb-1 flex flex-col gap-2 py-0">
           {fields.map((field, index) => (
             <div
@@ -54,85 +62,74 @@ export default function TemplateTotal({
               className="group relative my-0 flex flex-row items-center gap-2"
             >
               <Input
-                // handleChange={handleChangeTemplateField}
+                onChange={(e) => {
+                  handleChangeTemplateField({
+                    newValue: e.target.value,
+                    targetId: field.id,
+                  });
+                }}
                 value={field.name}
                 className={`w-[115px] py-1 text-right text-sm`}
                 id={field.id}
               />
               {index === 0 && (
-                <div className="w-52">
-                  {/* <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={field.value}
-                    label="Selecteer een optie"
-                    onChange={(event) =>
+                <div>
+                  <Select
+                    onValueChange={(e) => {
                       handleSelectChange({
+                        newValue: e,
                         targetId: field.id,
-                        newValue: event.target.value,
-                      })
-                    }
-                  > */}
-                  <Select>
+                      });
+                    }}
+                    value={field.value}
+                  >
                     <SelectTrigger className="w-[180px]">
                       <SelectValue placeholder="Select an option" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value={'Subtotal ex BTW'}>
-                        Subtotaal ex BTW
+                      <SelectItem value={'Subtotal ex VAT'}>
+                        Subtotal ex VAT
                       </SelectItem>
-                      <SelectItem value={'Subtotal incl BTW'}>
-                        Subtotaal incl BTW
+                      <SelectItem value={'Subtotal incl VAT'}>
+                        Subtotal incl VAT
                       </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               )}
               {index === 1 && (
-                <div className="w-52">
+                <div>
                   <Select
-                    // labelId="demo-simple-select-label"
-                    // id="demo-simple-select"
+                    onValueChange={(e) => {
+                      handleSelectChange({
+                        newValue: e,
+                        targetId: field.id,
+                      });
+                    }}
                     value={field.value}
-                    // label="Selecteer een optie"
-                    // onChange={(event) =>
-                    //   handleSelectChange({
-                    //     targetId: field.id,
-                    //     newValue: event.target.value,
-                    //   })
-                    // }
                   >
                     <SelectTrigger className="w-[180px]">
                       <SelectValue placeholder="Select an option" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value={'BTW 0%'}>BTW {'0%'}</SelectItem>
-                      <SelectItem value={'BTW 9%'}>BTW {'9%'}</SelectItem>
-                      <SelectItem value={'BTW 21%'}>BTW {'21%'}</SelectItem>
+                      <SelectItem value={'VAT 0%'}>VAT {'0%'}</SelectItem>
+                      <SelectItem value={'VAT 9%'}>VAT {'9%'}</SelectItem>
+                      <SelectItem value={'VAT 21%'}>VAT {'21%'}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               )}
               {index === 2 && (
-                <div className="w-52">
-                  {/* <InputLabel id="demo-simple-select-label">
-                    Selecteer een optie
-                  </InputLabel>
+                <div>
                   <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={field.value}
-                    label="Selecteer een optie"
-                    onChange={(event) =>
+                    onValueChange={(e) => {
                       handleSelectChange({
+                        newValue: e,
                         targetId: field.id,
-                        newValue: event.target.value,
-                      })
-                    }
+                      });
+                    }}
+                    value={field.value}
                   >
-                    <MenuItem value={'Totaal'}>Totaal</MenuItem>
-                  </Select> */}
-                  <Select value={field.value}>
                     <SelectTrigger className="w-[180px]">
                       <SelectValue placeholder="Select an option" />
                     </SelectTrigger>

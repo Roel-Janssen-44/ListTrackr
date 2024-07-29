@@ -1,83 +1,207 @@
 'use client';
 
-import { useState } from 'react';
-// import { createInvoice } from '@/app/lib/actions';
-import { Input } from '@/app/components/chadcn/input';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/app/components/chadcn/dialog';
+import { useState, useEffect } from 'react';
+
 import { Button } from '@/app/components/button';
 import Invoice from '@/app/components/invoice/invoice';
+import Link from 'next/link';
+import { v4 as uuid } from 'uuid';
+import { InvoiceTemplate } from '@/app/lib/definitions';
 
 export default function CreateInvoiceTemplate() {
-  // const [open, setOpen] = useState(false);
+  const tempInvoice: InvoiceTemplate = {
+    id: uuid(),
+    name: 'Main-template',
+    fieldGroups: [
+      {
+        id: uuid(),
+        name: 'logo',
+        position: 1,
+        fields: [],
+      },
+      {
+        id: uuid(),
+        name: 'company',
+        position: 2,
+        fields: [
+          {
+            id: uuid(),
+            name: 'Invoice of: ',
+          },
+          {
+            id: uuid(),
+            name: 'John doe',
+          },
+          {
+            id: uuid(),
+            name: 'Streetname 10',
+          },
+          {
+            id: uuid(),
+            name: '7263AP, Cityname',
+          },
+        ],
+      },
+      {
+        id: uuid(),
+        name: 'client',
+        position: 3,
+        fields: [
+          {
+            id: uuid(),
+            name: 'Invoice for: ',
+          },
+          {
+            id: uuid(),
+            data: '',
+          },
+          {
+            id: uuid(),
+            data: '',
+          },
+          {
+            id: uuid(),
+            data: '',
+          },
+        ],
+      },
+      {
+        id: uuid(),
+        name: 'invoiceNumber',
+        position: 4,
+        fields: [
+          {
+            id: uuid(),
+            name: 'Invoice number',
+            data: '',
+          },
+          {
+            id: uuid(),
+            name: 'Invoice date',
+            data: '',
+          },
+          {
+            id: uuid(),
+            name: 'Payment due',
+            data: '',
+          },
+        ],
+      },
+      {
+        id: uuid(),
+        name: 'rowDescription',
+        fields: [
+          {
+            id: uuid(),
+            name: 'Description',
+          },
+          {
+            id: uuid(),
+            name: 'Price',
+          },
+          {
+            id: uuid(),
+            name: 'Amount',
+          },
+          {
+            id: uuid(),
+            name: 'Total',
+          },
+        ],
+      },
+      {
+        id: uuid(),
+        name: 'rows',
+        fields: [
+          {
+            id: uuid(),
+            name: 'Product description',
+            price: 100,
+            amount: 1,
+          },
+          {
+            id: uuid(),
+            name: 'Product description',
+            price: 100,
+            amount: 1,
+          },
+          {
+            id: uuid(),
+            name: 'Product description',
+            price: 100,
+            amount: 1,
+          },
+          {
+            id: uuid(),
+            name: 'Product description',
+            price: 100,
+            amount: 1,
+          },
+        ],
+      },
+      {
+        id: uuid(),
+        name: 'total',
+        fields: [
+          {
+            id: uuid(),
+            name: 'Subtotal:',
+            value: 'Subtotal incl VAT',
+          },
+          {
+            id: uuid(),
+            name: 'VAT:',
+            value: 'VAT 21%',
+          },
+          {
+            id: uuid(),
+            name: 'Total:',
+            value: 'Total',
+          },
+        ],
+      },
+    ],
+    message: '',
+    settings: [
+      { discountType: 'none' },
+      { discountAmount: 0 },
+      // Todo - add theme color
+      // { themeColor: "#12a1c1" },
+      { taxSetting: 'incl' },
+      { taxAmount: 21 },
+      { invoiceBase: '' },
+      { invoiceAppendix: '' },
+    ],
+  };
 
-  // async function handleFormSubmission(formData: FormData) {
-  //   try {
-  //     const status = await createInvoice(formData);
-  //     if (status.success) {
-  //       setOpen(false);
-  //     } else {
-  //       console.error('Error creating invoice:', status.message);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error:', error);
-  //   }
-  // }
+  const [invoice, setInvoice] = useState(tempInvoice);
+
+  useEffect(() => {
+    console.log('invoice');
+    console.log(invoice);
+  }, [invoice]);
+
+  const saveInvoice = () => {
+    console.log('Save invoice');
+    console.log(invoice);
+  };
 
   return (
     <>
-      <Invoice viewStyle={'template'} />
-
-      {/* // <Dialog open={open} onOpenChange={setOpen}>
-    //   <DialogTrigger>
-    //     <span className="focus-visible:secondary flex h-10 items-center rounded-lg bg-primary px-4 py-3 text-sm font-medium text-white outline-tertiary transition-colors aria-disabled:cursor-not-allowed aria-disabled:opacity-50 hover:bg-active focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 active:bg-active dark:outline-white">
-    //       Create invoice
-    //     </span>
-    //   </DialogTrigger>
-    //   <DialogContent>
-    //     <DialogHeader>
-    //       <DialogTitle className="mb-4">Create new invoice</DialogTitle>
-    //       <DialogDescription>
-    //         <form action={handleFormSubmission}>
-    //           <div className="flex w-full flex-col gap-3 rounded-md bg-transparent pr-6">
-    //             <div className="mb-1">
-    //               <label
-    //                 htmlFor="invoiceAmount"
-    //                 className="sr-only mb-2 block text-sm font-medium"
-    //               >
-    //                 Amount
-    //               </label>
-    //               <div className="w-full">
-    //                 <Input
-    //                   id="invoiceAmount"
-    //                   name="amount"
-    //                   type="number"
-    //                   placeholder="0.00"
-    //                   min={0.01}
-    //                   step={1}
-    //                   className="mt-1 block w-full rounded-md bg-transparent py-2 pl-3 pr-20 text-sm outline-2 placeholder:text-gray-400"
-    //                   aria-labelledby="amount-error"
-    //                   required
-    //                 />
-    //               </div>
-    //             </div>
-    //           </div>
-    //           <Button type="submit" className="mt-4">
-    //             Create
-    //           </Button>
-    //         </form>
-    //       </DialogDescription>
-    //     </DialogHeader>
-    //   </DialogContent>
-    // </Dialog> */}
-      <p>invoice template create form</p>
+      <Invoice
+        invoice={invoice}
+        setInvoice={setInvoice}
+        viewStyle={'template'}
+      />
+      <div className="mt-6 flex flex-row gap-6">
+        <Button onClick={saveInvoice}>Save</Button>
+        <Link
+          href={'/dashboard/invoices'}
+          className="focus-visible:secondary flex h-10 items-center justify-center rounded-lg border-2 border-primary bg-primary bg-transparent px-4 py-3 text-center text-sm font-medium text-primary outline-tertiary transition-colors aria-disabled:cursor-not-allowed aria-disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+        >
+          Cancel
+        </Link>
+      </div>
     </>
   );
 }

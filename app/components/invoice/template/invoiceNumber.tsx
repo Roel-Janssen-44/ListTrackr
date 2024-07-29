@@ -1,5 +1,3 @@
-import { useState, useRef } from 'react';
-
 import { Button } from '@/app/components/button';
 import { Trash } from 'lucide-react';
 import { Input } from '@/app/components/chadcn/input';

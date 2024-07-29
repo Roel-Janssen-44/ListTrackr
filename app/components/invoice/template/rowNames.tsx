@@ -1,19 +1,23 @@
-// import { editTemplateField } from "@features/templates/templatesSlice";
-// import GetCurrentInvoice from "@lib/getCurrentInvoice";
-
 import { Input } from '@/app/components/chadcn/input';
-
+import { InvoiceTemplate } from '@/app/lib/definitions';
+import { editFieldInFieldGroup } from '@/app/lib/utils';
 export default function TemplateRowNames({
   setInvoice,
   fields = [],
+  invoice,
 }: {
   setInvoice: Function;
   fields: any;
+  invoice: InvoiceTemplate;
 }) {
-  //   const dispatch = useDispatch();
-  //   const templateId = GetCurrentInvoice();
   const handleChangeTemplateField = ({ newValue, targetId }) => {
-    // dispatch(editTemplateField({ templateId, fieldId: targetId, newValue }));
+    editFieldInFieldGroup({
+      invoice: invoice,
+      setInvoice: setInvoice,
+      fieldGroupName: 'rowDescription',
+      fieldId: targetId,
+      newValue: newValue,
+    });
   };
 
   return (
@@ -22,7 +26,12 @@ export default function TemplateRowNames({
         {fields.map((field, index) => (
           <Input
             key={'template_item_header-' + field.id}
-            // handleChange={handleChangeTemplateField}
+            onChange={(e) =>
+              handleChangeTemplateField({
+                newValue: e.target.value,
+                targetId: field.id,
+              })
+            }
             value={field.name}
             className={`py-1 text-sm ${index === 0 ? 'flex-1 ' : 'w-[125px]'} `}
             id={field.id}
