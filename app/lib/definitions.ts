@@ -60,26 +60,14 @@ export type InvoiceTemplate = {
   name: string;
   fieldGroups: FieldGroup[];
   message: string;
-  settings: [
-    {
-      discountType: 'none' | 'percentage' | 'amount';
-    },
-    {
-      discountAmount: number;
-    },
-    {
-      taxSetting: 'excl' | 'incl';
-    },
-    {
-      taxAmount: 21 | 9 | 0;
-    },
-    {
-      invoiceBase: string;
-    },
-    {
-      invoiceAppendix: string;
-    },
-  ];
+  settings: {
+    discountType: 'none' | 'percentage' | 'amount' | '';
+    discountAmount: number;
+    taxSetting: 'excl' | 'incl';
+    taxAmount: 21 | 9 | 0;
+    invoiceBase: string;
+    invoiceAppendix: string;
+  };
 };
 
 export type FieldGroup = {

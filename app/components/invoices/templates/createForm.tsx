@@ -7,11 +7,16 @@ import Invoice from '@/app/components/invoice/invoice';
 import Link from 'next/link';
 import { v4 as uuid } from 'uuid';
 import { InvoiceTemplate } from '@/app/lib/definitions';
+import { Input } from '@/app/components/chadcn/input';
 
-export default function CreateInvoiceTemplate() {
+export default function CreateInvoiceTemplate({
+  createTemplate,
+}: {
+  createTemplate: Function;
+}) {
   const tempInvoice: InvoiceTemplate = {
     id: uuid(),
-    name: 'Main-template',
+    name: 'Template name',
     fieldGroups: [
       {
         id: uuid(),
@@ -161,40 +166,42 @@ export default function CreateInvoiceTemplate() {
         ],
       },
     ],
+    // Todo - message update on front-end
     message: '',
-    settings: [
-      { discountType: 'none' },
-      { discountAmount: 0 },
+    // Todo - settings update on front-end
+    settings: {
+      discountType: 'none',
+      discountAmount: 0,
       // Todo - add theme color
-      // { themeColor: "#12a1c1" },
-      { taxSetting: 'incl' },
-      { taxAmount: 21 },
-      { invoiceBase: '' },
-      { invoiceAppendix: '' },
-    ],
+      // themeColor: "#12a1c1" ,
+      taxSetting: 'incl',
+      taxAmount: 21,
+      invoiceBase: '',
+      invoiceAppendix: '',
+    },
   };
 
   const [invoice, setInvoice] = useState(tempInvoice);
 
-  useEffect(() => {
-    console.log('invoice');
-    console.log(invoice);
-  }, [invoice]);
-
-  const saveInvoice = () => {
-    console.log('Save invoice');
-    console.log(invoice);
-  };
+  // useEffect(() => {
+  //   console.log('invoice');
+  //   console.log(invoice);
+  // }, [invoice]);
 
   return (
     <>
+      <Input
+        className="max-w-2xl"
+        value={invoice.name}
+        onChange={(e) => setInvoice({ ...invoice, name: e.target.value })}
+      />
       <Invoice
         invoice={invoice}
         setInvoice={setInvoice}
         viewStyle={'template'}
       />
       <div className="mt-6 flex flex-row gap-6">
-        <Button onClick={saveInvoice}>Save</Button>
+        <Button onClick={() => createTemplate(invoice)}>Save</Button>
         <Link
           href={'/dashboard/invoices'}
           className="focus-visible:secondary flex h-10 items-center justify-center rounded-lg border-2 border-primary bg-primary bg-transparent px-4 py-3 text-center text-sm font-medium text-primary outline-tertiary transition-colors aria-disabled:cursor-not-allowed aria-disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"

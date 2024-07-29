@@ -218,7 +218,7 @@ export async function fetchInvoices() {
 
   try {
     const data = await sql`
-      select id, amount, status, date, project_id from invoices
+      select id, templatename from invoices
       WHERE user_id = ${userId}
     `;
     return data.rows;
@@ -229,19 +229,19 @@ export async function fetchInvoices() {
 }
 
 // Invoice templates
-export async function getInvoiceTemplates() {
-  const session = await auth();
-  const userId = session?.user?.id;
-  if (!userId) return;
+// export async function getInvoiceTemplates() {
+//   const session = await auth();
+//   const userId = session?.user?.id;
+//   if (!userId) return;
 
-  // try {
-  //   const data = await sql`
-  //     select id, name, description, amount from invoice_templates
-  //     WHERE user_id = ${userId}
-  //   `;
-  //   return data.rows;
-  // } catch (err) {
-  //   console.error('Database Error:', err);
-  //   throw new Error('Failed to fetch all invoices.');
-  // }
-}
+//   // try {
+//   //   const data = await sql`
+//   //     select id, name, description, amount from invoice_templates
+//   //     WHERE user_id = ${userId}
+//   //   `;
+//   //   return data.rows;
+//   // } catch (err) {
+//   //   console.error('Database Error:', err);
+//   //   throw new Error('Failed to fetch all invoices.');
+//   // }
+// }
