@@ -1,6 +1,6 @@
 import { sql } from '@vercel/postgres';
 import { auth } from 'auth';
-import { Customer } from '@/app/lib/definitions';
+import { Customer, InvoiceTemplate } from '@/app/lib/definitions';
 // import { unstable_noStore as noStore } from 'next/cache';
 
 // Fetch tables
@@ -211,7 +211,7 @@ export async function fetchCustomer(customerId: string) {
 }
 
 // Invoices
-export async function fetchInvoices() {
+export async function fetchInvoiceTemplates() {
   const session = await auth();
   const userId = session?.user?.id;
   if (!userId) return;
@@ -219,7 +219,7 @@ export async function fetchInvoices() {
   try {
     const data = await sql`
       select id, templatename from invoices
-      WHERE user_id = ${userId}
+      WHERE user_id = ${userId} AND status IS NULL
     `;
     return data.rows;
   } catch (err) {
@@ -227,6 +227,124 @@ export async function fetchInvoices() {
     throw new Error('Failed to fetch all invoices.');
   }
 }
+
+export async function fetchInvoiceTemplate(invoiceId: string) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return;
+
+  if (!invoiceId) return;
+
+  try {
+    const data = await sql`
+      select templatename, message, discounttype, discountamount, taxsetting, taxamount, invoicebase, invoiceappendix
+      from invoices
+      where id = ${invoiceId}
+    `;
+
+    const {
+      templateName,
+      message,
+      discounttype,
+      discountamount,
+      taxsetting,
+      taxamount,
+      invoicebase,
+      invoiceappendix,
+    } = data.rows[0];
+
+    const invoiceTemplate: InvoiceTemplate = {
+      id: invoiceId,
+      name: templateName,
+      fieldGroups: [],
+      message: message,
+      settings: {
+        discountType: discounttype,
+        discountAmount: discountamount,
+        taxSetting: taxsetting,
+        taxAmount: taxamount,
+        invoiceBase: invoicebase,
+        invoiceAppendix: invoiceappendix,
+      },
+    };
+
+    return invoiceTemplate;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch invoice template.');
+  }
+}
+
+// try {
+//   // Step 1: Fetch the invoice
+//   const invoiceData = await sql`
+//     select templatename, message, amount, status, datecreated, datepayed, project_id, payed_by
+//     from invoices
+//     where id = ${invoiceId}
+//   `;
+
+//   console.log('invoiceData');
+//   console.log(invoiceData);
+// if (invoiceData.rowCount === 0) {
+//   throw new Error('Invoice not found.');
+// }
+
+// const invoice = invoiceData.rows[0];
+
+// // Step 2: Fetch the field groups for the invoice
+// const fieldGroupsData = await sql`
+//   select id, name, position
+//   from invoicefieldgroups
+//   where invoice_id = ${invoiceId}
+// `;
+
+// const fieldGroups = fieldGroupsData.rows;
+
+// // Step 3: Fetch the fields for each field group
+// const fieldGroupsWithFields = await Promise.all(
+//   fieldGroups.map(async (group) => {
+//     const fieldsData = await sql`
+//     select id, name, data, value
+//     from invoicefields
+//     where field_group_id = ${group.id}
+//   `;
+//     return {
+//       id: group.id,
+//       name: group.name,
+//       position: group.position,
+//       fields: fieldsData.rows.map((field) => ({
+//         id: field.id,
+//         name: field.name,
+//         data: field.data || '',
+//         value: field.value || '',
+//       })),
+//     };
+//   }),
+// );
+
+// // Combine all data into a single object with the desired structure
+// const tempInvoice = {
+//   id: invoice.id,
+//   name: invoice.templatename || 'Template name',
+//   fieldGroups: fieldGroupsWithFields,
+//   message: invoice.message || '',
+//   settings: {
+//     discountType: invoice.settings?.discountType || 'none',
+//     discountAmount: invoice.settings?.discountAmount || 0,
+//     taxSetting: invoice.settings?.taxSetting || 'incl',
+//     taxAmount: invoice.settings?.taxAmount || 0,
+//     invoiceBase: invoice.settings?.invoiceBase || '',
+//     invoiceAppendix: invoice.settings?.invoiceAppendix || '',
+//     // Include other settings as needed
+//   },
+// };
+
+// return tempInvoice;
+// } catch (err) {
+//   console.error('Database Error:', err);
+//   throw new Error('Failed to fetch invoice template.');
+// }
+// }
 
 // Invoice templates
 // export async function getInvoiceTemplates() {

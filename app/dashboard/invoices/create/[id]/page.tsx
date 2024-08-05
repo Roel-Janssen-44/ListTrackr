@@ -4,8 +4,18 @@ import { exo } from '@/app/components/fonts';
 import { Suspense } from 'react';
 import Link from 'next/link';
 import { ChevronLeftIcon } from '@heroicons/react/24/outline';
+import InvoiceCreateForm from '@/app/components/invoices/createForm';
+import { fetchInvoiceTemplate } from '@/app/lib/data';
+import { InvoiceTemplate } from '@/app/lib/definitions';
 
-export default async function InvoiceTemplateCreation() {
+export default async function InvoiceTemplateCreation({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const invoiceTemplate: InvoiceTemplate = await fetchInvoiceTemplate(
+    params.id,
+  );
   return (
     <div className="w-full">
       <div className="mb-6 flex flex-row justify-start gap-6">
@@ -25,6 +35,7 @@ export default async function InvoiceTemplateCreation() {
       </div>
       <Suspense fallback={'Loading...'}>
         Todo - create invoice based on template
+        <InvoiceCreateForm invoiceTemplate={invoiceTemplate} />
       </Suspense>
     </div>
   );

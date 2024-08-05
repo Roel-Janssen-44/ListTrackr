@@ -201,6 +201,7 @@ export default function CreateInvoiceTemplate({
         viewStyle={'template'}
       />
       <div className="mt-6 flex flex-row gap-6">
+        {/* Todo - navigate to /dashboard/invoices or /dashboard/invoices/create/[id] */}
         <Button onClick={() => createTemplate(invoice)}>Save</Button>
         <Link
           href={'/dashboard/invoices'}

@@ -3,10 +3,10 @@
 import { exo } from '@/app/components/fonts';
 import { Suspense } from 'react';
 import InvoiceTemplateTable from '@/app/components/invoices/templates/table';
-import { fetchInvoices } from '@/app/lib/data';
+import { fetchInvoiceTemplates } from '@/app/lib/data';
 
 export default async function Invoices() {
-  const templates = await fetchInvoices();
+  const templates = await fetchInvoiceTemplates();
   return (
     <div className="w-full">
       <h1 className={`${exo.className} mb-4 text-3xl font-bold`}>Invoices</h1>
