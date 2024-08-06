@@ -1,4 +1,4 @@
-// import InvoiceHeader from '@/app/components/invoice/invoice/header';
+import InvoiceHeader from '@/app/components/invoice/invoice/header';
 import TemplateHeader from '@/app/components/invoice/template/header';
 // import PreviewHeader from '@/app/components/invoice/preview/header';
 
@@ -18,7 +18,9 @@ export default function Header({
       {viewStyle === 'template' && (
         <TemplateHeader setInvoice={setInvoice} invoice={invoice} />
       )}
-      {/* {viewStyle === 'invoice' && <InvoiceHeader />} */}
+      {viewStyle === 'invoice' && (
+        <InvoiceHeader setInvoice={setInvoice} invoice={invoice} />
+      )}
       {/* {viewStyle === 'preview' && <PreviewHeader />} */}
     </>
   );

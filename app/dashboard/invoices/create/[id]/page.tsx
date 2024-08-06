@@ -34,7 +34,6 @@ export default async function InvoiceTemplateCreation({
         </Link>
       </div>
       <Suspense fallback={'Loading...'}>
-        Todo - create invoice based on template
         <InvoiceCreateForm invoiceTemplate={invoiceTemplate} />
       </Suspense>
     </div>

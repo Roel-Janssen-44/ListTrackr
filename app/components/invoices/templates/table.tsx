@@ -17,7 +17,6 @@ export default function InvoicesTable({ templates }: { templates }) {
           >
             <h3 className="text-center">{template.templatename}</h3>
             <div className="absolute top-full flex flex-row gap-4 opacity-0 transition-all group-hover:top-[75%] group-hover:opacity-100">
-              {/* Todo - link aanpassen */}
               <Link href={`/dashboard/invoices/create/${template.id}`}>
                 <Button>Use</Button>
               </Link>

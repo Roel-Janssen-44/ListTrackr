@@ -242,6 +242,35 @@ export async function fetchInvoiceTemplate(invoiceId: string) {
       where id = ${invoiceId}
     `;
 
+    const fieldGroupsData = await sql`
+      select id, name, position
+      from invoicefieldgroups
+      where invoice_id = ${invoiceId}
+    `;
+
+    const fieldGroups = fieldGroupsData.rows;
+
+    const fieldGroupsWithFields = await Promise.all(
+      fieldGroups.map(async (group) => {
+        const fieldsData = await sql`
+        select id, name, data, value
+        from invoicefields
+        where field_group_id = ${group.id}
+      `;
+        return {
+          id: group.id,
+          name: group.name,
+          position: group.position,
+          fields: fieldsData.rows.map((field) => ({
+            id: field.id,
+            name: field.name,
+            data: field.data || '',
+            value: field.value || '',
+          })),
+        };
+      }),
+    );
+
     const {
       templateName,
       message,
@@ -256,7 +285,7 @@ export async function fetchInvoiceTemplate(invoiceId: string) {
     const invoiceTemplate: InvoiceTemplate = {
       id: invoiceId,
       name: templateName,
-      fieldGroups: [],
+      fieldGroups: fieldGroupsWithFields,
       message: message,
       settings: {
         discountType: discounttype,

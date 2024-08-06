@@ -1,38 +1,43 @@
-// import { useSelector } from "react-redux";
-// import { selectInvoice } from "@features/invoices/invoicesSlice";
+'use client';
 
-// import InvoiceLogoUpload from './logo';
-// import InvoiceCompanyData from './companyData';
-// import InvoiceInvoiceNumber from './invoiceNumber';
+import InvoiceLogoUpload from './logo';
+import InvoiceCompanyData from './companydata';
+import InvoiceInvoiceNumber from './invoiceNumber';
 import InvoiceClientData from './clientData';
+import { InvoiceTemplate } from '@/app/lib/definitions';
 
-// import GetCurrentInvoice from "@lib/getCurrentInvoice";
-// import getCurrentFieldGroup from "@lib/getCurrentFieldGroup";
+import { getCurrentFieldGroup } from '@/app/lib/utils';
 
-export default function InvoiceHeader() {
-  //   const invoiceId = GetCurrentInvoice();
-  //   const invoiceData = useSelector(selectInvoice(invoiceId));
-
+export default function InvoiceHeader({
+  invoice,
+  setInvoice,
+}: {
+  invoice: InvoiceTemplate;
+  setInvoice: Function;
+}) {
   return (
     <ul className="m-0 grid grid-cols-2 gap-4 gap-y-8 p-0">
-      <div className="">{/* <InvoiceLogoUpload /> */}</div>
       <div className="">
-        {/* <InvoiceInvoiceNumber
-          fields={getCurrentFieldGroup(
-            invoiceData.fieldGroups,
-            "invoiceNumber"
-          )}
-        /> */}
+        <InvoiceLogoUpload />
       </div>
       <div className="">
-        {/* <InvoiceClientData
-          fields={getCurrentFieldGroup(invoiceData.fieldGroups, "client")}
-        /> */}
+        <InvoiceInvoiceNumber
+          setInvoice={setInvoice}
+          invoice={invoice}
+          fields={getCurrentFieldGroup(invoice.fieldGroups, 'invoiceNumber')}
+        />
       </div>
       <div className="">
-        {/* <InvoiceCompanyData
-          fields={getCurrentFieldGroup(invoiceData.fieldGroups, "company")}
-        /> */}
+        <InvoiceClientData
+          setInvoice={setInvoice}
+          invoice={invoice}
+          fields={getCurrentFieldGroup(invoice.fieldGroups, 'client')}
+        />
+      </div>
+      <div className="">
+        <InvoiceCompanyData
+          fields={getCurrentFieldGroup(invoice.fieldGroups, 'company')}
+        />
       </div>
     </ul>
   );

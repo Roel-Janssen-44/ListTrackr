@@ -590,3 +590,63 @@ export async function createInvoiceTemplate(invoice: InvoiceTemplate) {
     return { success: false, message: 'Error creating invoice' };
   }
 }
+
+export async function createInvoice(invoice: InvoiceTemplate) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return;
+
+  console.log('invoice to create');
+  console.log(invoice);
+
+  // invoice.fieldGroups.forEach((fieldGroup) => {
+  //   console.log(fieldGroup.name);
+  //   fieldGroup.fields.forEach((field) => {
+  //     console.log(field);
+  //   });
+  // });
+
+  // console.log('Creating invoice template in actions file');
+  // console.log(invoice);
+
+  // const { id, name, message } = invoice;
+  // const { discountType, taxSetting, taxAmount, invoiceBase, invoiceAppendix } =
+  //   invoice.settings;
+
+  // try {
+  //   await sql`
+  //   insert into invoices(id, templatename, message, discounttype, taxsetting, taxamount, invoicebase, invoiceappendix, user_id)
+  //   VALUES (${id}, ${name}, ${message}, ${discountType}, ${taxSetting}, ${taxAmount}, ${invoiceBase}, ${invoiceAppendix}, ${userId})
+  //   `;
+  //   // console.log('first insert complete');
+
+  //   for (const fieldGroup of invoice.fieldGroups) {
+  //     await sql`
+  //     INSERT INTO invoicefieldgroups (id, invoice_id, name, position)
+  //     VALUES (${fieldGroup.id}, ${id}, ${fieldGroup?.name}, ${fieldGroup?.position})
+  //     `;
+
+  //     // console.log('second insert complete');
+
+  //     for (const field of fieldGroup.fields) {
+  //       await sql`
+  //       INSERT INTO invoicefields (id, field_group_id, name, data, value)
+  //       VALUES (${field.id}, ${fieldGroup.id}, ${field?.name}, ${field?.data}, ${field?.value})
+  //       `;
+  //     }
+  //   }
+
+  //   // console.log('third insert complete');
+
+  //   revalidatePath('/dashboard/invoices');
+  //   // redirect('/dashboard/invoices', 'push');
+  //   console.log('invoice created successfully');
+  //   return { success: true, message: '' };
+  // } catch (error) {
+  //   console.log('error');
+  //   console.log(error);
+  //   console.log('invoice not created');
+  //   return { success: false, message: 'Error creating invoice' };
+  // }
+  return { success: true, message: '' };
+}

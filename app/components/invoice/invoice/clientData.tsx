@@ -1,158 +1,116 @@
-// import { useState, useRef } from "react";
+'use client';
 
-// import { useDispatch } from "react-redux";
-// import uuid from "react-uuid";
-// import ItemInput from "@components/ItemInput";
-// import NonEditableItem from "@components/NonEditableItem";
-// import Button from "@mui/material/Button";
-// import ButtonGroup from "@mui/material/ButtonGroup";
-// import IconButton from "@mui/material/IconButton";
-// import DeleteIcon from "@mui/icons-material/Delete";
-// import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
+import { Trash } from 'lucide-react';
+import { Field } from '@/app/lib/definitions';
+import { Input } from '@/app/components/chadcn/input';
+import { Button } from '@/app/components/button';
+import { InvoiceTemplate } from '@/app/lib/definitions';
+import {
+  addFieldToFieldGroup,
+  removeFieldFromFieldGroup,
+  editFieldValueInFieldGroup,
+} from '@/app/lib/utils';
 
-// import {
-//   DragDropContext,
-//   DropResult,
-//   Droppable,
-//   Draggable,
-// } from "@hello-pangea/dnd";
+export default function InvoiceClientData({
+  invoice,
+  fields,
+  setInvoice,
+}: {
+  invoice: InvoiceTemplate;
+  fields: Field[];
+  setInvoice: Function;
+}) {
+  const handleChangeField = ({
+    newValue,
+    targetId,
+  }: {
+    newValue: string;
+    targetId: string;
+  }) => {
+    editFieldValueInFieldGroup({
+      invoice: invoice,
+      setInvoice: setInvoice,
+      fieldGroupName: 'client',
+      fieldId: targetId,
+      newValue: newValue,
+    });
+  };
 
-// import Collapse from "@mui/material/Collapse";
-// import List from "@mui/material/List";
-// import { TransitionGroup } from "react-transition-group";
+  const handleAddItem = () => {
+    addFieldToFieldGroup({
+      invoice: invoice,
+      setInvoice: setInvoice,
+      fieldGroupName: 'client',
+    });
+  };
+  const handleRemoveItem = (fieldId: string) => {
+    removeFieldFromFieldGroup({
+      invoice: invoice,
+      setInvoice: setInvoice,
+      fieldGroupName: 'client',
+      fieldId: fieldId,
+    });
+  };
 
-// import {
-//   editInvoiceField,
-//   addInvoiceField,
-//   changeInvoiceFieldOrder,
-//   removeInvoiceField,
-// } from "@features/invoices/invoicesSlice";
-
-// import GetCurrentInvoice from "@lib/getCurrentInvoice";
-
-export default function InvoiceClientData({ fields = [] }) {
-  //   const dispatch = useDispatch();
-  //   const invoiceId = GetCurrentInvoice();
-  //   const handleChangeField = ({ newValue, targetId }) => {
-  //     dispatch(editInvoiceField({ invoiceId, fieldId: targetId, newValue }));
-  //   };
-
-  //   const handleAddItem = () => {
-  //     dispatch(
-  //       addInvoiceField({ invoiceId, fieldGroupName: "client", fieldId: uuid() })
-  //     );
-  //   };
-  //   const handleRemoveItem = (fieldId) => {
-  //     dispatch(
-  //       removeInvoiceField({ invoiceId, fieldGroupName: "client", fieldId })
-  //     );
-  //   };
-  //   const onDragEnd = (result) => {
-  //     const { source, destination } = result;
-  //     if (!destination) {
-  //       return;
-  //     }
-  //     const { droppableId: sourceDroppableId, index: sourceIndex } = source;
-  //     const { droppableId: destinationDroppableId, index: destinationIndex } =
-  //       destination;
-
-  //     dispatch(
-  //       changeInvoiceFieldOrder({
-  //         invoiceId,
-  //         fieldGroupName: "client",
-  //         startIndex: sourceIndex,
-  //         endIndex: destinationIndex,
-  //       })
-  //     );
-  //   };
-
-  return 'asdfasd';
-  // <>
-  //   <div className="flex flex-col">
-  //     <ul className="p-0">
-  //       {fields.map((field, index) => {
-  //         if (index === 0 && field.name !== "")
-  //           return (
-  //             <h3
-  //               key={"client_data-title" + field.id}
-  //               className="m-0 cursor-not-allowed"
-  //             >
-  //               {field.name}
-  //             </h3>
-  //           );
-  //       })}
-  //       {/* <DragDropContext onDragEnd={onDragEnd}>
-  //         <Droppable droppableId="droppable">
-  //           {(provided, snapshot) => (
-  //             <div {...provided.droppableProps} ref={provided.innerRef}> */}
-  //       <List>
-  //         <TransitionGroup>
-  //           {fields.map((field, index) => {
-  //             if (index !== 0)
-  //               return (
-  //                 <Collapse key={field.id}>
-  //                   {/* <Draggable
-  //                             key={field.id}
-  //                             draggableId={field.id}
-  //                             index={index}
-  //                           >
-  //                             {(provided, snapshot) => ( */}
-  //                   <div
-  //                     className="relative group w-48 my-1"
-  //                     // ref={provided.innerRef}
-  //                     // {...provided.draggableProps}
-  //                     // {...provided.dragHandleProps}
-  //                   >
-  //                     <ItemInput
-  //                       handleChange={handleChangeField}
-  //                       value={field.data}
-  //                       id={field.id}
-  //                     />
-  //                     <div className="absolute -left-12 -translate-y-1/2 top-1/2 bg-white w-12 py-1 shadow-sm rounded-lg h-12 hidden group-hover:block hover:block">
-  //                       <ButtonGroup
-  //                         className="h-full flex justify-center"
-  //                         variant="outlined"
-  //                         aria-label="outlined primary button group"
-  //                       >
-  //                         {/* <IconButton
-  //                           aria-label="Drag item"
-  //                           color="primary"
-  //                           // {...provided.dragHandleProps}
-  //                         >
-  //                           <DragIndicatorIcon />
-  //                         </IconButton> */}
-  //                         <IconButton
-  //                           aria-label="Delete item"
-  //                           color="primary"
-  //                           onClick={() => handleRemoveItem(field.id)}
-  //                         >
-  //                           <DeleteIcon />
-  //                         </IconButton>
-  //                       </ButtonGroup>
-  //                     </div>
-  //                   </div>
-  //                   {/* )}
-  //                           </Draggable> */}
-  //                 </Collapse>
-  //               );
-  //           })}
-  //         </TransitionGroup>
-  //       </List>
-  //       {/* {provided.placeholder} */}
-  //       {/* </div>
-  //           )}
-  //         </Droppable>
-  //       </DragDropContext> */}
-  //     </ul>
-  //     <div>
-  //       <Button
-  //         variant="contained"
-  //         className="w-[192px]"
-  //         onClick={handleAddItem}
-  //       >
-  //         Veld toevoegen
-  //       </Button>
-  //     </div>
-  //   </div>
-  // </>
+  return (
+    <>
+      <div className="flex flex-col">
+        <ul className="p-0">
+          {fields.map((field, index) => {
+            if (index === 0 && field.name !== '') {
+              return (
+                <h3
+                  key={'client_data-title' + field.id}
+                  className="m-0 cursor-not-allowed"
+                >
+                  {field.name}
+                </h3>
+              );
+            }
+          })}
+          <div>
+            {fields.map((field, index) => {
+              if (index !== 0) {
+                return (
+                  <div key={field.id}>
+                    <div className="group relative my-1 w-48">
+                      <Input
+                        onChange={(e) =>
+                          handleChangeField({
+                            newValue: e.target.value,
+                            targetId: field.id,
+                          })
+                        }
+                        value={field.value}
+                        id={field.id}
+                      />
+                      <div className="absolute -left-12 top-1/2 hidden h-12 w-12 -translate-y-1/2 rounded-lg bg-white py-1 shadow-sm group-hover:block hover:block">
+                        <div
+                          className="flex h-full justify-center"
+                          aria-label="outlined primary button group"
+                        >
+                          <Button
+                            aria-label="Delete item"
+                            color="primary"
+                            onClick={() => handleRemoveItem(field.id)}
+                          >
+                            <Trash size={24} />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+            })}
+          </div>
+        </ul>
+        <div>
+          <Button className="w-[192px]" onClick={handleAddItem}>
+            Veld toevoegen
+          </Button>
+        </div>
+      </div>
+    </>
+  );
 }
