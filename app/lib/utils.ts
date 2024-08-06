@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { InvoiceTemplate } from '@/app/lib/definitions';
+import { InvoiceTemplate, Field } from '@/app/lib/definitions';
 import { v4 as uuid } from 'uuid';
 
 export const formatCurrency = (amount: number) => {
@@ -224,4 +224,175 @@ export function editFieldValueInFieldGroup({
     ...invoice,
     fieldGroups: [...updatedFieldGroups],
   });
+}
+export function editFieldPriceInFieldGroup({
+  invoice,
+  setInvoice,
+  fieldGroupName,
+  fieldId,
+  newValue,
+}: {
+  invoice: InvoiceTemplate;
+  setInvoice: Function;
+  fieldGroupName: 'rows';
+  fieldId: string;
+  newValue: string;
+}) {
+  const updatedFieldGroups = invoice.fieldGroups.map((fieldGroup) => {
+    if (fieldGroup.name === fieldGroupName) {
+      return {
+        ...fieldGroup,
+        fields: fieldGroup.fields.map((field) => {
+          if (field.id === fieldId) {
+            return {
+              ...field,
+              price: newValue,
+            };
+          }
+          return field;
+        }),
+      };
+    }
+    return fieldGroup;
+  });
+  setInvoice({
+    ...invoice,
+    fieldGroups: [...updatedFieldGroups],
+  });
+}
+export function editFieldAmountInFieldGroup({
+  invoice,
+  setInvoice,
+  fieldGroupName,
+  fieldId,
+  newValue,
+}: {
+  invoice: InvoiceTemplate;
+  setInvoice: Function;
+  fieldGroupName: 'rows';
+
+  fieldId: string;
+  newValue: string;
+}) {
+  const updatedFieldGroups = invoice.fieldGroups.map((fieldGroup) => {
+    if (fieldGroup.name === fieldGroupName) {
+      return {
+        ...fieldGroup,
+        fields: fieldGroup.fields.map((field) => {
+          if (field.id === fieldId) {
+            return {
+              ...field,
+              amount: newValue,
+            };
+          }
+          return field;
+        }),
+      };
+    }
+    return fieldGroup;
+  });
+  setInvoice({
+    ...invoice,
+    fieldGroups: [...updatedFieldGroups],
+  });
+}
+
+// Currency functions
+
+export function convertToCurrency(amount) {
+  console.log('amount', amount);
+  // Remove spaces from the input
+  const value =
+    typeof amount === 'string' ? amount.replace(/\s/g, '') : amount.toString();
+
+  // Remove Euro sign if present
+  const sanitizedValue = value.replace('€', '');
+
+  // Parse the value as a number
+  const parsedValue = parseFloat(sanitizedValue);
+
+  // Check if the parsed value is a valid number
+  if (isNaN(parsedValue)) {
+    console.error('Invalid amount:', amount);
+    return '';
+  }
+
+  // Convert the number to a formatted currency string
+  const formattedValue = parsedValue.toLocaleString('nl-NL', {
+    style: 'currency',
+    currency: 'EUR',
+    minimumFractionDigits: 2,
+  });
+
+  // Add a space after the Euro sign
+  const euroSignIndex = formattedValue.indexOf('€');
+  if (euroSignIndex !== -1) {
+    const euroSignPosition = euroSignIndex + 1;
+    const formattedOutput = `${formattedValue.slice(
+      0,
+      euroSignPosition,
+    )} ${formattedValue.slice(euroSignPosition)}`;
+    return formattedOutput;
+  }
+
+  return formattedValue;
+}
+
+export function removeNonNumericCharacters(value) {
+  if (value === null) return 0;
+  // Remove dots while keeping commas and numbers, excluding zero at the beginning
+  const cleanedValue = value.replace(/[^0-9,]/g, '');
+
+  // Remove leading zeros if present, except when followed by a comma
+  const trimmedValue = cleanedValue.replace(/^0+(?!,)/, '');
+
+  return trimmedValue;
+}
+
+export function convertToAmount(inputValue) {
+  // Remove all characters except numbers, dot and comma
+  const cleanedValue = inputValue.replace(/[^\d,.]/g, '');
+
+  // Replace dot with comma for decimal parsing
+  const parsedValue = cleanedValue.replace(',', '.');
+
+  const roundedValue = parseFloat(parsedValue).toFixed(1).replace('.', ',');
+
+  const lastDigit = roundedValue.slice(-1); // Get the last digit
+
+  let finalValue = '';
+  if (lastDigit === '0') {
+    finalValue = roundedValue.slice(0, -2);
+  } else {
+    finalValue = roundedValue;
+  }
+  return finalValue;
+}
+
+export function convertToNumber(value) {
+  const tempValue = String(value);
+  const pattern = /[^\d,.]/g;
+  const replacement = '';
+  const replacedValue = tempValue.replace(pattern, replacement);
+  const newValue = replacedValue.replace('.', '');
+  const finalValue = parseFloat(newValue);
+  return finalValue;
+}
+
+export function calculateSubTotal(fields: Field[]) {
+  let subtotal = 0;
+  console.log('fields to calculate');
+  console.log(fields);
+  fields.forEach((field: Field) => {
+    const price = convertToNumber(field.price);
+    const amount = convertToNumber(field.amount);
+    subtotal += price * amount;
+  });
+  return subtotal;
+}
+
+export function convertToPercentage(amount) {
+  const number = convertToNumber(amount);
+  const string = String(number) + '%';
+  return string;
 }

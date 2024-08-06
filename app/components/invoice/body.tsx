@@ -17,7 +17,9 @@ export default function Body({
       {viewStyle === 'template' && (
         <TemplateBody setInvoice={setInvoice} invoice={invoice} />
       )}
-      {/* {viewStyle === 'invoice' && <InvoiceBody />} */}
+      {viewStyle === 'invoice' && (
+        <InvoiceBody setInvoice={setInvoice} invoice={invoice} />
+      )}
       {/* {viewStyle === 'preview' && <PreviewBody />} */}
     </>
   );

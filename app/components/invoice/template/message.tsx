@@ -1,7 +1,6 @@
 // import { editTemplateField } from "@features/templates/templatesSlice";
 // import GetCurrentInvoice from "@lib/getCurrentInvoice";
 
-// import { Input } from '@/app/components/chadcn/input';
 import { Textarea } from '@/app/components/chadcn/textarea';
 import { InvoiceTemplate } from '@/app/lib/definitions';
 
@@ -14,8 +13,6 @@ export default function TemplateMessage({
   message: string;
   invoice: InvoiceTemplate;
 }) {
-  //   const dispatch = useDispatch();
-  //   const templateId = GetCurrentInvoice();
   const handleChangeTemplateField = ({ newValue, targetId }) => {
     //     dispatch(editTemplateField({ templateId, fieldId: targetId, newValue }));
   };

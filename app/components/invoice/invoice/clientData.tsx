@@ -84,7 +84,7 @@ export default function InvoiceClientData({
                         value={field.value}
                         id={field.id}
                       />
-                      <div className="absolute -left-12 top-1/2 hidden h-12 w-12 -translate-y-1/2 rounded-lg bg-white py-1 shadow-sm group-hover:block hover:block">
+                      <div className="absolute -left-12 top-1/2 hidden h-12 w-12 -translate-y-1/2 rounded-lg border-none bg-transparent py-1 outline-none group-hover:block hover:block">
                         <div
                           className="flex h-full justify-center"
                           aria-label="outlined primary button group"

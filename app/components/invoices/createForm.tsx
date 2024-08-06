@@ -25,6 +25,7 @@ export default function CreateInvoice({
         <Button
           onClick={() => {
             createInvoice(invoice);
+            // Todo - update route
             // router.push(`/dashboard/invoices`);
           }}
         >
