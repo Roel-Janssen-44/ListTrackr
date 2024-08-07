@@ -17,7 +17,7 @@ export default function CreateInvoiceTemplate({
 }) {
   const tempInvoice: InvoiceTemplate = {
     id: uuid(),
-    name: 'Template name',
+    name: '',
     fieldGroups: [
       {
         id: uuid(),
@@ -122,26 +122,8 @@ export default function CreateInvoiceTemplate({
           {
             id: uuid(),
             name: 'Product description',
-            price: 100,
-            amount: 1,
-          },
-          {
-            id: uuid(),
-            name: 'Product description',
-            price: 100,
-            amount: 1,
-          },
-          {
-            id: uuid(),
-            name: 'Product description',
-            price: 100,
-            amount: 1,
-          },
-          {
-            id: uuid(),
-            name: 'Product description',
-            price: 100,
-            amount: 1,
+            price: 0,
+            amount: 0,
           },
         ],
       },
@@ -152,31 +134,29 @@ export default function CreateInvoiceTemplate({
           {
             id: uuid(),
             name: 'Subtotal:',
-            value: 'Subtotal incl VAT',
+            value: '',
           },
           {
             id: uuid(),
-            name: 'VAT:',
-            value: 'VAT 21%',
+            name: 'VAT amount:',
+            value: '',
           },
           {
             id: uuid(),
             name: 'Total:',
-            value: 'Total',
+            value: '',
           },
         ],
       },
     ],
-    // Todo - message update on front-end
     message: '',
-    // Todo - settings update on front-end
     settings: {
       discountType: 'none',
       discountAmount: 0,
       // Todo - add theme color
       // themeColor: "#12a1c1" ,
-      taxSetting: 'incl',
-      taxAmount: 21,
+      taxSetting: '',
+      taxAmount: '',
       invoiceBase: '',
       invoiceAppendix: '',
     },
@@ -185,6 +165,11 @@ export default function CreateInvoiceTemplate({
   const [invoice, setInvoice] = useState(tempInvoice);
 
   const router = useRouter();
+
+  // useEffect(() => {
+  //   console.log('invoice');
+  //   console.log(invoice);
+  // }, [invoice]);
 
   return (
     <>

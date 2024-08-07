@@ -297,6 +297,26 @@ export function editFieldAmountInFieldGroup({
   });
 }
 
+export function editInvoiceSetting({
+  invoice,
+  setInvoice,
+  settingName,
+  newValue,
+}: {
+  invoice: InvoiceTemplate;
+  setInvoice: Function;
+  settingName: 'taxAmount';
+  newValue: string;
+}) {
+  setInvoice({
+    ...invoice,
+    settings: {
+      ...invoice.settings,
+      [settingName]: newValue,
+    },
+  });
+}
+
 // Currency functions
 
 export function convertToCurrency(amount) {

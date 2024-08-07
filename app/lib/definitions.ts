@@ -49,7 +49,7 @@ export type Invoice = {
   id: string;
   number: string;
   amount: number;
-  status: 'paid' | 'pending';
+  status: 'paid' | 'pending' | 'overdue' | 'created';
   date: string;
   project_id: string;
 };
@@ -63,8 +63,8 @@ export type InvoiceTemplate = {
   settings: {
     discountType: 'none' | 'percentage' | 'amount' | '';
     discountAmount: number;
-    taxSetting: 'excl' | 'incl';
-    taxAmount: 21 | 9 | 0;
+    taxSetting: 'excl' | 'incl' | '';
+    taxAmount: '21' | '9' | '0' | '';
     invoiceBase: string;
     invoiceAppendix: string;
   };

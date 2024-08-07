@@ -228,6 +228,23 @@ export async function fetchInvoiceTemplates() {
   }
 }
 
+export async function fetchInvoices() {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return;
+
+  try {
+    const data = await sql`
+      select id, amount from invoices
+      WHERE user_id = ${userId} AND status='created'
+    `;
+    return data.rows;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch all invoices.');
+  }
+}
+
 export async function fetchInvoiceTemplate(invoiceId: string) {
   const session = await auth();
   const userId = session?.user?.id;

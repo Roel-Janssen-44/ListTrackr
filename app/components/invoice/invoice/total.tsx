@@ -25,7 +25,7 @@ export default function InvoiceTotal({
   const [tax0, setTax0] = useState(0);
   const [tax9, setTax9] = useState(0);
   const [tax21, setTax21] = useState(0);
-  const [totaal, setTotaal] = useState(0);
+  const [total, setTotal] = useState(0);
 
   const taxSetting = invoice.settings.taxSetting;
   const discountType = invoice.settings.discountType;
@@ -122,7 +122,7 @@ export default function InvoiceTotal({
     setTax0(vat0Temp);
     setTax9(vat9Temp);
     setTax21(vat21Temp);
-    setTotaal(totalTemp);
+    setTotal(totalTemp);
   }, [rows, taxSetting, discountType, discountAmount]);
 
   return (
@@ -154,7 +154,7 @@ export default function InvoiceTotal({
                   : field.value === 'VAT 0%'
                   ? convertToCurrency(tax0)
                   : field.value === 'Total'
-                  ? convertToCurrency(totaal)
+                  ? convertToCurrency(total)
                   : 'as'}
               </p>
             </ul>
@@ -196,7 +196,7 @@ export default function InvoiceTotal({
                   : field.value === 'VAT 0%'
                   ? convertToCurrency(tax0)
                   : field.value === 'Total'
-                  ? convertToCurrency(totaal)
+                  ? convertToCurrency(total)
                   : 'as'}
               </p>
             </ul>

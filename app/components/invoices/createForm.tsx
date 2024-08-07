@@ -1,8 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createInvoice } from '@/app/lib/actions';
-import { Input } from '@/app/components/chadcn/input';
 import { Button } from '@/app/components/button';
 import { InvoiceTemplate } from '@/app/lib/definitions';
 import Invoice from '@/app/components/invoice/invoice';
@@ -13,11 +12,12 @@ export default function CreateInvoice({
 }: {
   invoiceTemplate: InvoiceTemplate;
 }) {
-  console.log('invoiceTemplate: ');
-  console.log(invoiceTemplate);
-
-  // Todo - update invoice id
   const [invoice, setInvoice] = useState<InvoiceTemplate>(invoiceTemplate);
+
+  useEffect(() => {
+    console.log('invoice creation from template');
+    console.log(invoice);
+  }, [invoice]);
   return (
     <>
       <Invoice invoice={invoice} setInvoice={setInvoice} viewStyle="invoice" />

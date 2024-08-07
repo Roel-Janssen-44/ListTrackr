@@ -7,15 +7,16 @@ import { ChevronLeftIcon } from '@heroicons/react/24/outline';
 import InvoiceCreateForm from '@/app/components/invoices/createForm';
 import { fetchInvoiceTemplate } from '@/app/lib/data';
 import { InvoiceTemplate } from '@/app/lib/definitions';
+import { v4 as uuid } from 'uuid';
 
 export default async function InvoiceTemplateCreation({
   params,
 }: {
   params: { id: string };
 }) {
-  const invoiceTemplate: InvoiceTemplate = await fetchInvoiceTemplate(
-    params.id,
-  );
+  let invoiceTemplate: InvoiceTemplate = await fetchInvoiceTemplate(params.id);
+  invoiceTemplate.id = uuid();
+
   return (
     <div className="w-full">
       <div className="mb-6 flex flex-row justify-start gap-6">

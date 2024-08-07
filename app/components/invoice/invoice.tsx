@@ -3,6 +3,8 @@
 import Header from '@/app/components/invoice/header';
 import Body from '@/app/components/invoice/body';
 import Footer from '@/app/components/invoice/footer';
+import Settings from '@/app/components/invoice/settings';
+
 import { InvoiceTemplate } from '@/app/lib/definitions';
 
 export default function Invoice({
@@ -33,6 +35,11 @@ export default function Invoice({
           viewStyle={viewStyle}
         />
       </div>
+      <Settings
+        viewStyle={viewStyle}
+        invoice={invoice}
+        setInvoice={setInvoice}
+      />
     </div>
   );
 }

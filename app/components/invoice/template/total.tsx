@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/app/components/chadcn/select';
+import { Skeleton } from '@/app/components/chadcn/skeleton';
 
 // import {
 //   editTemplateField,
@@ -20,12 +21,13 @@ import { Input } from '@/app/components/chadcn/input';
 import {
   editFieldInFieldGroup,
   editFieldValueInFieldGroup,
+  editInvoiceSetting,
 } from '@/app/lib/utils';
 import { InvoiceTemplate } from '@/app/lib/definitions';
 
 export default function TemplateTotal({
   setInvoice,
-  fields = [],
+  fields,
   invoice,
 }: {
   setInvoice: Function;
@@ -48,6 +50,15 @@ export default function TemplateTotal({
       setInvoice: setInvoice,
       fieldGroupName: 'total',
       fieldId: targetId,
+      newValue: newValue,
+    });
+  };
+
+  const handleSettingChange = (newValue: string) => {
+    editInvoiceSetting({
+      invoice: invoice,
+      setInvoice: setInvoice,
+      settingName: 'taxAmount',
       newValue: newValue,
     });
   };
@@ -81,14 +92,13 @@ export default function TemplateTotal({
                         targetId: field.id,
                       });
                     }}
-                    value={field.value}
                   >
                     <SelectTrigger className="w-[180px]">
                       <SelectValue placeholder="Select an option" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value={'Subtotal ex VAT'}>
-                        Subtotal ex VAT
+                      <SelectItem value={'Subtotal excl VAT'}>
+                        Subtotal excl VAT
                       </SelectItem>
                       <SelectItem value={'Subtotal incl VAT'}>
                         Subtotal incl VAT
@@ -105,40 +115,21 @@ export default function TemplateTotal({
                         newValue: e,
                         targetId: field.id,
                       });
+                      handleSettingChange(e);
                     }}
-                    value={field.value}
                   >
                     <SelectTrigger className="w-[180px]">
                       <SelectValue placeholder="Select an option" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value={'VAT 0%'}>VAT {'0%'}</SelectItem>
-                      <SelectItem value={'VAT 9%'}>VAT {'9%'}</SelectItem>
-                      <SelectItem value={'VAT 21%'}>VAT {'21%'}</SelectItem>
+                      <SelectItem value={'0'}>VAT {'0%'}</SelectItem>
+                      <SelectItem value={'9'}>VAT {'9%'}</SelectItem>
+                      <SelectItem value={'21'}>VAT {'21%'}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               )}
-              {index === 2 && (
-                <div>
-                  <Select
-                    onValueChange={(e) => {
-                      handleSelectChange({
-                        newValue: e,
-                        targetId: field.id,
-                      });
-                    }}
-                    value={field.value}
-                  >
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Select an option" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value={'Total'}>Totaal</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
+              {index === 2 && <Skeleton className="my-2 h-[30px] w-full" />}
             </div>
           ))}
         </div>

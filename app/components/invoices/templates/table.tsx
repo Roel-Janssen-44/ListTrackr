@@ -6,7 +6,7 @@ import { InvoiceTemplate } from '@/app/lib/definitions';
 import Link from 'next/link';
 import { Pencil } from 'lucide-react';
 
-export default function InvoicesTable({ templates }: { templates }) {
+export default function InvoiceTemplatesTable({ templates }: { templates }) {
   return (
     <>
       <div className="mb-8 flex flex-row flex-wrap gap-8">
