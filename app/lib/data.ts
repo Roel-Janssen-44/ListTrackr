@@ -283,6 +283,8 @@ export async function fetchInvoiceTemplate(invoiceId: string) {
             name: field.name,
             data: field.data || '',
             value: field.value || '',
+            price: field.price || '0',
+            amount: field.amount || '0',
           })),
         };
       }),

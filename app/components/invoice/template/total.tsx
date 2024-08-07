@@ -22,8 +22,9 @@ import {
   editFieldInFieldGroup,
   editFieldValueInFieldGroup,
   editInvoiceSetting,
+  handleTaxAmountChange,
 } from '@/app/lib/utils';
-import { InvoiceTemplate } from '@/app/lib/definitions';
+import { InvoiceTemplate, Field } from '@/app/lib/definitions';
 
 export default function TemplateTotal({
   setInvoice,
@@ -44,7 +45,7 @@ export default function TemplateTotal({
     });
   };
 
-  const handleSelectChange = ({ targetId, newValue }) => {
+  const handleSelectChange = ({ newValue, targetId }) => {
     editFieldValueInFieldGroup({
       invoice: invoice,
       setInvoice: setInvoice,
@@ -63,11 +64,26 @@ export default function TemplateTotal({
     });
   };
 
+  const handleTaxChange = ({
+    newValue,
+    targetId,
+  }: {
+    newValue: string;
+    targetId: string;
+  }) => {
+    handleTaxAmountChange({
+      invoice: invoice,
+      setInvoice: setInvoice,
+      newValue: newValue,
+      targetId: targetId,
+    });
+  };
+
   return (
     <>
       <div className="flex h-full flex-col items-end justify-end">
         <div className="-mb-1 flex flex-col gap-2 py-0">
-          {fields.map((field, index) => (
+          {fields.map((field: Field, index: number) => (
             <div
               key={'template-total' + field.id}
               className="group relative my-0 flex flex-row items-center gap-2"
@@ -97,12 +113,8 @@ export default function TemplateTotal({
                       <SelectValue placeholder="Select an option" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value={'Subtotal excl VAT'}>
-                        Subtotal excl VAT
-                      </SelectItem>
-                      <SelectItem value={'Subtotal incl VAT'}>
-                        Subtotal incl VAT
-                      </SelectItem>
+                      <SelectItem value={'excl'}>Subtotal excl VAT</SelectItem>
+                      <SelectItem value={'incl'}>Subtotal incl VAT</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -111,11 +123,10 @@ export default function TemplateTotal({
                 <div>
                   <Select
                     onValueChange={(e) => {
-                      handleSelectChange({
+                      handleTaxChange({
                         newValue: e,
                         targetId: field.id,
                       });
-                      handleSettingChange(e);
                     }}
                   >
                     <SelectTrigger className="w-[180px]">

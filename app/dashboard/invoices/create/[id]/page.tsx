@@ -15,6 +15,7 @@ export default async function InvoiceTemplateCreation({
   params: { id: string };
 }) {
   let invoiceTemplate: InvoiceTemplate = await fetchInvoiceTemplate(params.id);
+  // Generate new id to prevent duplicate id from the template
   invoiceTemplate.id = uuid();
 
   return (

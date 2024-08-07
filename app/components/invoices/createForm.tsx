@@ -18,6 +18,7 @@ export default function CreateInvoice({
     console.log('invoice creation from template');
     console.log(invoice);
   }, [invoice]);
+
   return (
     <>
       <Invoice invoice={invoice} setInvoice={setInvoice} viewStyle="invoice" />

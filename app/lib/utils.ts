@@ -225,6 +225,7 @@ export function editFieldValueInFieldGroup({
     fieldGroups: [...updatedFieldGroups],
   });
 }
+
 export function editFieldPriceInFieldGroup({
   invoice,
   setInvoice,
@@ -317,10 +318,46 @@ export function editInvoiceSetting({
   });
 }
 
+export function handleTaxAmountChange({
+  invoice,
+  setInvoice,
+  targetId,
+  newValue,
+}: {
+  invoice: InvoiceTemplate;
+  setInvoice: Function;
+  targetId: string;
+  newValue: string;
+}) {
+  const updatedFieldGroups = invoice.fieldGroups.map((fieldGroup) => {
+    if (fieldGroup.name === 'total') {
+      return {
+        ...fieldGroup,
+        fields: fieldGroup.fields.map((field) => {
+          if (field.id === targetId) {
+            return {
+              ...field,
+              value: newValue,
+            };
+          }
+          return field;
+        }),
+      };
+    }
+    return fieldGroup;
+  });
+  setInvoice({
+    ...invoice,
+    fieldGroups: [...updatedFieldGroups],
+    settings: {
+      ...invoice.settings,
+      ['taxAmount']: newValue,
+    },
+  });
+}
 // Currency functions
 
 export function convertToCurrency(amount) {
-  console.log('amount', amount);
   // Remove spaces from the input
   const value =
     typeof amount === 'string' ? amount.replace(/\s/g, '') : amount.toString();
@@ -401,8 +438,6 @@ export function convertToNumber(value) {
 
 export function calculateSubTotal(fields: Field[]) {
   let subtotal = 0;
-  console.log('fields to calculate');
-  console.log(fields);
   fields.forEach((field: Field) => {
     const price = convertToNumber(field.price);
     const amount = convertToNumber(field.amount);

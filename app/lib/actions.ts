@@ -573,8 +573,8 @@ export async function createInvoiceTemplate(invoice: InvoiceTemplate) {
 
       for (const field of fieldGroup.fields) {
         await sql`
-        INSERT INTO invoicefields (id, field_group_id, name, data, value)
-        VALUES (${field.id}, ${fieldGroup.id}, ${field?.name}, ${field?.data}, ${field?.value})
+        INSERT INTO invoicefields (id, field_group_id, name, data, value, amount, price)
+        VALUES (${field.id}, ${fieldGroup.id}, ${field?.name}, ${field?.data}, ${field?.value}, ${field?.amount}, ${field?.price})
         `;
       }
     }
@@ -611,7 +611,7 @@ export async function createInvoice(invoice: InvoiceTemplate) {
   console.log('Creating invoice template in actions file');
   console.log(invoice);
 
-  const { id, name, message } = invoice;
+  const { id, message } = invoice;
   const { discountType, taxSetting, taxAmount, invoiceBase, invoiceAppendix } =
     invoice.settings;
 
@@ -631,25 +631,25 @@ export async function createInvoice(invoice: InvoiceTemplate) {
     `;
     console.log('first insert complete');
 
-    // for (const fieldGroup of invoice.fieldGroups) {
-    //   await sql`
-    //   INSERT INTO invoicefieldgroups (id, invoice_id, name, position)
-    //   VALUES (${fieldGroup.id}, ${id}, ${fieldGroup?.name}, ${fieldGroup?.position})
-    //   `;
+    for (const fieldGroup of invoice.fieldGroups) {
+      await sql`
+      INSERT INTO invoicefieldgroups (id, invoice_id, name, position)
+      VALUES (${fieldGroup.id}, ${id}, ${fieldGroup?.name}, ${fieldGroup?.position})
+      `;
 
-    //   console.log('second insert complete');
+      console.log('second insert complete');
 
-    //   for (const field of fieldGroup.fields) {
-    //     await sql`
-    //     INSERT INTO invoicefields (id, field_group_id, name, data, value)
-    //     VALUES (${field.id}, ${fieldGroup.id}, ${field?.name}, ${field?.data}, ${field?.value})
-    //     `;
-    //   }
-    // }
+      for (const field of fieldGroup.fields) {
+        await sql`
+        INSERT INTO invoicefields (id, field_group_id, name, data, value, amount, price)
+        VALUES (${field.id}, ${fieldGroup.id}, ${field?.name}, ${field?.data}, ${field?.value}, ${field?.amount}, ${field?.price})
+        `;
+      }
+    }
 
-    // console.log('third insert complete');
+    console.log('third insert complete');
 
-    // revalidatePath('/dashboard/invoices');
+    revalidatePath('/dashboard/invoices');
     // redirect('/dashboard/invoices', 'push');
     console.log('invoice created successfully');
     return { success: true, message: '' };
