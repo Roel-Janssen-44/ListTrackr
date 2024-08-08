@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Trash } from 'lucide-react';
-import { Field } from '@/app/lib/definitions';
+import { Customer, Field } from '@/app/lib/definitions';
 import { Input } from '@/app/components/chadcn/input';
 import { Button } from '@/app/components/button';
 import { InvoiceTemplate } from '@/app/lib/definitions';
@@ -11,7 +11,13 @@ import {
   removeFieldFromFieldGroup,
   editFieldValueInFieldGroup,
 } from '@/app/lib/utils';
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/app/components/chadcn/select';
 import { fetchCustomers } from '@/app/lib/data';
 
 export default function InvoiceClientData({
@@ -76,11 +82,66 @@ export default function InvoiceClientData({
 
   return (
     <>
-      <p>Select a customer</p>
-      {/* Todo - select component to select customer */}
-      {customers.map((customer) => (
-        <p>{customer.id}</p>
-      ))}
+      {/* Todo - add loader */}
+      <p>Customer {'[i]'}</p>
+      {/* Todo - show tooltip that the select won't go on the invoice */}
+      <Select
+        onValueChange={(e) => {
+          const currentCustomer: Customer = customers.find(
+            (customer) => customer.id === e,
+          );
+
+          setInvoice((prevInvoice) => {
+            return {
+              ...prevInvoice,
+              customerId: e,
+              fieldGroups: prevInvoice.fieldGroups.map((group) => {
+                if (group.name === 'client') {
+                  return {
+                    ...group,
+                    fields: group.fields.map((field: Field, index: number) => {
+                      if (index === 1) {
+                        return { ...field, value: currentCustomer.name || '' };
+                      }
+                      if (index === 2) {
+                        return {
+                          ...field,
+                          value:
+                            (currentCustomer.street || '') +
+                            ' ' +
+                            (currentCustomer.houseNumber || ''),
+                        };
+                      }
+                      if (index === 3) {
+                        return {
+                          ...field,
+                          value:
+                            (currentCustomer.postalCode || '') +
+                            ', ' +
+                            (currentCustomer.country || ''),
+                        };
+                      }
+                      return field;
+                    }),
+                  };
+                }
+                return group;
+              }),
+            };
+          });
+        }}
+      >
+        <SelectTrigger className="mb-2 w-[180px]">
+          <SelectValue placeholder="Select a customer-" />
+        </SelectTrigger>
+        <SelectContent>
+          {customers.map((customer) => (
+            <SelectItem key={customer.id} value={customer.id}>
+              {customer.name}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
 
       {invoice.customerId && (
         <div className="flex flex-col">

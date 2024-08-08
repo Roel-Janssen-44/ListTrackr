@@ -473,12 +473,6 @@ export function calculateInvoice({
   let taxMultiplier: number;
   let discountedAmount: number;
 
-  console.log('subtotal', subtotal);
-  console.log('taxPercentage', taxPercentage);
-  console.log('taxType', taxType);
-  console.log('discountAmount', discountAmount);
-  console.log('discountType', discountType);
-
   if (parseInt(taxPercentage) == 0) {
     taxMultiplier = 1;
   } else if (parseInt(taxPercentage) == 9) {

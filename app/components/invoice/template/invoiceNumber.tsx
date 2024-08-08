@@ -6,6 +6,7 @@ import {
   addFieldToFieldGroup,
   removeFieldFromFieldGroup,
   editFieldInFieldGroup,
+  editFieldValueInFieldGroup,
 } from '@/app/lib/utils';
 import { InvoiceTemplate } from '@/app/lib/definitions';
 
@@ -18,7 +19,13 @@ export default function TemplateInvoiceNumber({
   fields: any;
   invoice: InvoiceTemplate;
 }) {
-  const handleChangeTemplateField = ({ newValue, targetId }) => {
+  const handleChangeTemplateField = ({
+    newValue,
+    targetId,
+  }: {
+    newValue: string;
+    targetId: string;
+  }) => {
     editFieldInFieldGroup({
       invoice: invoice,
       setInvoice: setInvoice,
@@ -42,24 +49,21 @@ export default function TemplateInvoiceNumber({
       fieldId: fieldId,
     });
   };
-
-  // const onDragEnd = (result) => {
-  //     const { source, destination } = result;
-  //     if (!destination) {
-  //       return;
-  //     }
-  //     const { droppableId: sourceDroppableId, index: sourceIndex } = source;
-  //     const { droppableId: destinationDroppableId, index: destinationIndex } =
-  //       destination;
-  //     dispatch(
-  //       changeItemOrder({
-  //         templateId,
-  //         fieldGroupName: "invoiceNumber",
-  //         startIndex: sourceIndex,
-  //         endIndex: destinationIndex,
-  //       })
-  //     );
-  // };
+  const handleChangeValueField = ({
+    newValue,
+    targetId,
+  }: {
+    newValue: string;
+    targetId: string;
+  }) => {
+    editFieldValueInFieldGroup({
+      invoice: invoice,
+      setInvoice: setInvoice,
+      fieldGroupName: 'invoiceNumber',
+      fieldId: targetId,
+      newValue: newValue,
+    });
+  };
 
   return (
     <>
@@ -78,10 +82,25 @@ export default function TemplateInvoiceNumber({
                   })
                 }
                 value={field.name}
-                className="w-[156px] py-1"
+                className={`${index == 2 ? 'w-[133px]' : 'w-[156px]'} py-1`}
                 id={field.id}
               />
-              <Skeleton className="relative my-auto h-[30px] w-[110px]" />
+
+              {index === 2 ? (
+                <Input
+                  onChange={(e) => {
+                    handleChangeValueField({
+                      newValue: e.target.value,
+                      targetId: field.id,
+                    });
+                  }}
+                  value={field.value}
+                  className="w-[133px] py-1"
+                  id={field.id}
+                />
+              ) : (
+                <Skeleton className="relative my-auto h-[30px] w-[110px]" />
+              )}
 
               <div className="absolute -left-[36px] top-1/2 hidden h-12 w-12 -translate-y-1/2 rounded-lg bg-white py-1 shadow-sm group-hover:block hover:block">
                 <div

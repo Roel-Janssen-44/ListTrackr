@@ -174,11 +174,21 @@ export async function fetchCustomers() {
 
   try {
     const data = await sql`
-      select id, name, email from customers
+      select id, name, email, streetname, phone_number, housenumber, postalcode, country from customers
       WHERE user_id = ${userId}
       ORDER BY name ASC
     `;
-    return data.rows;
+    const customers: Customer[] = data.rows.map((customer) => ({
+      id: customer.id,
+      name: customer.name,
+      email: customer.email,
+      phone: customer.phone_number,
+      street: customer.streetname,
+      houseNumber: customer.housenumber,
+      postalCode: customer.postalcode,
+      country: customer.country,
+    }));
+    return customers;
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch all customers.');
@@ -255,6 +265,10 @@ export async function fetchInvoiceTemplate(invoiceId: string) {
   if (!invoiceId) return;
 
   try {
+    const rowCount = await sql`
+      SELECT count(*) AS exact_count FROM invoices where user_id='5' AND status IS NOT NULL;
+    `;
+
     const data = await sql`
       select templatename, message, discounttype, discountamount, taxsetting, taxamount, invoicebase, invoiceappendix
       from invoices
@@ -307,8 +321,8 @@ export async function fetchInvoiceTemplate(invoiceId: string) {
       id: invoiceId,
       name: templateName,
       fieldGroups: fieldGroupsWithFields,
-      // Todo - add customerId
       customerId: '',
+      invoiceCount: Number(rowCount.rows[0].exact_count),
       message: message,
       settings: {
         discountType: discounttype,

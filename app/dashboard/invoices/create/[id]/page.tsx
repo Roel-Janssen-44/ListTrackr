@@ -8,6 +8,7 @@ import InvoiceCreateForm from '@/app/components/invoices/createForm';
 import { fetchInvoiceTemplate } from '@/app/lib/data';
 import { InvoiceTemplate } from '@/app/lib/definitions';
 import { v4 as uuid } from 'uuid';
+import { format } from 'date-fns';
 
 export default async function InvoiceTemplateCreation({
   params,
@@ -23,6 +24,15 @@ export default async function InvoiceTemplateCreation({
     fieldGroup.fields.forEach((field) => {
       field.id = uuid();
     });
+
+    // Auto generate date and invcoice number
+    if (fieldGroup.name == 'invoiceNumber') {
+      fieldGroup.fields[0].value =
+        invoiceTemplate.settings.invoiceBase +
+        invoiceTemplate.invoiceCount *
+          Number(invoiceTemplate.settings.invoiceAppendix);
+      fieldGroup.fields[1].value = format(new Date(), 'dd-MM-yyyy');
+    }
   });
 
   return (
