@@ -40,7 +40,7 @@ export default function InvoiceTotal({
   // console.log('subTotalIncl');
   // console.log(subTotalIncl);
 
-  const values = calculateInvoice({
+  const invoiceCosts = calculateInvoice({
     subtotal: calculateSubTotal(rows),
     taxPercentage: invoice.settings.taxAmount,
     taxType: invoice.settings.taxSetting,
@@ -48,8 +48,8 @@ export default function InvoiceTotal({
     discountType: invoice.settings.discountType,
   });
 
-  console.log('values');
-  console.log(values);
+  console.log('invoiceCosts');
+  console.log(invoiceCosts);
   // asd
   // // if (invoice.settings.taxSetting === 'incl') {
   // //   subtotal =
@@ -188,11 +188,13 @@ export default function InvoiceTotal({
     <>
       <div className="ml-auto flex cursor-not-allowed justify-end gap-4 opacity-40">
         <ul className="flex flex-col">
-          {/* {fields.map((field, index) => (
+          {fields.map((field, index) => (
             <ul
               key={'template_invoice_total-name' + field.id}
               className={`flex flex-row gap-6 pl-0 ${
-                discountType !== 'none' && index !== 0 ? 'hidden' : 'block'
+                invoice.settings.discountType !== 'none' && index !== 0
+                  ? 'hidden'
+                  : 'block'
               }
                   ${
                     index + 1 === fields.length
@@ -203,21 +205,19 @@ export default function InvoiceTotal({
               <p className="my-2 w-[125px] text-right">{field.name}</p>
               <p className="my-2">
                 {field.value === 'excl'
-                  ? convertToCurrency(subtotalEx)
+                  ? convertToCurrency(invoiceCosts.subtotalExcl)
                   : field.value === 'incl'
-                  ? convertToCurrency(subtotalIncl)
+                  ? convertToCurrency(invoiceCosts.subtotalIncl)
                   : field.value === '21'
-                  ? convertToCurrency(tax21)
+                  ? convertToCurrency(invoiceCosts.tax)
                   : field.value === '9'
-                  ? convertToCurrency(tax9)
+                  ? convertToCurrency(invoiceCosts.tax)
                   : field.value === '0'
-                  ? convertToCurrency(tax0)
-                  : field.value === ''
-                  ? convertToCurrency(total)
-                  : 'as'}
+                  ? convertToCurrency(invoiceCosts.tax)
+                  : convertToCurrency(invoiceCosts.total)}
               </p>
             </ul>
-          ))} */}
+          ))}
           {/* Add a discount field based on discountType */}
           {/* {discountType !== 'none' && (
             <div className="flex flex-row gap-6">
@@ -230,11 +230,13 @@ export default function InvoiceTotal({
               )}
             </div>
           )} */}
-          {/* {fields.map((field, index) => (
+          {fields.map((field, index) => (
             <ul
               key={'template_invoice_total-name' + field.id}
               className={`flex flex-row gap-6 pl-0 ${
-                discountType !== 'none' && index !== 0 ? 'block' : 'hidden'
+                invoice.settings.discountType !== 'none' && index !== 0
+                  ? 'block'
+                  : 'hidden'
               }
                   ${
                     index + 1 === fields.length
@@ -245,21 +247,19 @@ export default function InvoiceTotal({
               <p className="my-2 w-[125px] text-right">{field.name}</p>
               <p className="my-2">
                 {field.value === 'excl'
-                  ? convertToCurrency(subtotalEx)
+                  ? convertToCurrency(invoiceCosts.subtotalExcl)
                   : field.value === 'incl'
-                  ? convertToCurrency(subtotalIncl)
+                  ? convertToCurrency(invoiceCosts.subtotalIncl)
                   : field.value === '21'
-                  ? convertToCurrency(tax21)
+                  ? convertToCurrency(invoiceCosts.tax)
                   : field.value === '9'
-                  ? convertToCurrency(tax9)
+                  ? convertToCurrency(invoiceCosts.tax)
                   : field.value === '0'
-                  ? convertToCurrency(tax0)
-                  : field.value === ''
-                  ? convertToCurrency(total)
-                  : 'as'}
+                  ? convertToCurrency(invoiceCosts.tax)
+                  : convertToCurrency(invoiceCosts.total)}
               </p>
             </ul>
-          ))} */}
+          ))}
           {/* discountType !== "Geen" && index !== 0 ? "hidden" : "block" */}
         </ul>
       </div>

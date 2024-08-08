@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Trash } from 'lucide-react';
 import { Field } from '@/app/lib/definitions';
 import { Input } from '@/app/components/chadcn/input';
@@ -10,6 +11,8 @@ import {
   removeFieldFromFieldGroup,
   editFieldValueInFieldGroup,
 } from '@/app/lib/utils';
+
+import { fetchCustomers } from '@/app/lib/data';
 
 export default function InvoiceClientData({
   invoice,
@@ -52,65 +55,92 @@ export default function InvoiceClientData({
     });
   };
 
+  // const customers = await fetchCustomers();
+  // console.log('customers');
+  // console.log(customers);
+
+  const [customers, setCustomers] = useState([]);
+
+  useEffect(() => {
+    const showCustomers = async () => {
+      const data = await fetchCustomers();
+      setCustomers(data);
+    };
+    showCustomers();
+  }, []);
+
+  useEffect(() => {
+    console.log('customers');
+    console.log(customers);
+  }, [customers]);
+
   return (
     <>
-      <div className="flex flex-col">
-        <ul className="p-0">
-          {fields.map((field, index) => {
-            if (index === 0 && field.name !== '') {
-              return (
-                <h3
-                  key={'client_data-title' + field.id}
-                  className="m-0 cursor-not-allowed"
-                >
-                  {field.name}
-                </h3>
-              );
-            }
-          })}
-          <div>
+      <p>Select a customer</p>
+      {/* Todo - select component to select customer */}
+      {customers.map((customer) => (
+        <p>{customer.id}</p>
+      ))}
+
+      {invoice.customerId && (
+        <div className="flex flex-col">
+          <ul className="p-0">
             {fields.map((field, index) => {
-              if (index !== 0) {
+              if (index === 0 && field.name !== '') {
                 return (
-                  <div key={field.id}>
-                    <div className="group relative my-1 w-48">
-                      <Input
-                        onChange={(e) =>
-                          handleChangeField({
-                            newValue: e.target.value,
-                            targetId: field.id,
-                          })
-                        }
-                        value={field.value}
-                        id={field.id}
-                      />
-                      <div className="absolute -left-12 top-1/2 hidden h-12 w-12 -translate-y-1/2 rounded-lg border-none bg-transparent py-1 outline-none group-hover:block hover:block">
-                        <div
-                          className="flex h-full justify-center"
-                          aria-label="outlined primary button group"
-                        >
-                          <Button
-                            aria-label="Delete item"
-                            color="primary"
-                            onClick={() => handleRemoveItem(field.id)}
-                          >
-                            <Trash size={24} />
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <h3
+                    key={'client_data-title' + field.id}
+                    className="m-0 cursor-not-allowed"
+                  >
+                    {field.name}
+                  </h3>
                 );
               }
             })}
+            <div>
+              {fields.map((field, index) => {
+                if (index !== 0) {
+                  return (
+                    <div key={field.id}>
+                      <div className="group relative my-1 w-48">
+                        <Input
+                          onChange={(e) =>
+                            handleChangeField({
+                              newValue: e.target.value,
+                              targetId: field.id,
+                            })
+                          }
+                          value={field.value}
+                          id={field.id}
+                        />
+                        <div className="absolute -left-12 top-1/2 hidden h-12 w-12 -translate-y-1/2 rounded-lg border-none bg-transparent py-1 outline-none group-hover:block hover:block">
+                          <div
+                            className="flex h-full justify-center"
+                            aria-label="outlined primary button group"
+                          >
+                            <Button
+                              aria-label="Delete item"
+                              color="primary"
+                              onClick={() => handleRemoveItem(field.id)}
+                            >
+                              <Trash size={24} />
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+              })}
+            </div>
+          </ul>
+          <div>
+            <Button className="w-[192px]" onClick={handleAddItem}>
+              Veld toevoegen
+            </Button>
           </div>
-        </ul>
-        <div>
-          <Button className="w-[192px]" onClick={handleAddItem}>
-            Veld toevoegen
-          </Button>
         </div>
-      </div>
+      )}
     </>
   );
 }

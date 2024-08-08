@@ -1,3 +1,5 @@
+'use server';
+
 import { sql } from '@vercel/postgres';
 import { auth } from 'auth';
 import { Customer, InvoiceTemplate } from '@/app/lib/definitions';
@@ -305,6 +307,8 @@ export async function fetchInvoiceTemplate(invoiceId: string) {
       id: invoiceId,
       name: templateName,
       fieldGroups: fieldGroupsWithFields,
+      // Todo - add customerId
+      customerId: '',
       message: message,
       settings: {
         discountType: discounttype,

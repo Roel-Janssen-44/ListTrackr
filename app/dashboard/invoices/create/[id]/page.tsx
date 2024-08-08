@@ -15,8 +15,15 @@ export default async function InvoiceTemplateCreation({
   params: { id: string };
 }) {
   let invoiceTemplate: InvoiceTemplate = await fetchInvoiceTemplate(params.id);
-  // Generate new id to prevent duplicate id from the template
+
+  // Generate new id's to prevent duplicate id's from the template
   invoiceTemplate.id = uuid();
+  invoiceTemplate.fieldGroups.forEach((fieldGroup) => {
+    fieldGroup.id = uuid();
+    fieldGroup.fields.forEach((field) => {
+      field.id = uuid();
+    });
+  });
 
   return (
     <div className="w-full">
