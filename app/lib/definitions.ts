@@ -63,7 +63,7 @@ export type InvoiceTemplate = {
   settings: {
     discountType: 'none' | 'percentage' | 'amount' | '';
     discountAmount: number;
-    taxSetting: 'excl' | 'incl' | '';
+    taxSetting: 'excl' | 'incl';
     taxAmount: '21' | '9' | '0' | '';
     invoiceBase: string;
     invoiceAppendix: string;

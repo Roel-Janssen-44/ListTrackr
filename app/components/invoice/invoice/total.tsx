@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import {
   convertToCurrency,
   calculateSubTotal,
+  calculateInvoice,
   removeNonNumericCharacters,
 } from '@/app/lib/utils';
 
@@ -19,26 +20,36 @@ export default function InvoiceTotal({
   rows: any;
   setInvoice: Function;
 }) {
-  let subtotal = calculateSubTotal(rows);
-  let subTotalExcl: number;
-  let subTotalIncl: number;
+  // let subtotal = calculateSubTotal(rows);
+  // let subTotalExcl: number;
+  // let subTotalIncl: number;
 
-  console.log('subtotal');
-  console.log(subtotal);
+  // console.log('subtotal');
+  // console.log(subtotal);
 
-  if (invoice.settings.taxSetting === 'incl') {
-    // subTotalExcl = subtotal - tax;
-    subTotalIncl = subtotal;
-  } else if (invoice.settings.taxSetting === 'excl') {
-    subTotalExcl = subtotal;
-    // subTotalIncl = subtotal + tax
-  }
-  console.log('subTotalExcl');
-  console.log(subTotalExcl);
+  // if (invoice.settings.taxSetting === 'incl') {
+  //   // subTotalExcl = subtotal - tax;
+  //   subTotalIncl = subtotal;
+  // } else if (invoice.settings.taxSetting === 'excl') {
+  //   subTotalExcl = subtotal;
+  //   // subTotalIncl = subtotal + tax
+  // }
+  // console.log('subTotalExcl');
+  // console.log(subTotalExcl);
 
-  console.log('subTotalIncl');
-  console.log(subTotalIncl);
+  // console.log('subTotalIncl');
+  // console.log(subTotalIncl);
 
+  const values = calculateInvoice({
+    subtotal: calculateSubTotal(rows),
+    taxPercentage: invoice.settings.taxAmount,
+    taxType: invoice.settings.taxSetting,
+    discountAmount: invoice.settings.discountAmount || 0,
+    discountType: invoice.settings.discountType,
+  });
+
+  console.log('values');
+  console.log(values);
   // asd
   // // if (invoice.settings.taxSetting === 'incl') {
   // //   subtotal =

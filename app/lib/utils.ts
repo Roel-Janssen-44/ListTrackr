@@ -451,3 +451,81 @@ export function convertToPercentage(amount) {
   const string = String(number) + '%';
   return string;
 }
+
+export function calculateInvoice({
+  subtotal,
+  taxPercentage,
+  taxType,
+  discountAmount,
+  discountType,
+}: {
+  subtotal: number;
+  taxPercentage: '21' | '9' | '0' | '';
+  taxType: 'excl' | 'incl';
+  discountAmount: number;
+  discountType: 'amount' | 'percentage' | '' | 'none';
+}) {
+  let subtotalExcl: number;
+  let subtotalIncl: number;
+  let discount: number;
+  let tax: number;
+  let total: number;
+  let taxMultiplier: number;
+  let discountedAmount: number;
+
+  console.log('subtotal', subtotal);
+  console.log('taxPercentage', taxPercentage);
+  console.log('taxType', taxType);
+  console.log('discountAmount', discountAmount);
+  console.log('discountType', discountType);
+
+  if (parseInt(taxPercentage) == 0) {
+    taxMultiplier = 1;
+  } else if (parseInt(taxPercentage) == 9) {
+    taxMultiplier = 1.09;
+  } else if (parseInt(taxPercentage) == 21) {
+    taxMultiplier = 1.21;
+  } else {
+    taxMultiplier = 1;
+  }
+
+  if (taxType == 'excl') {
+    subtotalExcl = subtotal;
+    subtotalIncl = subtotal * taxMultiplier;
+  } else if (taxType == 'incl') {
+    subtotalExcl = subtotal / taxMultiplier;
+    subtotalIncl = subtotal;
+  }
+
+  if (discountType == 'amount') {
+    discount = discountAmount;
+    discountedAmount = subtotalExcl - discount;
+  } else if (discountType == 'percentage') {
+    discount = (subtotalExcl * discountAmount) / 100;
+    discountedAmount = (subtotalExcl * discount) / 100;
+  } else if (discountType == '' || discountType == 'none') {
+    discountedAmount = subtotalExcl;
+  }
+  // subtotal - (subtotal * 21) / 121;
+  if (taxMultiplier == 1.21) {
+    tax = discountedAmount * 0.21;
+  } else if (taxMultiplier == 1.09) {
+    tax = discountedAmount * 9;
+  } else {
+    tax = 0;
+  }
+
+  // discountedAmount - (discountedAmount * 21) / 121;
+  // tax = discountedAmount - discountedAmount / taxMultiplier;
+
+  total = discountedAmount + tax;
+
+  return {
+    subtotalExcl,
+    subtotalIncl,
+    discount,
+    discountedAmount,
+    tax,
+    total,
+  };
+}
