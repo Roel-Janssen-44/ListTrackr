@@ -341,91 +341,81 @@ export async function fetchInvoiceTemplate(invoiceId: string) {
   }
 }
 
-// try {
-//   // Step 1: Fetch the invoice
-//   const invoiceData = await sql`
-//     select templatename, message, amount, status, datecreated, datepayed, project_id, payed_by
-//     from invoices
-//     where id = ${invoiceId}
-//   `;
+export async function fetchInvoice(invoiceId: string) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return;
 
-//   console.log('invoiceData');
-//   console.log(invoiceData);
-// if (invoiceData.rowCount === 0) {
-//   throw new Error('Invoice not found.');
-// }
+  if (!invoiceId) return;
 
-// const invoice = invoiceData.rows[0];
+  try {
+    const data = await sql`
+      select message, discounttype, discountamount, taxsetting, taxamount, invoicebase, invoiceappendix, customer_id
+      from invoices
+      where id = ${invoiceId}
+    `;
 
-// // Step 2: Fetch the field groups for the invoice
-// const fieldGroupsData = await sql`
-//   select id, name, position
-//   from invoicefieldgroups
-//   where invoice_id = ${invoiceId}
-// `;
+    const fieldGroupsData = await sql`
+      select id, name, position
+      from invoicefieldgroups
+      where invoice_id = ${invoiceId}
+    `;
 
-// const fieldGroups = fieldGroupsData.rows;
+    const fieldGroups = fieldGroupsData.rows;
 
-// // Step 3: Fetch the fields for each field group
-// const fieldGroupsWithFields = await Promise.all(
-//   fieldGroups.map(async (group) => {
-//     const fieldsData = await sql`
-//     select id, name, data, value
-//     from invoicefields
-//     where field_group_id = ${group.id}
-//   `;
-//     return {
-//       id: group.id,
-//       name: group.name,
-//       position: group.position,
-//       fields: fieldsData.rows.map((field) => ({
-//         id: field.id,
-//         name: field.name,
-//         data: field.data || '',
-//         value: field.value || '',
-//       })),
-//     };
-//   }),
-// );
+    const fieldGroupsWithFields = await Promise.all(
+      fieldGroups.map(async (group) => {
+        const fieldsData = await sql`
+        select id, name, data, value
+        from invoicefields
+        where field_group_id = ${group.id}
+      `;
+        return {
+          id: group.id,
+          name: group.name,
+          position: group.position,
+          fields: fieldsData.rows.map((field) => ({
+            id: field.id,
+            name: field.name,
+            data: field.data || '',
+            value: field.value || '',
+            price: field.price || '0',
+            amount: field.amount || '0',
+          })),
+        };
+      }),
+    );
 
-// // Combine all data into a single object with the desired structure
-// const tempInvoice = {
-//   id: invoice.id,
-//   name: invoice.templatename || 'Template name',
-//   fieldGroups: fieldGroupsWithFields,
-//   message: invoice.message || '',
-//   settings: {
-//     discountType: invoice.settings?.discountType || 'none',
-//     discountAmount: invoice.settings?.discountAmount || 0,
-//     taxSetting: invoice.settings?.taxSetting || 'incl',
-//     taxAmount: invoice.settings?.taxAmount || 0,
-//     invoiceBase: invoice.settings?.invoiceBase || '',
-//     invoiceAppendix: invoice.settings?.invoiceAppendix || '',
-//     // Include other settings as needed
-//   },
-// };
+    const {
+      message,
+      discounttype,
+      discountamount,
+      taxsetting,
+      taxamount,
+      invoicebase,
+      invoiceappendix,
+      customer_id,
+    } = data.rows[0];
 
-// return tempInvoice;
-// } catch (err) {
-//   console.error('Database Error:', err);
-//   throw new Error('Failed to fetch invoice template.');
-// }
-// }
+    const invoiceTemplate: InvoiceTemplate = {
+      id: invoiceId,
+      name: '',
+      fieldGroups: fieldGroupsWithFields,
+      customerId: customer_id,
+      message: message,
+      settings: {
+        discountType: discounttype,
+        discountAmount: discountamount,
+        taxSetting: taxsetting,
+        taxAmount: taxamount,
+        invoiceBase: invoicebase,
+        invoiceAppendix: invoiceappendix,
+      },
+    };
 
-// Invoice templates
-// export async function getInvoiceTemplates() {
-//   const session = await auth();
-//   const userId = session?.user?.id;
-//   if (!userId) return;
-
-//   // try {
-//   //   const data = await sql`
-//   //     select id, name, description, amount from invoice_templates
-//   //     WHERE user_id = ${userId}
-//   //   `;
-//   //   return data.rows;
-//   // } catch (err) {
-//   //   console.error('Database Error:', err);
-//   //   throw new Error('Failed to fetch all invoices.');
-//   // }
-// }
+    return invoiceTemplate;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch invoice template.');
+  }
+}

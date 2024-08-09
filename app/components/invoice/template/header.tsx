@@ -15,7 +15,7 @@ export default function TemplateHeader({
   setInvoice: Function;
 }) {
   return (
-    <ul className="m-0 grid grid-cols-2 gap-4 gap-y-8 p-0">
+    <ul className="m-0 grid grid-cols-2 gap-4 gap-y-8 p-4 pb-0">
       <div className="">
         {/* Todo - logo upload */}
         <TemplateLogoUpload invoice={invoice} setInvoice={setInvoice} />

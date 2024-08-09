@@ -4,14 +4,22 @@ import { exo } from '@/app/components/fonts';
 import { Suspense } from 'react';
 import Link from 'next/link';
 import { ChevronLeftIcon } from '@heroicons/react/24/outline';
-import DeleteInvoiceTemplateForm from '@/app/components/invoices/deleteForm';
+import DeleteInvoiceForm from '@/app/components/invoices/deleteForm';
+import { fetchInvoice } from '@/app/lib/data';
+import InvoiceEditForm from '@/app/components/invoices/createForm';
 
-export default async function InvoiceTemplateEdit() {
+export default async function InvoiceEdit({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const invoiceId = params.id;
+  const invoice = await fetchInvoice(invoiceId);
   return (
     <div className="w-full">
       <div className="mb-6 flex flex-row justify-start gap-6">
         <Link
-          href={'/dashboard/invoices'}
+          href={`/dashboard/invoices/${params.id}`}
           className="group flex flex-row items-center justify-center gap-1 hover:text-active"
         >
           <span className="mt-0.5 w-4">
@@ -25,14 +33,16 @@ export default async function InvoiceTemplateEdit() {
         </Link>
 
         <h1 className="my-auto mr-20 w-full self-baseline text-center text-2xl font-bold">
-          Tamplate name
+          {invoice.fieldGroups[3].fields[0].value}
         </h1>
 
         <div className="flex flex-row justify-center gap-4">
-          <DeleteInvoiceTemplateForm invoiceId={'invoice'} />
+          <DeleteInvoiceForm invoiceId={'invoice'} />
         </div>
       </div>
-      <Suspense fallback={'Loading...'}>Todo - edit invoice template.</Suspense>
+      <Suspense fallback={'Loading...'}>
+        <InvoiceEditForm invoiceTemplate={invoice} />
+      </Suspense>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-// import InvoiceSettings from '@/app/components/invoice/invoice/settings';
+import InvoiceSettings from '@/app/components/invoice/invoice/settings';
 import TemplateSettings from '@/app/components/invoice/template/settings';
 // import PreviewSettings from '@/app/components/invoice/preview/Settings';
 
@@ -18,9 +18,9 @@ export default function Settings({
       {viewStyle === 'template' && (
         <TemplateSettings setInvoice={setInvoice} invoice={invoice} />
       )}
-      {/* {viewStyle === 'invoice' && (
+      {viewStyle === 'invoice' && (
         <InvoiceSettings setInvoice={setInvoice} invoice={invoice} />
-      )} */}
+      )}
       {/* {viewStyle === 'preview' && <PreviewSettings />} */}
     </>
   );

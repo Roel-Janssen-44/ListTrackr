@@ -98,7 +98,7 @@ export default function InvoiceRows({
                       })
                     }
                     value={field.name}
-                    className="w-[264px]"
+                    className="w-[294px]"
                   />
                 </li>
                 <li className="w-[115px] text-right">

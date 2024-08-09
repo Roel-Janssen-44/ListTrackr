@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { deleteCustomer } from '@/app/lib/actions';
+// import { deleteInvoice } from '@/app/lib/actions';
 import { Button } from '@/app/components/button';
 import { Trash, LoaderCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -36,7 +36,7 @@ export default function DeleteInvoiceTemplate({
       <input name="id" type="hidden" value={invoiceId} />
       <Button type="submit">
         {isLoading ? (
-          <LoaderCircle className="spinning" />
+          <LoaderCircle className="animate-spin" />
         ) : (
           <Trash size={24} />
         )}

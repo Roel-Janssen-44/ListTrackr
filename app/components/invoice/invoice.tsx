@@ -17,23 +17,29 @@ export default function Invoice({
   setInvoice: Function;
 }) {
   return (
-    <div className="flex max-w-2xl flex-1 flex-row rounded-xl shadow-xl">
-      <div
-        className={`flex-1 overflow-visible p-8 ${
-          viewStyle === 'preview' ? 'h-[950px]' : ''
-        } `}
-      >
-        <Header
-          invoice={invoice}
-          setInvoice={setInvoice}
-          viewStyle={viewStyle}
-        />
-        <Body invoice={invoice} setInvoice={setInvoice} viewStyle={viewStyle} />
-        <Footer
-          invoice={invoice}
-          setInvoice={setInvoice}
-          viewStyle={viewStyle}
-        />
+    <div className="flex flex-row flex-wrap justify-between">
+      <div className="w-[704px] min-w-[704px] max-w-[704px] flex-1 rounded-xl shadow-xl">
+        <div
+          className={`flex-1 overflow-visible p-8 ${
+            viewStyle === 'preview' ? 'h-[950px]' : ''
+          } `}
+        >
+          <Header
+            invoice={invoice}
+            setInvoice={setInvoice}
+            viewStyle={viewStyle}
+          />
+          <Body
+            invoice={invoice}
+            setInvoice={setInvoice}
+            viewStyle={viewStyle}
+          />
+          <Footer
+            invoice={invoice}
+            setInvoice={setInvoice}
+            viewStyle={viewStyle}
+          />
+        </div>
       </div>
       <Settings
         viewStyle={viewStyle}

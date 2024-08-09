@@ -11,7 +11,7 @@ export default function InvoiceFooter({
   setInvoice: Function;
 }) {
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row p-4 pt-0">
       {/* Todo */}
       <InvoiceMessage
         message={invoice.message}

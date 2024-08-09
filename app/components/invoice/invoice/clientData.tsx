@@ -85,6 +85,7 @@ export default function InvoiceClientData({
       {/* Todo - add loader */}
       <p>Customer {'[i]'}</p>
       {/* Todo - show tooltip that the select won't go on the invoice */}
+      {/* Todo - set the customer if already exists in state */}
       <Select
         onValueChange={(e) => {
           const currentCustomer: Customer = customers.find(

@@ -13,19 +13,22 @@ export default function InvoicesTable({ invoices }: { invoices }) {
         {invoices?.map((invoice) => (
           <div
             key={invoice.id}
-            className="group relative flex h-10 w-full items-center rounded-lg p-8 shadow"
+            className="group relative flex w-full items-center rounded-lg shadow"
           >
-            {/* <Button>
-              <Pencil />
-            </Button> */}
-            <h3 className="">{invoice.id}</h3>
+            <Link href={`/dashboard/invoices/${invoice.id}/edit`}>
+              <Button>
+                <Pencil />
+              </Button>
+            </Link>
+            <Link href={`/dashboard/invoices/${invoice.id}`}>
+              <h3 className="">{invoice.id}</h3>
+            </Link>
           </div>
         ))}
       </div>
       <div>
-        {/* <Link href={'/dashboard/invoices/create'}> */}
+        {/* Todo - display modal to select invoice template */}
         <Button>Create invoice</Button>
-        {/* </Link> */}
       </div>
     </>
   );

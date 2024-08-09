@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import {
   HomeIcon,
   ClipboardDocumentListIcon,
@@ -93,10 +94,12 @@ export default function NavLinks() {
           );
         } else {
           return (
-            <>
-              <div className="hidden h-auto w-full grow rounded-md bg-gray-50 dark:bg-secondary md:block"></div>
-              <Link
+            <React.Fragment key={link.name}>
+              <div
                 key={link.name}
+                className="hidden h-auto w-full grow rounded-md bg-gray-50 dark:bg-secondary md:block"
+              ></div>
+              <Link
                 href={link.href}
                 className={clsx(
                   'flex h-[48px] grow items-center justify-center gap-2 rounded-md  p-3 text-sm font-medium dark:hover:text-white md:flex-none md:justify-start md:p-2 md:px-3',
@@ -115,7 +118,7 @@ export default function NavLinks() {
                 <LinkIcon className="w-6" />
                 <p className="hidden md:block">{link.name}</p>
               </Link>
-            </>
+            </React.Fragment>
           );
         }
       })}

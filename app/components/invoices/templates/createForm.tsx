@@ -173,8 +173,10 @@ export default function CreateInvoiceTemplate({
 
   return (
     <>
+      {/* Todo - change look of input */}
       <Input
-        className="max-w-2xl"
+        className="max-w-[44rem]"
+        placeholder="Template name..."
         value={invoice.name}
         onChange={(e) => setInvoice({ ...invoice, name: e.target.value })}
       />
