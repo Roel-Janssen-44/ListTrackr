@@ -1,6 +1,5 @@
 'use strict';
 
-// @ts-expect-error
 // import { ChromePicker } from "react-color";
 
 import { InvoiceTemplate } from '@/app/lib/definitions';

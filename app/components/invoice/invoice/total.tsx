@@ -28,6 +28,9 @@ export default function InvoiceTotal({
     discountType: invoice.settings.discountType,
   });
 
+  console.log('invoiceCosts');
+  console.log(invoiceCosts);
+
   return (
     <>
       <div className="ml-auto flex cursor-not-allowed justify-end gap-4 opacity-40">
@@ -35,7 +38,7 @@ export default function InvoiceTotal({
           {fields.map((field, index) => (
             <ul
               key={'template_invoice_total-name' + field.id}
-              className={`flex flex-row gap-6 pl-0 ${
+              className={`flex flex-row gap-6  pl-0 ${
                 invoice.settings.discountType !== 'none' && index !== 0
                   ? 'hidden'
                   : 'block'
@@ -63,21 +66,21 @@ export default function InvoiceTotal({
             </ul>
           ))}
           {/* Add a discount field based on discountType */}
-          {/* {discountType !== 'none' && (
-            <div className="flex flex-row gap-6">
+          {invoice.settings.discountType !== 'none' && (
+            <div className="flex flex-row gap-6 ">
               <p className="my-2 w-[125px] text-right">Discount</p>
-              {discountType === 'percentage' && (
-                <p className="my-2 ml-2.5">- {discountAmount}</p>
+              {invoice.settings.discountType === 'percentage' && (
+                <p className="my-2 ml-3">-{invoice.settings.discountAmount}%</p>
               )}
-              {discountType === 'amount' && (
-                <p className="my-2 -ml-2.5">- {discountAmount}</p>
+              {invoice.settings.discountType === 'amount' && (
+                <p className="my-2">€ -{invoice.settings.discountAmount}</p>
               )}
             </div>
-          )} */}
+          )}
           {fields.map((field, index) => (
             <ul
               key={'template_invoice_total-name' + field.id}
-              className={`flex flex-row gap-6 pl-0 ${
+              className={`flex flex-row gap-6  pl-0 ${
                 invoice.settings.discountType !== 'none' && index !== 0
                   ? 'block'
                   : 'hidden'
@@ -104,7 +107,6 @@ export default function InvoiceTotal({
               </p>
             </ul>
           ))}
-          {/* discountType !== "Geen" && index !== 0 ? "hidden" : "block" */}
         </ul>
       </div>
     </>

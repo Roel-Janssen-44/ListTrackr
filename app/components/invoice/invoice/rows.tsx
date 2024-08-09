@@ -126,14 +126,7 @@ export default function InvoiceRows({
                   />
                 </li>
                 <li className="flex w-[60px] items-center justify-end text-right">
-                  {invoice.settings.taxSetting === 'excl' &&
-                    '€ ' + field.price * field.amount}
-                  {invoice.settings.taxSetting === 'incl' &&
-                    '€ ' +
-                      field.price *
-                        field.amount *
-                        parseInt(invoice.settings.taxAmount)}
-                  {/* € {field.price * field.amount} */}
+                  {'€ ' + Number(field.price) * Number(field.amount)}
                 </li>
               </ul>
               <div className="absolute -top-1/2 left-4 hidden h-full w-auto translate-y-1/2 justify-center gap-2 rounded group-hover:flex hover:flex">

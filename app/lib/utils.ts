@@ -487,30 +487,34 @@ export function calculateInvoice({
     subtotalExcl = subtotal;
     subtotalIncl = subtotal * taxMultiplier;
   } else if (taxType == 'incl') {
+    console.log('taxMultiplier');
+    console.log(taxMultiplier);
     subtotalExcl = subtotal / taxMultiplier;
     subtotalIncl = subtotal;
   }
 
+  console.log('subtotalExcl');
+  console.log(subtotalExcl);
+
   if (discountType == 'amount') {
     discount = discountAmount;
-    discountedAmount = subtotalExcl - discount;
+    discountedAmount = Number(subtotalExcl) - Number(discountAmount);
+    console.log('discount');
+    console.log(discount);
   } else if (discountType == 'percentage') {
     discount = (subtotalExcl * discountAmount) / 100;
     discountedAmount = (subtotalExcl * discount) / 100;
   } else if (discountType == '' || discountType == 'none') {
     discountedAmount = subtotalExcl;
   }
-  // subtotal - (subtotal * 21) / 121;
+
   if (taxMultiplier == 1.21) {
-    tax = discountedAmount * 0.21;
+    tax = discountedAmount * 1.21 - discountedAmount;
   } else if (taxMultiplier == 1.09) {
-    tax = discountedAmount * 9;
+    tax = discountedAmount * 1.09 - discountedAmount;
   } else {
     tax = 0;
   }
-
-  // discountedAmount - (discountedAmount * 21) / 121;
-  // tax = discountedAmount - discountedAmount / taxMultiplier;
 
   total = discountedAmount + tax;
 

@@ -1,13 +1,6 @@
 'use strict';
 
-import { useState } from 'react';
-// import { ChromePicker } from "react-color";
-
 import { Input } from '@/app/components/chadcn/input';
-import { Textarea } from '@/app/components/chadcn/textarea';
-// import ItemInput from "@components/ItemInput";
-
-import { convertToCurrency, convertToPercentage } from '@lib/utils';
 import { InvoiceTemplate } from '@lib/definitions';
 import {
   Select,
@@ -16,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/app/components/chadcn/select';
+import { editInvoiceSetting } from '@/app/lib/utils';
 
 export default function InvoiceSettings({
   invoice,
@@ -28,94 +22,56 @@ export default function InvoiceSettings({
   const discountAmountSetting = invoice.settings.discountAmount;
 
   const handleSettingChange = ({ newValue, settingName }) => {
-    //   editInvoiceSettings({
-    //     invoiceId,
-    //     settingName: settingName,
-    //     newValue: newValue,
-    //   }),
-  };
-
-  const handleBlurEvent = ({ newValue, settingName }) => {
-    // if (settingName === 'discountAmount') {
-    //   if (discountTypeSetting === 'Bedrag') {
-    //     const convertedValue = convertToCurrency(newValue);
-    //     dispatch(
-    //       editInvoiceSettings({
-    //         invoiceId,
-    //         settingName: settingName,
-    //         newValue: convertedValue,
-    //       }),
-    //     );
-    //   } else if (discountTypeSetting === 'Percentage') {
-    //     const convertedValue = convertToPercentage(newValue);
-    //     dispatch(
-    //       editInvoiceSettings({
-    //         invoiceId,
-    //         settingName: settingName,
-    //         newValue: convertedValue,
-    //       }),
-    //     );
-    //   } else {
-    //     dispatch(
-    //       editInvoiceSettings({
-    //         invoiceId,
-    //         settingName: settingName,
-    //         newValue: newValue,
-    //       }),
-    //     );
-    //   }
-    // }
+    editInvoiceSetting({
+      invoice: invoice,
+      setInvoice: setInvoice,
+      settingName: settingName,
+      newValue: newValue,
+    });
   };
 
   return (
     <div className="mt-16 p-6">
-      <p>discount type</p>
+      <p>discount</p>
       <Select
-        //   onChange={(event) =>
-        //     handleSettingChange({
-        //       newValue: event.target.value,
-        //       settingName: 'discountType',
-        //     })
-        //   }
-        onValueChange={(e) => {}}
+        onValueChange={(e) =>
+          handleSettingChange({
+            newValue: e,
+            settingName: 'discountType',
+          })
+        }
       >
         <SelectTrigger className="mb-2 w-[180px]">
-          <SelectValue placeholder="Select a customer-" />
+          <SelectValue placeholder="Discount type" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value={'Geen'}>Geen</SelectItem>
-          <SelectItem value={'Percentage'}>Percentage</SelectItem>
-          <SelectItem value={'Bedrag'}>Bedrag</SelectItem>
+          <SelectItem value={'none'}>None</SelectItem>
+          <SelectItem value={'percentage'}>Percentage</SelectItem>
+          <SelectItem value={'amount'}>Amount</SelectItem>
         </SelectContent>
       </Select>
 
       {discountTypeSetting !== 'none' && (
-        <div className="mt-4">
-          <Textarea
-            // InputLabelProps={{ shrink: true }}
-            onFocus={(event) => {
-              event.target.select();
-            }}
-            onChange={(event) =>
-              handleSettingChange({
-                newValue: event.target.value,
-                settingName: 'discountAmount',
-              })
-            }
-            onBlur={(event) =>
-              handleBlurEvent({
-                newValue: event.target.value,
-                settingName: 'discountAmount',
-              })
-            }
-            value={discountAmountSetting ? discountAmountSetting : 0}
-            placeholder={`${
-              discountTypeSetting === 'percentage'
-                ? 'Percentage'
-                : 'Amount in €'
-            }`}
-          />
-        </div>
+        <>
+          <p className="mt-4">discount amount</p>
+          <div>
+            <Input
+              onChange={(event) =>
+                handleSettingChange({
+                  newValue: event.target.value,
+                  settingName: 'discountAmount',
+                })
+              }
+              className="w-[180px]"
+              value={discountAmountSetting}
+              placeholder={`${
+                discountTypeSetting === 'percentage'
+                  ? 'Percentage'
+                  : 'Amount in €'
+              }`}
+            />
+          </div>
+        </>
       )}
     </div>
   );
