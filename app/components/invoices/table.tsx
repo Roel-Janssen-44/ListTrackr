@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/app/components/button';
 import { Invoice } from '@/app/lib/definitions';
 import Link from 'next/link';
@@ -13,38 +13,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/app/components/chadcn/select';
-import { Checkbox } from '@components/chadcn/checkbox';
 import { formatCurrency } from '@/app/lib/utils';
+import { updateInvoiceStatus } from '@/app/lib/actions';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/app/components/chadcn/dialog';
 
-export default function InvoicesTable({ invoices }: { invoices: Invoice[] }) {
+export default function InvoicesTable({
+  invoices,
+  templates,
+}: {
+  invoices: Invoice[];
+  templates;
+}) {
+  console.log('tempaltes');
+  console.log(templates);
   return (
     <>
-      <div className="mb-8 flex flex-col flex-wrap gap-2">
-        {invoices?.map((invoice) => (
-          <div
-            key={invoice.id}
-            className="group relative flex w-full items-center rounded-lg shadow"
-          >
-            <Link
-              className="mr-4"
-              href={`/dashboard/invoices/${invoice.id}/edit`}
-            >
-              <Button>
-                <Pencil />
-              </Button>
-            </Link>
-            <Link
-              className="flex w-full flex-row justify-between p-3"
-              href={`/dashboard/invoices/${invoice.id}`}
-            >
-              <span>{invoice.number}</span>
-              <span>{invoice.status}</span>
-              <span>{invoice.amount}</span>
-              <span>{format(invoice.date, 'dd/MM/yyyy')}</span>
-            </Link>
-          </div>
-        ))}
-
+      <div className="flex flex-col flex-wrap gap-2">
         <div className="relative my-6 rounded-lg bg-white p-3 text-tertiary dark:bg-primary dark:text-white">
           <div className="w-full overflow-x-auto rounded-lg bg-white scrollbar scrollbar-track-slate-300 scrollbar-thumb-active scrollbar-track-rounded scrollbar-thumb-rounded scrollbar-h-3 dark:bg-secondary">
             <div className="ml-[50px] table text-left text-sm font-normal">
@@ -65,27 +57,13 @@ export default function InvoicesTable({ invoices }: { invoices: Invoice[] }) {
             </div>
             <div className="relative table w-full max-w-full">
               {invoices?.map((invoice: Invoice) => (
-                <form
+                <div
                   key={invoice.id}
                   className={`relative flex flex-row border-t-[1px] border-gray-200 odd:bg-gray-50 dark:border-white dark:border-opacity-10 dark:odd:bg-primary`}
                 >
+                  {/* Todo - Order of invoices */}
+                  {/* Todo - backgroundchange when status == paid */}
                   <div className="group flex w-full flex-row flex-nowrap items-center text-sm transition-colors hover:bg-gray-100 dark:hover:bg-active">
-                    <div
-                      className={`relative flex w-[50px] items-center justify-center border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10`}
-                    >
-                      <Checkbox
-                        name="completed"
-                        defaultChecked={invoice.status == 'paid' ? true : false}
-                        // onCheckedChange={(value) => {
-                        //   handleUpdateTask('completed', value);
-                        //   handleBlur();
-                        // }}
-                      />
-                      <label
-                        className="absolute left-0 top-0 h-full w-full cursor-pointer"
-                        // htmlFor={task.id}
-                      ></label>
-                    </div>
                     <div className="w-[350px] border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10">
                       {invoice.number}
                     </div>
@@ -101,12 +79,12 @@ export default function InvoicesTable({ invoices }: { invoices: Invoice[] }) {
                         defaultValue={invoice.status}
                         name="priority"
                         aria-labelledby="priority-error"
-                        // onValueChange={(value) => {
-                        //   if (value == '') return;
-                        //   if (value == task.priority) return;
-                        //   handleUpdateTask('priority', value);
-                        //   handleBlur();
-                        // }}
+                        onValueChange={async (value) => {
+                          await updateInvoiceStatus({
+                            newValue: value,
+                            invoiceId: invoice.id,
+                          });
+                        }}
                       >
                         <SelectTrigger
                           className={`w-[150px] ${
@@ -131,20 +109,8 @@ export default function InvoicesTable({ invoices }: { invoices: Invoice[] }) {
                         </SelectContent>
                       </Select>
                     </div>
-                    <div className="z-30 flex h-full items-center bg-transparent px-3">
-                      <button
-                        // onClick={() => handleDeleteTask(task.id)}
-                        // size="icon"
-                        // variant="outline"
-                        className="border-transparent bg-red-600 text-white hover:bg-red-400 hover:text-white dark:border-transparent dark:bg-red-600 dark:hover:bg-red-400"
-                      >
-                        <div className="flex flex-row justify-center">
-                          {/* <TrashIcon className="h-5 w-5" /> */}
-                        </div>
-                      </button>
-                    </div>
                   </div>
-                </form>
+                </div>
               ))}
             </div>
           </div>
@@ -152,7 +118,37 @@ export default function InvoicesTable({ invoices }: { invoices: Invoice[] }) {
       </div>
       <div>
         {/* Todo - display modal to select invoice template */}
-        <Button>Create invoice</Button>
+        {templates.length > 0 && (
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button>Create invoice</Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Choose template</DialogTitle>
+                <DialogDescription className="mb-2">
+                  Choose a template to create an invoice
+                </DialogDescription>
+              </DialogHeader>
+              <div className="flex flex-row flex-wrap justify-between">
+                {templates?.map((template) => (
+                  <Link
+                    href={`/dashboard/invoices/create/${template.id}`}
+                    className="flex h-36 w-36 items-center justify-center rounded-md border-2 border-primary transition-all hover:bg-primary hover:text-white"
+                  >
+                    {template.templatename}
+                  </Link>
+                ))}
+                {/* <Link className="flex h-40 w-40 items-center justify-center">
+                asd
+              </Link> */}
+              </div>
+              <DialogFooter>
+                <Button type="submit">Cancel</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        )}
       </div>
     </>
   );

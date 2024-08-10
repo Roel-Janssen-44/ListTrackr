@@ -804,3 +804,28 @@ export async function deleteInvoice(formData: FormData) {
     };
   }
 }
+
+export async function updateInvoiceStatus({
+  newValue,
+  invoiceId,
+}: {
+  newValue: string;
+  invoiceId: string;
+}) {
+  const id = invoiceId;
+  const status = newValue;
+  try {
+    await sql`
+      UPDATE invoices
+      SET status=${status}
+      WHERE id=${id}
+    `;
+    revalidatePath('/dashboard/invoices');
+    return { success: true, message: '' };
+  } catch (error) {
+    return {
+      status: 'error',
+      message: 'Database Error: Failed to update invoice status.',
+    };
+  }
+}
