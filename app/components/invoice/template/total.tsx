@@ -108,6 +108,7 @@ export default function TemplateTotal({
                         targetId: field.id,
                       });
                     }}
+                    value={field.value}
                   >
                     <SelectTrigger className="w-[180px]">
                       <SelectValue placeholder="Select an option" />
@@ -128,6 +129,7 @@ export default function TemplateTotal({
                         targetId: field.id,
                       });
                     }}
+                    value={field.value}
                   >
                     <SelectTrigger className="w-[180px]">
                       <SelectValue placeholder="Select an option" />

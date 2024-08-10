@@ -5,8 +5,17 @@ import { Suspense } from 'react';
 import Link from 'next/link';
 import { ChevronLeftIcon } from '@heroicons/react/24/outline';
 import DeleteInvoiceTemplateForm from '@/app/components/invoices/deleteForm';
+import EditInvoiceTemplate from '@/app/components/invoices/templates/editForm';
+import { fetchInvoice } from '@/app/lib/data';
 
-export default async function InvoiceTemplateEdit() {
+export default async function InvoiceTemplateEdit({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const invoiceId = params.id;
+  const invoice = await fetchInvoice(invoiceId);
+
   return (
     <div className="w-full">
       <div className="mb-6 flex flex-row justify-start gap-6">
@@ -25,14 +34,16 @@ export default async function InvoiceTemplateEdit() {
         </Link>
 
         <h1 className="my-auto mr-20 w-full self-baseline text-center text-2xl font-bold">
-          Tamplate name
+          {invoice.name}
         </h1>
 
         <div className="flex flex-row justify-center gap-4">
-          <DeleteInvoiceTemplateForm invoiceId={'invoice'} />
+          <DeleteInvoiceTemplateForm invoiceId={invoiceId} />
         </div>
       </div>
-      <Suspense fallback={'Loading...'}>Todo - edit invoice template.</Suspense>
+      <Suspense fallback={'Loading...'}>
+        <EditInvoiceTemplate invoice={invoice} />
+      </Suspense>
     </div>
   );
 }

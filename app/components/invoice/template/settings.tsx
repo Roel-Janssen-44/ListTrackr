@@ -60,6 +60,7 @@ export default function InvoiceSettingsTemplate({
             targetSetting: 'invoiceBase',
           })
         }
+        value={invoice.settings.invoiceBase}
         placeholder="Invoice startnumber"
         className="mb-2 w-full placeholder-green-400"
       />
@@ -72,6 +73,7 @@ export default function InvoiceSettingsTemplate({
             targetSetting: 'invoiceAppendix',
           });
         }}
+        value={invoice.settings.invoiceAppendix}
       >
         <SelectTrigger className="mb-2 w-[180px]">
           <SelectValue placeholder="Select an option" />
@@ -98,6 +100,7 @@ export default function InvoiceSettingsTemplate({
             targetSetting: 'taxSetting',
           });
         }}
+        value={invoice.settings.taxSetting}
       >
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Select an option" />

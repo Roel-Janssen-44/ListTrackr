@@ -89,7 +89,10 @@ export default function NavLinks() {
               )}
             >
               <LinkIcon className="w-6" />
-              <p className="hidden md:block">{link.name}</p>
+              <p className="hidden transition-all md:hidden group-hover:md:block">
+                {/* <p className="hidden transition-all md:block"> */}
+                {link.name}
+              </p>
             </Link>
           );
         } else {
@@ -116,7 +119,9 @@ export default function NavLinks() {
                 )}
               >
                 <LinkIcon className="w-6" />
-                <p className="hidden md:block">{link.name}</p>
+                <p className="hidden transition-all md:hidden group-hover:md:block">
+                  {link.name}
+                </p>
               </Link>
             </React.Fragment>
           );

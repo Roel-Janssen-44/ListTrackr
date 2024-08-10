@@ -37,7 +37,7 @@ export default async function InvoiceEdit({
         </h1>
 
         <div className="flex flex-row justify-center gap-4">
-          <DeleteInvoiceForm invoiceId={'invoice'} />
+          <DeleteInvoiceForm invoiceId={invoiceId} />
         </div>
       </div>
       <Suspense fallback={'Loading...'}>

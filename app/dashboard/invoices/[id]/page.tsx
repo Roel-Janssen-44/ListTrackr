@@ -45,7 +45,7 @@ export default async function InvoiceView({
           </Link>
         </div>
         <div className="flex flex-row justify-center gap-4">
-          <DeleteInvoiceForm invoiceId={'invoice'} />
+          <DeleteInvoiceForm invoiceId={invoiceId} />
         </div>
       </div>
       <Suspense fallback={'Loading...'}>

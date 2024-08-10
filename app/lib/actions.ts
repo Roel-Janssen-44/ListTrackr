@@ -525,7 +525,6 @@ export async function updateCustomer(formData: FormData) {
 
 export async function deleteCustomer(formData: FormData) {
   const id = formData.get('id').toString();
-
   try {
     await sql`
       DELETE FROM customers WHERE id = ${id}
@@ -593,23 +592,69 @@ export async function createInvoiceTemplate(invoice: InvoiceTemplate) {
   }
 }
 
-export async function createInvoice(invoice: InvoiceTemplate) {
+export async function updateInvoiceTemplate(invoice: InvoiceTemplate) {
   const session = await auth();
   const userId = session?.user?.id;
   if (!userId) return;
 
-  console.log('invoice to create');
-  console.log(invoice);
-
-  // invoice.fieldGroups.forEach((fieldGroup) => {
-  //   console.log(fieldGroup.name);
-  //   fieldGroup.fields.forEach((field) => {
-  //     console.log(field);
-  //   });
-  // });
-
   console.log('Creating invoice template in actions file');
   console.log(invoice);
+
+  const { id, name, message } = invoice;
+  const { discountType, taxSetting, taxAmount, invoiceBase, invoiceAppendix } =
+    invoice.settings;
+
+  try {
+    await sql`
+      UPDATE invoices
+      SET templatename = ${name},
+          message = ${message},
+          discounttype = ${discountType},
+          taxsetting = ${taxSetting},
+          taxamount = ${taxAmount},
+          invoicebase = ${invoiceBase},
+          invoiceappendix = ${invoiceAppendix},
+          user_id = ${userId}
+      WHERE id = ${id};
+      `;
+
+    for (const fieldGroup of invoice.fieldGroups) {
+      await sql`
+        UPDATE invoicefieldgroups
+        SET name = ${fieldGroup?.name},
+            position = ${fieldGroup?.position}
+        WHERE id = ${fieldGroup.id} AND invoice_id = ${id};
+        `;
+
+      for (const field of fieldGroup.fields) {
+        await sql`
+          UPDATE invoicefields
+          SET name = ${field?.name},
+              data = ${field?.data},
+              value = ${field?.value},
+              amount = ${field?.amount},
+              price = ${field?.price}
+          WHERE id = ${field.id} AND field_group_id = ${fieldGroup.id};
+          `;
+      }
+    }
+
+    revalidatePath('/dashboard/invoices');
+    // redirect('/dashboard/invoices', 'push');
+    console.log('invoice created successfully');
+    return { success: true, message: '' };
+  } catch (error) {
+    console.log('error');
+    console.log(error);
+    console.log('invoice not created');
+    return { success: false, message: 'Error creating invoice' };
+  }
+}
+
+export async function createInvoice(invoice: InvoiceTemplate) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return;
 
   const { id, message } = invoice;
   const { discountType, taxSetting, taxAmount, invoiceBase, invoiceAppendix } =
@@ -629,15 +674,12 @@ export async function createInvoice(invoice: InvoiceTemplate) {
     insert into invoices(id, message, amount, status, datecreated, discounttype, taxsetting, taxamount, invoicebase, invoiceappendix, user_id)
     VALUES (${id}, ${message}, ${amount}, 'created', ${date}, ${discountType}, ${taxSetting}, ${taxAmount}, ${invoiceBase}, ${invoiceAppendix}, ${userId})
     `;
-    console.log('first insert complete');
 
     for (const fieldGroup of invoice.fieldGroups) {
       await sql`
       INSERT INTO invoicefieldgroups (id, invoice_id, name, position)
       VALUES (${fieldGroup.id}, ${id}, ${fieldGroup?.name}, ${fieldGroup?.position})
       `;
-
-      console.log('second insert complete');
 
       for (const field of fieldGroup.fields) {
         await sql`
@@ -647,10 +689,7 @@ export async function createInvoice(invoice: InvoiceTemplate) {
       }
     }
 
-    console.log('third insert complete');
-
     revalidatePath('/dashboard/invoices');
-    // redirect('/dashboard/invoices', 'push');
     console.log('invoice created successfully');
     return { success: true, message: '' };
   } catch (error) {
@@ -659,5 +698,20 @@ export async function createInvoice(invoice: InvoiceTemplate) {
     console.log('invoice not created');
     return { success: false, message: 'Error creating invoice' };
   }
-  return { success: true, message: '' };
+}
+
+export async function deleteInvoice(formData: FormData) {
+  const id = formData.get('id').toString();
+  try {
+    await sql`
+      DELETE FROM invoices WHERE id = ${id}
+    `;
+    revalidatePath('/dashboard/invoices');
+    return { success: true, message: '' };
+  } catch (error) {
+    return {
+      status: 'error',
+      message: 'Database Error: Failed to delete invoice.',
+    };
+  }
 }

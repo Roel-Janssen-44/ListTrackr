@@ -350,7 +350,7 @@ export async function fetchInvoice(invoiceId: string) {
 
   try {
     const data = await sql`
-      select message, discounttype, discountamount, taxsetting, taxamount, invoicebase, invoiceappendix, customer_id
+      select message, discounttype, templatename, discountamount, taxsetting, taxamount, invoicebase, invoiceappendix, customer_id
       from invoices
       where id = ${invoiceId}
     `;
@@ -389,6 +389,7 @@ export async function fetchInvoice(invoiceId: string) {
     const {
       message,
       discounttype,
+      templatename,
       discountamount,
       taxsetting,
       taxamount,
@@ -399,7 +400,7 @@ export async function fetchInvoice(invoiceId: string) {
 
     const invoiceTemplate: InvoiceTemplate = {
       id: invoiceId,
-      name: '',
+      name: templatename,
       fieldGroups: fieldGroupsWithFields,
       customerId: customer_id,
       message: message,
