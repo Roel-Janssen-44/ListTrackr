@@ -5,10 +5,11 @@ import { Suspense } from 'react';
 import InvoiceTemplateTable from '@/app/components/invoices/templates/table';
 import InvoiceTable from '@/app/components/invoices/table';
 import { fetchInvoiceTemplates, fetchInvoices } from '@/app/lib/data';
+import { Invoice } from '@/app/lib/definitions';
 
 export default async function Invoices() {
   const templates = await fetchInvoiceTemplates();
-  const invoices = await fetchInvoices();
+  const invoices: Invoice[] = await fetchInvoices();
   return (
     <div className="w-full">
       <h1 className={`${exo.className} mb-4 text-3xl font-bold`}>Invoices</h1>

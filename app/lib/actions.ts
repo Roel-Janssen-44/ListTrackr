@@ -656,23 +656,33 @@ export async function createInvoice(invoice: InvoiceTemplate) {
   const userId = session?.user?.id;
   if (!userId) return;
 
-  const { id, message } = invoice;
-  const { discountType, taxSetting, taxAmount, invoiceBase, invoiceAppendix } =
-    invoice.settings;
+  const { id, message, customerId } = invoice;
+  const {
+    discountType,
+    discountAmount,
+    taxSetting,
+    taxAmount,
+    invoiceBase,
+    invoiceAppendix,
+  } = invoice.settings;
 
   getCurrentFieldGroup(invoice.fieldGroups, 'rows');
   const amount = calculateSubTotal(
     getCurrentFieldGroup(invoice.fieldGroups, 'rows'),
   );
-  console.log('amount');
-  console.log(amount);
 
   const date = new Date().toISOString();
-  console.log(date);
+  const invoiceNumberFieldGroup = getCurrentFieldGroup(
+    invoice.fieldGroups,
+    'invoiceNumber',
+  );
+
+  const invoiceNumber = invoiceNumberFieldGroup[0].value;
+
   try {
     await sql`
-    insert into invoices(id, message, amount, status, datecreated, discounttype, taxsetting, taxamount, invoicebase, invoiceappendix, user_id)
-    VALUES (${id}, ${message}, ${amount}, 'created', ${date}, ${discountType}, ${taxSetting}, ${taxAmount}, ${invoiceBase}, ${invoiceAppendix}, ${userId})
+    insert into invoices(id, invoice_number, message, amount, status, datecreated, discounttype, discountamount, taxsetting, taxamount, invoicebase, invoiceappendix, user_id, customer_id)
+    VALUES (${id}, ${invoiceNumber}, ${message}, ${amount}, 'created', ${date}, ${discountType}, ${discountAmount}, ${taxSetting}, ${taxAmount}, ${invoiceBase}, ${invoiceAppendix}, ${userId}, ${customerId})
     `;
 
     for (const fieldGroup of invoice.fieldGroups) {
@@ -685,6 +695,85 @@ export async function createInvoice(invoice: InvoiceTemplate) {
         await sql`
         INSERT INTO invoicefields (id, field_group_id, name, data, value, amount, price)
         VALUES (${field.id}, ${fieldGroup.id}, ${field?.name}, ${field?.data}, ${field?.value}, ${field?.amount}, ${field?.price})
+        `;
+      }
+    }
+
+    revalidatePath('/dashboard/invoices');
+    console.log('invoice created successfully');
+    return { success: true, message: '' };
+  } catch (error) {
+    console.log('error');
+    console.log(error);
+    console.log('invoice not created');
+    return { success: false, message: 'Error creating invoice' };
+  }
+}
+
+export async function updateInvoice(invoice: InvoiceTemplate) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return;
+
+  const { id, message, customerId } = invoice;
+  const {
+    discountType,
+    discountAmount,
+    taxSetting,
+    taxAmount,
+    invoiceBase,
+    invoiceAppendix,
+  } = invoice.settings;
+
+  getCurrentFieldGroup(invoice.fieldGroups, 'rows');
+  const amount = calculateSubTotal(
+    getCurrentFieldGroup(invoice.fieldGroups, 'rows'),
+  );
+
+  const date = new Date().toISOString();
+  const invoiceNumberFieldGroup = getCurrentFieldGroup(
+    invoice.fieldGroups,
+    'invoiceNumber',
+  );
+
+  const invoiceNumber = invoiceNumberFieldGroup[0].value;
+
+  try {
+    await sql`
+    UPDATE invoices
+    SET invoice_number = ${invoiceNumber},
+        message = ${message},
+        amount = ${amount},
+        status = 'created',
+        datecreated = ${date},
+        discounttype = ${discountType},
+        discountamount = ${discountAmount},
+        taxsetting = ${taxSetting},
+        taxamount = ${taxAmount},
+        invoicebase = ${invoiceBase},
+        invoiceappendix = ${invoiceAppendix},
+        user_id = ${userId},
+        customer_id = ${customerId}
+    WHERE id = ${id};
+    `;
+
+    for (const fieldGroup of invoice.fieldGroups) {
+      await sql`
+      UPDATE invoicefieldgroups
+      SET name = ${fieldGroup?.name},
+          position = ${fieldGroup?.position}
+      WHERE id = ${fieldGroup.id} AND invoice_id = ${id};
+      `;
+
+      for (const field of fieldGroup.fields) {
+        await sql`
+        UPDATE invoicefields
+        SET name = ${field?.name},
+            data = ${field?.data},
+            value = ${field?.value},
+            amount = ${field?.amount},
+            price = ${field?.price}
+        WHERE id = ${field.id} AND field_group_id = ${fieldGroup.id};
         `;
       }
     }

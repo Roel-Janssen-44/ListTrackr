@@ -20,7 +20,6 @@ export default function InvoiceSettings({
 }) {
   const discountTypeSetting = invoice.settings.discountType;
   const discountAmountSetting = invoice.settings.discountAmount;
-
   const handleSettingChange = ({ newValue, settingName }) => {
     editInvoiceSetting({
       invoice: invoice,
@@ -40,6 +39,7 @@ export default function InvoiceSettings({
             settingName: 'discountType',
           })
         }
+        value={discountTypeSetting}
       >
         <SelectTrigger className="mb-2 w-[180px]">
           <SelectValue placeholder="Discount type" />
@@ -63,7 +63,7 @@ export default function InvoiceSettings({
                 })
               }
               className="w-[180px]"
-              value={discountAmountSetting}
+              value={discountAmountSetting || ''}
               placeholder={`${
                 discountTypeSetting === 'percentage'
                   ? 'Percentage'

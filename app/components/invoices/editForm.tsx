@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { createInvoice } from '@/app/lib/actions';
+import { updateInvoice } from '@/app/lib/actions';
 import { Button } from '@/app/components/button';
 import { InvoiceTemplate } from '@/app/lib/definitions';
 import Invoice from '@/app/components/invoice/invoice';
@@ -16,10 +16,10 @@ export default function CreateInvoice({
   const [invoice, setInvoice] = useState<InvoiceTemplate>(invoiceTemplate);
   const router = useRouter();
 
-  useEffect(() => {
-    console.log('invoice creation from template');
-    console.log(invoice);
-  }, [invoice]);
+  //   useEffect(() => {
+  //     console.log('invoice edit form');
+  //     console.log(invoice);
+  //   }, [invoice]);
 
   return (
     <>
@@ -27,11 +27,11 @@ export default function CreateInvoice({
       <div className="mt-6 flex flex-row gap-6">
         <Button
           onClick={() => {
-            createInvoice(invoice);
+            updateInvoice(invoice);
             router.push(`/dashboard/invoices`);
           }}
         >
-          Create
+          Update
         </Button>
         <Link
           href={'/dashboard/invoices'}

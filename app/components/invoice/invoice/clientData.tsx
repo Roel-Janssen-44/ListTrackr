@@ -61,10 +61,6 @@ export default function InvoiceClientData({
     });
   };
 
-  // const customers = await fetchCustomers();
-  // console.log('customers');
-  // console.log(customers);
-
   const [customers, setCustomers] = useState([]);
 
   useEffect(() => {
@@ -75,18 +71,18 @@ export default function InvoiceClientData({
     showCustomers();
   }, []);
 
-  useEffect(() => {
-    console.log('customers');
-    console.log(customers);
-  }, [customers]);
+  // useEffect(() => {
+  //   console.log('customers');
+  //   console.log(customers);
+  // }, [customers]);
 
   return (
     <>
       {/* Todo - add loader */}
       <p>Customer {'[i]'}</p>
       {/* Todo - show tooltip that the select won't go on the invoice */}
-      {/* Todo - set the customer if already exists in state */}
       <Select
+        value={invoice.customerId}
         onValueChange={(e) => {
           const currentCustomer: Customer = customers.find(
             (customer) => customer.id === e,

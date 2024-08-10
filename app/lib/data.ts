@@ -247,10 +247,18 @@ export async function fetchInvoices() {
 
   try {
     const data = await sql`
-      select id, amount from invoices
-      WHERE user_id = ${userId} AND status='created'
+      select id, amount, invoice_number, status, datecreated from invoices
+      WHERE user_id = ${userId} AND status IS NOT NULL
     `;
-    return data.rows;
+    const invoices = data.rows.map((invoice) => ({
+      id: invoice.id,
+      number: invoice.invoice_number,
+      amount: invoice.amount,
+      status: invoice.status,
+      date: invoice.datecreated,
+    }));
+
+    return invoices;
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch all invoices.');
@@ -366,7 +374,7 @@ export async function fetchInvoice(invoiceId: string) {
     const fieldGroupsWithFields = await Promise.all(
       fieldGroups.map(async (group) => {
         const fieldsData = await sql`
-        select id, name, data, value
+        select id, name, data, value, price, amount
         from invoicefields
         where field_group_id = ${group.id}
       `;

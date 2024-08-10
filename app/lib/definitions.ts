@@ -51,7 +51,7 @@ export type Invoice = {
   amount: number;
   status: 'paid' | 'pending' | 'overdue' | 'created';
   date: string;
-  project_id: string;
+  project_id?: string;
 };
 
 // Todo - Invoice template

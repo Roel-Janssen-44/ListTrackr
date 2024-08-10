@@ -4,9 +4,9 @@ import { InvoiceTemplate, Field } from '@/app/lib/definitions';
 import { v4 as uuid } from 'uuid';
 
 export const formatCurrency = (amount: number) => {
-  return (amount / 100).toLocaleString('en-US', {
+  return (amount / 100).toLocaleString('nl-NL', {
     style: 'currency',
-    currency: 'USD',
+    currency: 'EUR',
   });
 };
 
@@ -493,14 +493,9 @@ export function calculateInvoice({
     subtotalIncl = subtotal;
   }
 
-  console.log('subtotalExcl');
-  console.log(subtotalExcl);
-
   if (discountType == 'amount') {
     discount = discountAmount;
     discountedAmount = Number(subtotalExcl) - Number(discountAmount);
-    console.log('discount');
-    console.log(discount);
   } else if (discountType == 'percentage') {
     discount = (subtotalExcl * discountAmount) / 100;
     discountedAmount = (subtotalExcl * discount) / 100;

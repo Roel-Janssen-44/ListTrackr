@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { ChevronLeftIcon } from '@heroicons/react/24/outline';
 import DeleteInvoiceForm from '@/app/components/invoices/deleteForm';
 import { fetchInvoice } from '@/app/lib/data';
-import InvoiceEditForm from '@/app/components/invoices/createForm';
+import InvoiceEditForm from '@/app/components/invoices/editForm';
 
 export default async function InvoiceEdit({
   params,

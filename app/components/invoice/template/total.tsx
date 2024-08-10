@@ -55,15 +55,6 @@ export default function TemplateTotal({
     });
   };
 
-  const handleSettingChange = (newValue: string) => {
-    editInvoiceSetting({
-      invoice: invoice,
-      setInvoice: setInvoice,
-      settingName: 'taxAmount',
-      newValue: newValue,
-    });
-  };
-
   const handleTaxChange = ({
     newValue,
     targetId,

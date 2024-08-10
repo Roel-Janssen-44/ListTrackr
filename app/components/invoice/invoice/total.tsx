@@ -28,9 +28,6 @@ export default function InvoiceTotal({
     discountType: invoice.settings.discountType,
   });
 
-  console.log('invoiceCosts');
-  console.log(invoiceCosts);
-
   return (
     <>
       <div className="ml-auto flex cursor-not-allowed justify-end gap-4 opacity-40">
@@ -65,7 +62,7 @@ export default function InvoiceTotal({
               </p>
             </ul>
           ))}
-          {/* Add a discount field based on discountType */}
+          {/* Show discount based on discountType */}
           {invoice.settings.discountType !== 'none' && (
             <div className="flex flex-row gap-6 ">
               <p className="my-2 w-[125px] text-right">Discount</p>

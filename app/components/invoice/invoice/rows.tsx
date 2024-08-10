@@ -89,6 +89,8 @@ export default function InvoiceRows({
                 key={'row_group-' + index}
                 className={`flex list-none flex-row gap-2 py-1 pl-0 text-sm`}
               >
+                {/* {console.log('field')}
+                {console.log(field)} */}
                 <li className="flex-1">
                   <Input
                     onChange={(e) =>
