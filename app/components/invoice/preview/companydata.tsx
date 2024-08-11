@@ -1,6 +1,6 @@
 import { Field } from '@/app/lib/definitions';
 
-export default function InvoiceCompanyData({ fields }: { fields: Field[] }) {
+export default function PreviewCompanyData({ fields }: { fields: Field[] }) {
   return (
     <ul className="m-0 flex h-full flex-col items-end justify-center gap-4 pl-0">
       <div className="flex flex-col">

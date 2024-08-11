@@ -10,11 +10,13 @@ export default function PreviewFooter({
   invoice: InvoiceTemplate;
 }) {
   return (
-    <div className="mb-4 flex flex-row content-between items-end justify-between gap-8 px-4">
+    <div className="flex flex-row content-between items-start justify-between gap-8 px-4">
       <div className="flex-1">
         <PreviewMessage message={invoice.message} />
       </div>
       <PreviewTotal
+        invoice={invoice}
+        rows={getCurrentFieldGroup(invoice.fieldGroups, 'rows')}
         fields={getCurrentFieldGroup(invoice.fieldGroups, 'total')}
       />
     </div>

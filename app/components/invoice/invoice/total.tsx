@@ -1,10 +1,7 @@
-import { useEffect, useState } from 'react';
-
 import {
   convertToCurrency,
   calculateSubTotal,
   calculateInvoice,
-  removeNonNumericCharacters,
 } from '@/app/lib/utils';
 
 import { InvoiceTemplate, Field } from '@/app/lib/definitions';

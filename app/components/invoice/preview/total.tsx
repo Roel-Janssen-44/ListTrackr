@@ -1,111 +1,108 @@
-import React, { useRef, useEffect, useState } from 'react';
-
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/app/components/chadcn/select';
-import { Skeleton } from '@/app/components/chadcn/skeleton';
-
-// import {
-//   editTemplateField,
-//   editTemplateSelect,
-// } from "@features/templates/templatesSlice";
-// import GetCurrentInvoice from "@lib/getCurrentInvoice";
-
-// import ItemInput from "@components/ItemInput";
-
-import { Input } from '@/app/components/chadcn/input';
-import {
-  editFieldInFieldGroup,
-  editFieldValueInFieldGroup,
-  editInvoiceSetting,
-  handleTaxAmountChange,
+  convertToCurrency,
+  calculateSubTotal,
+  calculateInvoice,
 } from '@/app/lib/utils';
+
 import { InvoiceTemplate, Field } from '@/app/lib/definitions';
-
-export default function TemplateTotal({ fields }: { fields: any }) {
-  const handleChangeTemplateField = ({ newValue, targetId }) => {};
-
-  const handleSelectChange = ({ newValue, targetId }) => {};
-
-  const handleTaxChange = ({
-    newValue,
-    targetId,
-  }: {
-    newValue: string;
-    targetId: string;
-  }) => {};
-
+export default function PreviewTotal({
+  invoice,
+  fields,
+  rows,
+}: {
+  invoice: InvoiceTemplate;
+  fields: Field[];
+  rows: any;
+}) {
+  const invoiceCosts = calculateInvoice({
+    subtotal: calculateSubTotal(rows),
+    taxPercentage: invoice.settings.taxAmount,
+    taxType: invoice.settings.taxSetting,
+    discountAmount: invoice.settings.discountAmount || 0,
+    discountType: invoice.settings.discountType,
+  });
   return (
     <>
-      <div className="flex h-full flex-col items-end justify-end">
-        <div className="-mb-1 flex flex-col gap-2 py-0">
-          {fields.map((field: Field, index: number) => (
-            <div
-              key={'template-total' + field.id}
-              className="group relative my-0 flex flex-row items-center gap-2"
+      <div className="ml-auto flex justify-end gap-4">
+        <ul className="flex flex-col">
+          {fields.map((field, index) => (
+            <ul
+              key={'invoice_preview-total-name' + field.id}
+              className={`flex flex-row gap-6  pl-0 ${
+                invoice.settings.discountType !== 'none' && index !== 0
+                  ? 'hidden'
+                  : 'block'
+              }
+                  ${
+                    index + 1 === fields.length
+                      ? 'border-x-0 border-b-0 border-t-2 border-solid border-gray-400'
+                      : ''
+                  }`}
             >
-              <Input
-                onChange={(e) => {
-                  handleChangeTemplateField({
-                    newValue: e.target.value,
-                    targetId: field.id,
-                  });
-                }}
-                value={field.name}
-                className={`w-[115px] py-1 text-right text-sm`}
-                id={field.id}
-              />
-              {index === 0 && (
-                <div>
-                  <Select
-                    onValueChange={(e) => {
-                      handleSelectChange({
-                        newValue: e,
-                        targetId: field.id,
-                      });
-                    }}
-                    value={field.value}
-                  >
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Select an option" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value={'excl'}>Subtotal excl VAT</SelectItem>
-                      <SelectItem value={'incl'}>Subtotal incl VAT</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
-              {index === 1 && (
-                <div>
-                  <Select
-                    onValueChange={(e) => {
-                      handleTaxChange({
-                        newValue: e,
-                        targetId: field.id,
-                      });
-                    }}
-                    value={field.value}
-                  >
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Select an option" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value={'0'}>VAT {'0%'}</SelectItem>
-                      <SelectItem value={'9'}>VAT {'9%'}</SelectItem>
-                      <SelectItem value={'21'}>VAT {'21%'}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
-              {index === 2 && <Skeleton className="my-2 h-[30px] w-full" />}
-            </div>
+              <p className="my-2 w-[125px] text-right">{field.name}</p>
+              <p className="my-2">
+                {field.value === 'excl'
+                  ? convertToCurrency(invoiceCosts.subtotalExcl)
+                  : field.value === 'incl'
+                  ? convertToCurrency(invoiceCosts.subtotalIncl)
+                  : field.value === '21'
+                  ? convertToCurrency(invoiceCosts.tax)
+                  : field.value === '9'
+                  ? convertToCurrency(invoiceCosts.tax)
+                  : field.value === '0'
+                  ? convertToCurrency(invoiceCosts.tax)
+                  : convertToCurrency(invoiceCosts.total)}
+              </p>
+            </ul>
           ))}
-        </div>
+          {/* Show discount based on discountType */}
+          {invoice.settings.discountType !== 'none' && (
+            <div className="flex flex-row gap-6 ">
+              <p className="my-2 w-[125px] text-right">Discount</p>
+              {invoice.settings.discountType === 'percentage' && (
+                <p className="my-2 ml-3">-{invoice.settings.discountAmount}%</p>
+              )}
+              {invoice.settings.discountType === 'amount' && (
+                <p className="my-2">
+                  €{' '}
+                  <span className="ml-1">
+                    -{invoice.settings.discountAmount}
+                  </span>
+                </p>
+              )}
+            </div>
+          )}
+          {fields.map((field, index) => (
+            <ul
+              key={'invoice_preview_total-name' + field.id}
+              className={`flex flex-row gap-6  pl-0 ${
+                invoice.settings.discountType !== 'none' && index !== 0
+                  ? 'block'
+                  : 'hidden'
+              }
+                  ${
+                    index + 1 === fields.length
+                      ? 'border-x-0 border-b-0 border-t-2 border-solid border-primary'
+                      : ''
+                  }`}
+            >
+              <p className="my-2 w-[125px] text-right">{field.name}</p>
+              <p className="my-2">
+                {field.value === 'excl'
+                  ? convertToCurrency(invoiceCosts.subtotalExcl)
+                  : field.value === 'incl'
+                  ? convertToCurrency(invoiceCosts.subtotalIncl)
+                  : field.value === '21'
+                  ? convertToCurrency(invoiceCosts.tax)
+                  : field.value === '9'
+                  ? convertToCurrency(invoiceCosts.tax)
+                  : field.value === '0'
+                  ? convertToCurrency(invoiceCosts.tax)
+                  : convertToCurrency(invoiceCosts.total)}
+              </p>
+            </ul>
+          ))}
+        </ul>
       </div>
     </>
   );

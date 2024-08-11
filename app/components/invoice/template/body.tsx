@@ -1,9 +1,6 @@
-// import { selectTemplate } from "@features/templates/templatesSlice";
-
 import TemplateRowNames from './rowNames';
 import TemplateRows from './rows';
 
-// import GetCurrentInvoice from "@lib/getCurrentInvoice";
 import { InvoiceTemplate } from '@/app/lib/definitions';
 import { getCurrentFieldGroup } from '@/app/lib/utils';
 

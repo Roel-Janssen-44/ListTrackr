@@ -1,6 +1,6 @@
 import { Field } from '@/app/lib/definitions';
 
-export default function TemplateClientData({ fields }: { fields: Field[] }) {
+export default function PreviewClientData({ fields }: { fields: Field[] }) {
   return (
     <>
       <div className="flex flex-col">

@@ -132,15 +132,13 @@ export default function InvoicesTable({
               <div className="flex flex-row flex-wrap justify-between">
                 {templates?.map((template) => (
                   <Link
+                    key={template.id}
                     href={`/dashboard/invoices/create/${template.id}`}
                     className="flex h-36 w-36 items-center justify-center rounded-md border-2 border-primary transition-all hover:bg-primary hover:text-white"
                   >
                     {template.templatename}
                   </Link>
                 ))}
-                {/* <Link className="flex h-40 w-40 items-center justify-center">
-                asd
-              </Link> */}
               </div>
               <DialogFooter>
                 <Button type="submit">Cancel</Button>

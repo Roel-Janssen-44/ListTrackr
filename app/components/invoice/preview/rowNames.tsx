@@ -1,6 +1,6 @@
 import NonEditableItem from '@/app/components/nonEditableItem';
 
-export default function InvoiceRowNames({ fields = [] }) {
+export default function PreviewRowNames({ fields = [] }) {
   return (
     <div className="mb-2">
       <ul className="m-0 flex gap-2 p-0">
@@ -9,7 +9,7 @@ export default function InvoiceRowNames({ fields = [] }) {
             key={'invoice_item_header-' + field.name}
             className={`font-bold ${
               index === 0 ? 'flex-1' : 'flex w-[121px] justify-end'
-            } ${index === 3 ? 'w-[65px]' : ''} `}
+            } ${index === 3 ? 'max-w-[110px]' : ''} `}
           >
             {field.name}
           </span>

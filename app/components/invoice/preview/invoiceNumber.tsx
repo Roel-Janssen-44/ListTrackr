@@ -1,6 +1,6 @@
 import { Field } from '@/app/lib/definitions';
 
-export default function TemplateInvoiceNumber({
+export default function PreviewInvoiceNumber({
   fields = [],
 }: {
   fields: Field[];
