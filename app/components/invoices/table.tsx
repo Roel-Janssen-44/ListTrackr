@@ -32,8 +32,6 @@ export default function InvoicesTable({
   invoices: Invoice[];
   templates;
 }) {
-  console.log('tempaltes');
-  console.log(templates);
   return (
     <>
       <div className="flex flex-col flex-wrap gap-2">
@@ -57,7 +55,8 @@ export default function InvoicesTable({
             </div>
             <div className="relative table w-full max-w-full">
               {invoices?.map((invoice: Invoice) => (
-                <div
+                <Link
+                  href={`/dashboard/invoices/${invoice.id}`}
                   key={invoice.id}
                   className={`relative flex flex-row border-t-[1px] border-gray-200 odd:bg-gray-50 dark:border-white dark:border-opacity-10 dark:odd:bg-primary`}
                 >
@@ -110,7 +109,7 @@ export default function InvoicesTable({
                       </Select>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

@@ -1,6 +1,6 @@
 import InvoiceFooter from '@components/invoice/invoice/footer';
 import TemplateFooter from '@components/invoice/template/footer';
-// import PreviewFooter from '@components/invoice/preview/footer';
+import PreviewFooter from '@components/invoice/preview/footer';
 import { InvoiceTemplate } from '@/app/lib/definitions';
 
 export default function Footer({
@@ -20,7 +20,7 @@ export default function Footer({
       {viewStyle === 'invoice' && (
         <InvoiceFooter invoice={invoice} setInvoice={setInvoice} />
       )}
-      {/* {viewStyle === 'preview' && <PreviewFooter />} */}
+      {viewStyle === 'preview' && <PreviewFooter invoice={invoice} />}
     </>
   );
 }
