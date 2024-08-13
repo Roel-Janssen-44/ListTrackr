@@ -2,7 +2,7 @@
 
 import { sql } from '@vercel/postgres';
 import { auth } from 'auth';
-import { Customer, InvoiceTemplate } from '@/app/lib/definitions';
+import { Customer, InvoiceTemplate, Project } from '@/app/lib/definitions';
 // import { unstable_noStore as noStore } from 'next/cache';
 
 // Fetch tables
@@ -426,5 +426,34 @@ export async function fetchInvoice(invoiceId: string) {
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch invoice template.');
+  }
+}
+
+// Projects
+
+export async function fetchProjects() {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return;
+
+  try {
+    const data = await sql`
+      select id, title, startdate, enddate, status, customer_id, project_number from projects
+      WHERE user_id = ${userId}
+    `;
+    const projects: Project[] = data.rows.map((project) => ({
+      id: project.id,
+      title: project.title,
+      number: project.project_number,
+      startDate: project.startdate,
+      endDate: project.enddate,
+      status: project.status,
+      customer_id: project.customer_id,
+    }));
+
+    return projects;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch all projects.');
   }
 }

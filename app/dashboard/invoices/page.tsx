@@ -11,8 +11,6 @@ export default async function Invoices() {
   const templates = await fetchInvoiceTemplates();
   const invoices: Invoice[] = await fetchInvoices();
 
-  console.log('templates parent');
-  console.log(templates);
   return (
     <div className="w-full">
       <h1 className={`${exo.className} mb-4 text-3xl font-bold`}>Invoices</h1>

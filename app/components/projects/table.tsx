@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from '@/app/components/button';
-import { Invoice } from '@/app/lib/definitions';
+import { Project } from '@/app/lib/definitions';
 import Link from 'next/link';
 import { Pencil } from 'lucide-react';
 import { format } from 'date-fns';
@@ -25,13 +25,7 @@ import {
   DialogTrigger,
 } from '@/app/components/chadcn/dialog';
 
-export default function InvoicesTable({
-  invoices,
-  templates,
-}: {
-  invoices: Invoice[];
-  templates;
-}) {
+export default function ProjectsTable({ projects }: { projects: Project[] }) {
   return (
     <>
       <div className="flex flex-col flex-wrap gap-2">
@@ -40,62 +34,65 @@ export default function InvoicesTable({
             <div className="ml-[50px] table text-left text-sm font-normal">
               <div className="flex w-full flex-row flex-nowrap items-center">
                 <div className="inline-block w-[350px] px-4 py-3 pb-2 font-medium sm:pl-6">
-                  Invoicenumber
-                </div>
-                <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
-                  Amount
-                </div>
-                <div className="inline-block w-[175px] px-3 py-3 pb-2 pl-6 font-medium">
-                  Date
+                  Projectnumber
                 </div>
                 <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
                   Status
                 </div>
+                <div className="inline-block w-[175px] px-3 py-3 pb-2 pl-6 font-medium">
+                  Customer
+                </div>
+                <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
+                  Startdate
+                </div>
               </div>
             </div>
             <div className="relative table w-full max-w-full">
-              {invoices?.map((invoice: Invoice) => (
+              {projects?.map((project: Project) => (
                 <Link
-                  href={`/dashboard/invoices/${invoice.id}`}
-                  key={invoice.id}
+                  href={`/dashboard/projects/${project.id}`}
+                  key={project.id}
                   className={`relative flex flex-row border-t-[1px] border-gray-200 odd:bg-gray-50 dark:border-white dark:border-opacity-10 dark:odd:bg-primary`}
                 >
-                  {/* Todo - Order of invoices */}
                   <div className="group flex w-full flex-row flex-nowrap items-center text-sm transition-colors hover:bg-gray-100 dark:hover:bg-active">
                     <div className="w-[350px] border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10">
-                      {invoice.number}
+                      {project.number}
                     </div>
                     <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
-                      {formatCurrency(invoice.amount)}
+                      {project.status}
                     </div>
                     <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
-                      {format(invoice.date, 'dd/MM/yyyy')}
+                      {project.customer_id}
                     </div>
 
                     <div className="my-1 w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
-                      <Select
-                        defaultValue={invoice.status}
+                      {format(project.startDate, 'dd/MM/yyyy')}
+                      {/* <Select
+                        defaultValue={project.status}
                         name="priority"
                         aria-labelledby="priority-error"
                         onValueChange={async (value) => {
-                          await updateInvoiceStatus({
-                            newValue: value,
-                            invoiceId: invoice.id,
-                          });
+                          //   await updateProjectStatus({
+                          //     newValue: value,
+                          //     projectId: project.id,
+                          //   });
                         }}
                       >
                         <SelectTrigger
-                          className={`w-[150px] ${
-                            invoice.status == 'paid'
-                              ? 'bg-green-400'
-                              : invoice.status == 'created'
-                              ? 'bg-gray-200'
-                              : invoice.status == 'pending'
-                              ? 'bg-orange-400'
-                              : invoice.status == 'overdue'
-                              ? 'bg-red-400'
-                              : 'border-none bg-transparent text-transparent dark:bg-transparent'
-                          }`}
+                          className={`w-[150px] 
+                            ${
+                              'asas'
+                              // project.status == 'paid'
+                              //   ? 'bg-green-400'
+                              //   : project.status == 'created'
+                              //   ? 'bg-gray-200'
+                              //   : project.status == 'pending'
+                              //   ? 'bg-orange-400'
+                              //   : project.status == 'overdue'
+                              //   ? 'bg-red-400'
+                              //   : 'border-none bg-transparent text-transparent dark:bg-transparent'
+                            }
+                              `}
                         >
                           <SelectValue placeholder="" />
                         </SelectTrigger>
@@ -105,7 +102,7 @@ export default function InvoicesTable({
                           <SelectItem value="overdue">Overdue</SelectItem>
                           <SelectItem value="paid">Paid</SelectItem>
                         </SelectContent>
-                      </Select>
+                      </Select> */}
                     </div>
                   </div>
                 </Link>
@@ -115,35 +112,32 @@ export default function InvoicesTable({
         </div>
       </div>
       <div>
-        {templates.length > 0 && (
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button>Create invoice</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>Choose template</DialogTitle>
-                <DialogDescription className="mb-2">
-                  Choose a template to create an invoice
-                </DialogDescription>
-              </DialogHeader>
-              <div className="flex flex-row flex-wrap justify-between">
-                {templates?.map((template) => (
-                  <Link
-                    key={template.id}
-                    href={`/dashboard/invoices/create/${template.id}`}
-                    className="flex h-36 w-36 items-center justify-center rounded-md border-2 border-primary transition-all hover:bg-primary hover:text-white"
-                  >
-                    {template.templatename}
-                  </Link>
-                ))}
-              </div>
-              <DialogFooter>
-                <Button type="submit">Cancel</Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        )}
+        {/* Todo - create project form */}
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button>Start project</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Choose template</DialogTitle>
+              <DialogDescription className="mb-2">
+                Choose a template to create an invoice
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-row flex-wrap justify-between">
+              <Link
+                key={'asdfasdsa'}
+                href={`/dashboard/invoices/create/${' asdas'}`}
+                className="flex h-36 w-36 items-center justify-center rounded-md border-2 border-primary transition-all hover:bg-primary hover:text-white"
+              >
+                {'template.templatename'}
+              </Link>
+            </div>
+            <DialogFooter>
+              <Button type="submit">Cancel</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </>
   );
