@@ -155,6 +155,7 @@ export default function CreateInvoiceTemplate({
       discountAmount: 0,
       // Todo - add theme color
       // themeColor: "#12a1c1" ,
+      // @ts-ignore
       taxSetting: '',
       taxAmount: '',
       invoiceBase: '',

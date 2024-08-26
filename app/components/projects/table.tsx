@@ -13,8 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/app/components/chadcn/select';
-import { formatCurrency } from '@/app/lib/utils';
-import { updateInvoiceStatus } from '@/app/lib/actions';
 import {
   Dialog,
   DialogContent,
@@ -125,13 +123,14 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
               </DialogDescription>
             </DialogHeader>
             <div className="flex flex-row flex-wrap justify-between">
-              <Link
+              sdf
+              {/* <Link
                 key={'asdfasdsa'}
                 href={`/dashboard/invoices/create/${' asdas'}`}
                 className="flex h-36 w-36 items-center justify-center rounded-md border-2 border-primary transition-all hover:bg-primary hover:text-white"
               >
                 {'template.templatename'}
-              </Link>
+              </Link> */}
             </div>
             <DialogFooter>
               <Button type="submit">Cancel</Button>

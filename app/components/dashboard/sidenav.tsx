@@ -7,7 +7,7 @@ import Image from 'next/image';
 export default async function SideNav() {
   return (
     <div className="group">
-      <div className="z-30 flex h-full min-h-screen flex-col bg-gray-100 px-3 py-4 transition-all group-hover:max-w-[256px] group-hover:shadow-sm md:absolute md:left-0 md:top-0 md:h-screen md:max-w-[64px]  md:px-2 group-hover:md:w-full">
+      <div className="z-30 flex h-full flex-col bg-gray-100 px-3 py-4 transition-all md:absolute md:left-0 md:top-0 md:h-screen md:min-h-screen md:max-w-[64px] md:px-2 group-hover:md:w-full  group-hover:md:max-w-[256px] group-hover:md:shadow-sm">
         <Link
           className="mb-2 flex h-20 items-center justify-center rounded-md bg-active p-3 dark:bg-active md:mb-4 md:aspect-square md:h-auto md:w-full"
           href="/dashboard"
@@ -24,10 +24,10 @@ export default async function SideNav() {
             width={56}
             height={56}
             alt="Logo ListTrackr"
-            className="w-full flex-1 group-hover:md:hidden"
+            className="hidden w-full flex-1 md:block group-hover:md:hidden"
           />
         </Link>
-        <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
+        <div className="hidden grow flex-row justify-between space-x-2 sm:flex md:flex-col md:space-x-0 md:space-y-2">
           <NavLinks />
           <form
             action={async () => {

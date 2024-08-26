@@ -118,7 +118,7 @@ export default function NavLinks() {
                   },
                 )}
               >
-                <LinkIcon className="w-6" />
+                <LinkIcon className="w-5" />
                 <p className="hidden transition-all md:hidden group-hover:md:block">
                   {link.name}
                 </p>
