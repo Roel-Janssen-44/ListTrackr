@@ -29,7 +29,7 @@ export type Project = {
   startDate: string;
   endDate?: string;
   // Todo - Status misschien nog aanpassen
-  status: 'waiting' | 'in progress' | 'completed';
+  status: 'created' | 'waiting' | 'in progress' | 'completed';
   customer_id: string;
 };
 

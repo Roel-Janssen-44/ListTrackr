@@ -7,7 +7,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
-
+import { v4 as uuid } from 'uuid';
 import { format, startOfWeek, addDays } from 'date-fns';
 import { Customer, InvoiceTemplate } from '@/app/lib/definitions';
 import { getCurrentFieldGroup } from '@/app/lib/utils';
@@ -827,5 +827,39 @@ export async function updateInvoiceStatus({
       status: 'error',
       message: 'Database Error: Failed to update invoice status.',
     };
+  }
+}
+
+// Projects
+
+export async function createProject(formData: FormData) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return;
+
+  const name = formData.get('name').toString();
+  const number = formData.get('number').toString();
+  const customerId = formData.get('customer').toString();
+  const startDate = formData.get('start-date').toString();
+  const endDate = formData.get('end-date').toString();
+
+  let endDateFormatted: string | null;
+  if (endDate == format(new Date(), 'yyyy-MM-dd')) {
+    endDateFormatted = null;
+  } else {
+    endDateFormatted = endDate;
+  }
+
+  try {
+    await sql`
+    insert into projects(id, title, project_number, status, customer_id, user_id, startdate, enddate)
+    VALUES (${uuid()}, ${name}, ${number}, 'created' ,${customerId}, ${userId}, ${startDate}, ${endDateFormatted})
+    `;
+    revalidatePath('/layout');
+    return { success: true, message: '' };
+  } catch (error) {
+    console.log('error');
+    console.log(error);
+    return { success: false, message: 'Error creating project' };
   }
 }

@@ -22,6 +22,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/app/components/chadcn/dialog';
+import { Input } from '../chadcn/input';
+
+import { v4 as uuid } from 'uuid';
 
 export default function ProjectsTable({ projects }: { projects: Project[] }) {
   return (
@@ -110,33 +113,9 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
         </div>
       </div>
       <div>
-        {/* Todo - create project form */}
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button>Start project</Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Choose template</DialogTitle>
-              <DialogDescription className="mb-2">
-                Choose a template to create an invoice
-              </DialogDescription>
-            </DialogHeader>
-            <div className="flex flex-row flex-wrap justify-between">
-              sdf
-              {/* <Link
-                key={'asdfasdsa'}
-                href={`/dashboard/invoices/create/${' asdas'}`}
-                className="flex h-36 w-36 items-center justify-center rounded-md border-2 border-primary transition-all hover:bg-primary hover:text-white"
-              >
-                {'template.templatename'}
-              </Link> */}
-            </div>
-            <DialogFooter>
-              <Button type="submit">Cancel</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <Link key={'asdfasdsa'} href={`/dashboard/projects/create`}>
+          <Button>Create project</Button>
+        </Link>
       </div>
     </>
   );
