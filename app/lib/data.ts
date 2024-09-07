@@ -72,9 +72,23 @@ export async function fetchTasksToday() {
 
   try {
     const data = await sql`
-      SELECT * FROM tasks
+      SELECT 
+        tasks.id,
+        tasks.title,
+        tasks.completed,
+        tasks.priority,
+        tasks.date,
+        tasks.daysperweek,
+        tasks.table_id,
+        tasks.status,
+        tasks.order,
+        tasks.type,
+        tasks.user_id,
+        tables.title AS table_title
+      FROM tasks
+      FULL JOIN tables on tasks.table_id = tables.id
       WHERE date = CURRENT_DATE
-      AND user_id = ${userId} 
+      AND tasks.user_id = ${userId} 
       ORDER BY "order" ASC
     `;
 
@@ -93,10 +107,24 @@ export async function fetchPreviousTasks() {
 
   try {
     const data = await sql`
-    SELECT * FROM tasks
-    WHERE date < CURRENT_DATE
-    AND (status IS DISTINCT FROM 'completed' OR status IS NULL)
-    AND user_id = ${userId}
+    SELECT 
+      tasks.id,
+      tasks.title,
+      tasks.completed,
+      tasks.priority,
+      tasks.date,
+      tasks.daysperweek,
+      tasks.table_id,
+      tasks.status,
+      tasks.order,
+      tasks.type,
+      tasks.user_id,
+      tables.title AS table_title
+    FROM tasks
+    FULL JOIN tables on tasks.table_id = tables.id
+    WHERE tasks.date < CURRENT_DATE
+    AND (tasks.status IS DISTINCT FROM 'completed' OR tasks.status IS NULL)
+    AND tasks.user_id = ${userId}
     ORDER BY "order" ASC
   `;
 
@@ -115,9 +143,23 @@ export async function fetchTasksTomorrow() {
 
   try {
     const data = await sql`
-      SELECT * FROM tasks
-      WHERE date = CURRENT_DATE + INTERVAL '1 day'
-      AND user_id = ${userId} 
+    SELECT 
+      tasks.id,
+      tasks.title,
+      tasks.completed,
+      tasks.priority,
+      tasks.date,
+      tasks.daysperweek,
+      tasks.table_id,
+      tasks.status,
+      tasks.order,
+      tasks.type,
+      tasks.user_id,
+      tables.title AS table_title
+    FROM tasks
+    FULL JOIN tables on tasks.table_id = tables.id
+      WHERE tasks.date = CURRENT_DATE + INTERVAL '1 day'
+      AND tasks.user_id = ${userId} 
       ORDER BY "order" ASC
     `;
 
@@ -136,9 +178,23 @@ export async function fetchGoals() {
 
   try {
     const data = await sql`
-      SELECT * FROM tasks
-      WHERE "type" = 'goal'
-      AND user_id = ${userId} 
+    SELECT 
+      tasks.id,
+      tasks.title,
+      tasks.completed,
+      tasks.priority,
+      tasks.date,
+      tasks.daysperweek,
+      tasks.table_id,
+      tasks.status,
+      tasks.order,
+      tasks.type,
+      tasks.user_id,
+      tables.title AS table_title
+    FROM tasks
+    FULL JOIN tables on tasks.table_id = tables.id
+      WHERE tasks."type" = 'goal'
+      AND tasks.user_id = ${userId} 
       ORDER BY "order" ASC
     `;
     return data.rows;

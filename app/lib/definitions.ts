@@ -6,6 +6,7 @@ export type Task = {
   priority: '' | 'low' | 'medium' | 'high';
   date?: string;
   table_id: string;
+  table_title?: string;
 };
 
 export type Goal = Task & {

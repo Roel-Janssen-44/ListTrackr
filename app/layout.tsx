@@ -9,7 +9,6 @@ import GoogleAnalytics from '@/app/components/googleAnalytics';
 
 export const metadata: Metadata = {
   title: {
-    // template: '%s',
     template: '%s | ListTrackr',
     default: 'ListTrackr',
   },

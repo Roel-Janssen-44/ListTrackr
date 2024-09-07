@@ -6,6 +6,7 @@ import { Task } from '@/app/lib/definitions';
 import { Button } from '@/app/components/chadcn/button';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { updateTask, deleteTask } from '@/app/lib/actions';
+import { CornerDownRight } from 'lucide-react';
 
 import {
   Select,
@@ -29,7 +30,7 @@ import { useRef } from 'react';
 import { Input } from '@/app/components/chadcn/input';
 import { useFormState } from 'react-dom';
 
-export default function TaskTable({
+export default function TaskRow({
   tableId,
   task,
   removeTask,
@@ -141,7 +142,15 @@ export default function TaskTable({
             htmlFor={task.id}
           ></label>
         </div>
-        <div className="w-[350px] border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10">
+        <div className="relative w-[350px] border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10">
+          {task.table_title && (
+            <>
+              <p className="absolute left-1 top-0.5 z-0 flex flex-row text-xs">
+                {task.table_title}
+              </p>
+              <CornerDownRight className="absolute left-2 top-1/2 h-auto w-3 -translate-y-1/2" />
+            </>
+          )}
           <Input
             name="title"
             className="cursor-pointer border-none bg-transparent dark:bg-transparent"

@@ -28,6 +28,9 @@ export default async function TaskTables({
     }
   });
 
+  // console.log('table');
+  // console.log(tables);
+
   return (
     <div>
       {tables?.map((table: Table) => (

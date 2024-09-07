@@ -22,6 +22,7 @@ export default async function WeeklyView() {
       completedDates: [],
       status: '',
       priority: '',
+      table_title: goal.table_title,
     };
     goals.push(changedGoal);
   });

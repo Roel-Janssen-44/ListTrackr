@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/app/components/chadcn/select';
+import { CornerDownRight } from 'lucide-react';
 
 import { Checkbox } from '@components/chadcn/checkbox';
 import { useRef } from 'react';
@@ -40,16 +41,24 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
   const sundayRef = useRef(null);
 
   return (
-    <div className="dark:odd:bg-secondary dark:border-active border-b-[1px] border-gray-200 odd:bg-gray-100">
-      <div className="dark:hover:bg-active flex w-full flex-row flex-nowrap items-center text-sm transition-colors hover:bg-gray-200">
-        <div className="inline-block w-[255px] px-4 py-3 pb-2 font-medium sm:pl-6">
+    <div className="border-b-[1px] border-gray-200 odd:bg-gray-100 dark:border-active dark:odd:bg-secondary">
+      <div className="relative flex w-full flex-row flex-nowrap items-center text-sm transition-colors hover:bg-gray-200 dark:hover:bg-active">
+        {task.table_title && (
+          <>
+            <p className="absolute left-1.5 top-0.5 z-0 flex flex-row text-xs">
+              {task.table_title}
+            </p>
+            <CornerDownRight className="absolute left-3 top-1/2 h-auto w-3 -translate-y-1/2" />
+          </>
+        )}
+        <div className="ml-1 inline-block w-[255px] px-4 py-3 pb-2 font-medium sm:pl-6">
           {task.title}
           <span className="text-xs">
             {' '}
             ({task.completedDates.length} of {task.daysPerWeek})
           </span>
         </div>
-        <div className="dark:border-active inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium">
+        <div className="inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active">
           <form ref={mondayRef} action={dispatch}>
             <input type="hidden" name="day" value={'monday'} />
             <input
@@ -74,7 +83,7 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
             />
           </form>
         </div>
-        <div className="dark:border-active inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium">
+        <div className="inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active">
           <form ref={tuesdayRef} action={dispatch}>
             <input type="hidden" name="day" value={'tuesday'} />
             <input
@@ -99,7 +108,7 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
             />
           </form>
         </div>
-        <div className="dark:border-active inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium">
+        <div className="inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active">
           <form ref={wednesdayRef} action={dispatch}>
             <input type="hidden" name="day" value={'wednesday'} />
             <input
@@ -124,7 +133,7 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
             />
           </form>
         </div>
-        <div className="dark:border-active inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium">
+        <div className="inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active">
           <form ref={thursdayRef} action={dispatch}>
             <input type="hidden" name="day" value={'thursday'} />
             <input
@@ -150,7 +159,7 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
           </form>
         </div>
 
-        <div className="dark:border-active inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium">
+        <div className="inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active">
           <form ref={fridayRef} action={dispatch}>
             <input type="hidden" name="day" value={'friday'} />
             <input
@@ -175,7 +184,7 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
             />
           </form>
         </div>
-        <div className="dark:border-active inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium">
+        <div className="inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active">
           <form ref={saturdayRef} action={dispatch}>
             <input type="hidden" name="day" value={'saturday'} />
             <input
@@ -200,7 +209,7 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
             />
           </form>
         </div>
-        <div className="dark:border-active inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium">
+        <div className="inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active">
           <form ref={sundayRef} action={dispatch}>
             <input type="hidden" name="day" value={'sunday'} />
             <input
