@@ -28,12 +28,6 @@ export default function CreateProjectForm() {
   const [endDate, setEndDate] = useState('');
 
   useEffect(() => {
-    console.log('endDate');
-    console.log(endDate);
-    console.log(new Date(endDate));
-  }, [endDate]);
-
-  useEffect(() => {
     const showCustomers = async () => {
       const data = await fetchCustomers();
       setCustomers(data);

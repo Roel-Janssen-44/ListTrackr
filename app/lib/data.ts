@@ -513,3 +513,42 @@ export async function fetchProjects() {
     throw new Error('Failed to fetch all projects.');
   }
 }
+
+export async function fetchProject(projectId: string) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return;
+
+  if (!projectId) return;
+
+  try {
+    const data = await sql`
+      SELECT
+        id,
+        title,
+        startdate,
+        enddate,
+        status,
+        user_id,
+        customer_id,
+        project_number
+      from projects
+      where id = ${projectId}
+    `;
+
+    const project: Project = {
+      id: projectId,
+      title: data.rows[0].title,
+      number: data.rows[0].project_number,
+      startDate: data.rows[0].startdate,
+      endDate: data.rows[0].enddate,
+      status: data.rows[0].status,
+      customer_id: data.rows[0].customer_id,
+    };
+
+    return project;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch invoice template.');
+  }
+}

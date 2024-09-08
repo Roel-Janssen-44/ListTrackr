@@ -856,10 +856,27 @@ export async function createProject(formData: FormData) {
     VALUES (${uuid()}, ${name}, ${number}, 'created' ,${customerId}, ${userId}, ${startDate}, ${endDateFormatted})
     `;
     revalidatePath('/layout');
+    // Todo - redirect to project/projects page
     return { success: true, message: '' };
   } catch (error) {
     console.log('error');
     console.log(error);
     return { success: false, message: 'Error creating project' };
+  }
+}
+
+export async function deleteProject(formData: FormData) {
+  const id = formData.get('id').toString();
+  try {
+    await sql`
+      DELETE FROM projects WHERE id = ${id}
+    `;
+    revalidatePath('/dashboard/projects');
+    return { success: true, message: '' };
+  } catch (error) {
+    return {
+      status: 'error',
+      message: 'Database Error: Failed to delete project.',
+    };
   }
 }
