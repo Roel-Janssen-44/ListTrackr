@@ -106,6 +106,7 @@ export default function TaskTableRow({
               />
             ))}
           <CreateTask
+            project_id={null}
             table_id={table.id}
             type="goal"
             date={null}

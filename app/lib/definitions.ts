@@ -7,6 +7,7 @@ export type Task = {
   date?: string;
   table_id: string;
   table_title?: string;
+  project_title?: string;
 };
 
 export type Goal = Task & {
@@ -32,6 +33,7 @@ export type Project = {
   // Todo - Status misschien nog aanpassen
   status: 'created' | 'waiting' | 'in progress' | 'completed';
   customer_id: string;
+  tasks?: Task[];
 };
 
 export type Customer = {

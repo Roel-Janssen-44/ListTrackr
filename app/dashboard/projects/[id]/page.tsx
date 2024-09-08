@@ -8,6 +8,7 @@ import DeleteProjectForm from '@/app/components/projects/deleteForm';
 import { fetchProject } from '@/app/lib/data';
 import { Pencil } from 'lucide-react';
 import { Button } from '@/app/components/button';
+import ProjectTasksTable from '@/app/components/projects/project';
 // import Project from '@/app/components/projects/invoice';
 export default async function ProjectView({
   params,
@@ -16,8 +17,6 @@ export default async function ProjectView({
 }) {
   const projectId = params.id;
   const project = await fetchProject(projectId);
-  console.log('project');
-  console.log(project);
   return (
     <div className="w-full">
       <div className="mb-6 flex flex-row justify-start gap-6">
@@ -52,8 +51,7 @@ export default async function ProjectView({
         </div>
       </div>
       <Suspense fallback={'Loading...'}>
-        Show project
-        {/* <Project project={project} /> */}
+        <ProjectTasksTable project={project} />
       </Suspense>
     </div>
   );

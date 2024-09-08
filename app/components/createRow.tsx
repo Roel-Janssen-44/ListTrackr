@@ -8,11 +8,13 @@ import { Task } from '@/app/lib/definitions';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function CreateTask({
+  project_id,
   table_id,
   type,
   date,
   addTask,
 }: {
+  project_id: string;
   table_id: string;
   type: 'goal' | 'task';
   date: string;
@@ -50,7 +52,12 @@ export default function CreateTask({
     }
   };
 
-  const createTaskWithTableId = createTask.bind(null, table_id, type);
+  const createTaskWithTableId = createTask.bind(
+    null,
+    project_id,
+    table_id,
+    type,
+  );
   const [state, dispatch] = useFormState(createTaskWithTableId, initialState);
 
   return (

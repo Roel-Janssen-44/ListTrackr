@@ -84,9 +84,11 @@ export async function fetchTasksToday() {
         tasks.order,
         tasks.type,
         tasks.user_id,
-        tables.title AS table_title
+        tables.title AS table_title,
+        projects.title AS project_title        
       FROM tasks
       FULL JOIN tables on tasks.table_id = tables.id
+      FULL JOIN projects on tasks.project_id = projects.id
       WHERE date = CURRENT_DATE
       AND tasks.user_id = ${userId} 
       ORDER BY "order" ASC
@@ -119,9 +121,11 @@ export async function fetchPreviousTasks() {
       tasks.order,
       tasks.type,
       tasks.user_id,
-      tables.title AS table_title
+      tables.title AS table_title,
+      projects.title AS project_title
     FROM tasks
     FULL JOIN tables on tasks.table_id = tables.id
+    FULL JOIN projects on tasks.project_id = projects.id
     WHERE tasks.date < CURRENT_DATE
     AND (tasks.status IS DISTINCT FROM 'completed' OR tasks.status IS NULL)
     AND tasks.user_id = ${userId}
@@ -155,9 +159,11 @@ export async function fetchTasksTomorrow() {
       tasks.order,
       tasks.type,
       tasks.user_id,
-      tables.title AS table_title
+      tables.title AS table_title,
+      projects.title AS project_title
     FROM tasks
     FULL JOIN tables on tasks.table_id = tables.id
+    FULL JOIN projects on tasks.project_id = projects.id
       WHERE tasks.date = CURRENT_DATE + INTERVAL '1 day'
       AND tasks.user_id = ${userId} 
       ORDER BY "order" ASC
@@ -536,6 +542,25 @@ export async function fetchProject(projectId: string) {
       where id = ${projectId}
     `;
 
+    const projectTasks = await sql`
+      SELECT * FROM tasks
+      WHERE project_id = ${projectId}
+      AND user_id = ${userId} 
+    `;
+
+    const tasks = projectTasks.rows.map((task) => ({
+      id: task.id,
+      title: task.title,
+      completed: task.completed,
+      priority: task.priority,
+      date: task.date,
+      table_id: task.table_id,
+      status: task.status,
+      order: task.order,
+      type: task.type,
+      user_id: task.user_id,
+    }));
+
     const project: Project = {
       id: projectId,
       title: data.rows[0].title,
@@ -544,6 +569,7 @@ export async function fetchProject(projectId: string) {
       endDate: data.rows[0].enddate,
       status: data.rows[0].status,
       customer_id: data.rows[0].customer_id,
+      tasks: tasks,
     };
 
     return project;

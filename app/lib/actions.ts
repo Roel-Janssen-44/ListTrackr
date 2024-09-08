@@ -110,6 +110,7 @@ export type TaskState = {
 };
 
 export async function createTask(
+  project_id: string,
   table_id: string,
   type: string,
   prevState: TaskState,
@@ -168,8 +169,8 @@ export async function createTask(
 
   try {
     await sql`
-      INSERT INTO tasks (id, title, table_id, type, user_id, date, status)
-      VALUES (${generatedId}, ${title}, ${table_id}, ${type}, ${userId}, ${setDate}, ${status})
+      INSERT INTO tasks (id, title, table_id, project_id, type, user_id, date, status)
+      VALUES (${generatedId}, ${title}, ${table_id}, ${project_id}, ${type}, ${userId}, ${setDate}, ${status})
     `;
   } catch (error) {
     return {

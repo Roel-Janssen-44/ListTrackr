@@ -159,6 +159,7 @@ export default function TaskTable({
             <CreateTask
               addTask={addTaskToState}
               table_id={table.id}
+              project_id={null}
               date="today"
               type="task"
             />
@@ -167,6 +168,7 @@ export default function TaskTable({
             <CreateTask
               addTask={addTaskToState}
               table_id={table.id}
+              project_id={null}
               date="tomorrow"
               type="task"
             />
@@ -175,6 +177,7 @@ export default function TaskTable({
             <CreateTask
               addTask={addTaskToState}
               table_id={table.id}
+              project_id={null}
               date=""
               type="task"
             />

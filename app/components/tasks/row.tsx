@@ -143,10 +143,13 @@ export default function TaskRow({
           ></label>
         </div>
         <div className="relative w-[350px] border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10">
-          {task.table_title && (
+          {(task.table_title || task.project_title) && (
             <>
               <p className="absolute left-1 top-0.5 z-0 flex flex-row text-xs">
                 {task.table_title}
+              </p>
+              <p className="absolute left-1 top-0.5 z-0 flex flex-row text-xs">
+                {task.project_title}
               </p>
               <CornerDownRight className="absolute left-2 top-1/2 h-auto w-3 -translate-y-1/2" />
             </>
