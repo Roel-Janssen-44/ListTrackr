@@ -1,5 +1,19 @@
-## Next.js App Router Course - Starter
+# listtrackr.nl - Hobby Project
 
-This is the starter template for the Next.js App Router Course. It contains the starting code for the dashboard application.
+Dit is een applicatie die is ontworpen om projecten en taken te beheren.
 
-For more information, see the [course curriculum](https://nextjs.org/learn) on the Next.js Website.
+## Live site
+
+[listtrackr.nl](https://www.listtrackr.nl/)
+
+## Technologieën
+
+Deze applicatie is gebouwd met behulp van de volgende technologieën:
+- **Nextjs**
+- **Tailwind CSS**
+- **PostgreSQL**
+
+## Contact
+
+Voor vragen of meer informatie kun je contact opnemen via roeljanssen2002@gmail.com of 06 363 588 63.
+
