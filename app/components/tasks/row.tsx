@@ -26,7 +26,7 @@ import {
 } from '@/app/components/chadcn/popover';
 import { cn } from '@lib/utils';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Input } from '@/app/components/chadcn/input';
 import { useFormState } from 'react-dom';
 
@@ -41,6 +41,8 @@ export default function TaskRow({
   removeTask: Function;
   updateTaskState: Function;
 }) {
+  const [focussed, setFocussed] = useState(false);
+
   const initialState = { message: null, errors: {} };
 
   const formRef = useRef(null);
@@ -144,7 +146,11 @@ export default function TaskRow({
         </div>
         <div className="relative w-[350px] border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10">
           {(task.table_title || task.project_title) && (
-            <>
+            <div
+              className={`pointer-events-none -z-10	 ${
+                focussed ? 'invisible' : 'visible'
+              }`}
+            >
               <p className="absolute left-1 top-0.5 z-0 flex flex-row text-xs">
                 {task.table_title}
               </p>
@@ -152,18 +158,20 @@ export default function TaskRow({
                 {task.project_title}
               </p>
               <CornerDownRight className="absolute left-2 top-1/2 h-auto w-3 -translate-y-1/2" />
-            </>
+            </div>
           )}
           <Input
             name="title"
-            className="cursor-pointer border-none bg-transparent dark:bg-transparent"
+            className="cursor-pointer border-none bg-transparent transition-all duration-75 dark:bg-transparent"
             defaultValue={task.title}
             onBlur={(e) => {
+              setFocussed(false);
               if (e.target.value == '') return;
               if (e.target.value == task.title) return;
               handleUpdateTask('title', e.target.value);
               handleBlur();
             }}
+            onFocus={() => setFocussed(true)}
           />
         </div>
         <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
