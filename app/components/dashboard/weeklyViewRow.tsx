@@ -51,7 +51,7 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
             <CornerDownRight className="absolute left-3 top-1/2 h-auto w-3 -translate-y-1/2 pt-1.5" />
           </>
         )}
-        <div className="ml-1 inline-block w-[255px] px-6 py-4 pb-2 font-medium sm:pl-6">
+        <div className="ml-1 inline-block w-[251px] px-6 py-4 pb-2 font-medium">
           {task.title}
           <span className="text-xs">
             {' '}
