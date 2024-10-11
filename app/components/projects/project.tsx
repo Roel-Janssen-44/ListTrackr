@@ -72,6 +72,9 @@ export default function ProjectTasksTable({ project }: { project: Project }) {
     ]);
   };
 
+  console.log('tasks');
+  console.log(project);
+
   return (
     <div>
       <div className="relative my-6 rounded-lg bg-white p-3 text-tertiary dark:bg-primary dark:text-white">

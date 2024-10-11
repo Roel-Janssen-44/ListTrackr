@@ -227,7 +227,11 @@ export default function TaskRow({
                 selected={new Date(task.date)}
                 onSelect={(e) => {
                   dateInputRef.current.value = format(e, 'yyyy-MM-dd');
-                  if (
+                  if (task.date == null || task.date == '') {
+                    handleUpdateTask('date', e);
+                    handleBlur();
+                    return;
+                  } else if (
                     format(new Date(task.date), 'yyyy-MM-dd') ==
                     format(e, 'yyyy-MM-dd')
                   ) {
