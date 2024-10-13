@@ -884,24 +884,45 @@ export async function deleteProject(formData: FormData) {
   }
 }
 
-export async function updateProjectNumber(props) {
-  console.log('newValue');
-  console.log('props');
-  console.log(props);
-  // const id = projectId;
-  // const status = newValue;
-  // try {
-  //   await sql`
-  //     UPDATE invoices
-  //     SET status=${status}
-  //     WHERE id=${id}
-  //   `;
-  //   revalidatePath('/dashboard/invoices');
-  //   return { success: true, message: '' };
-  // } catch (error) {
-  //   return {
-  //     status: 'error',
-  //     message: 'Database Error: Failed to update project.',
-  //   };
-  // }
+export async function updateProject(
+  projectId: string,
+  prevState: {
+    message: string;
+  },
+  formData: FormData,
+) {
+  const title = formData.get('title').toString();
+  const number = formData.get('number').toString();
+  const customerId = formData.get('customer').toString();
+  const status = formData.get('status').toString();
+  const startDate = new Date(formData.get('startDate').toString());
+  const endDate = formData.get('endDate')
+    ? new Date(formData.get('endDate').toString())
+    : null;
+
+  try {
+    const result = await db
+      .updateTable('projects')
+      .set({
+        title,
+        status,
+        project_number: number,
+        customer_id: customerId,
+        startdate: startDate,
+        enddate: endDate,
+      })
+      .where('id', '=', projectId)
+      .executeTakeFirst();
+
+    // Todo - check result if successful
+    console.log('result');
+    console.log(result);
+    revalidatePath('/dashboard/projects');
+    return { success: true, message: '' };
+  } catch (error) {
+    return {
+      status: 'error',
+      message: 'Database Error: Failed to update project.',
+    };
+  }
 }
