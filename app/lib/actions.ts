@@ -883,3 +883,25 @@ export async function deleteProject(formData: FormData) {
     };
   }
 }
+
+export async function updateProjectNumber(props) {
+  console.log('newValue');
+  console.log('props');
+  console.log(props);
+  // const id = projectId;
+  // const status = newValue;
+  // try {
+  //   await sql`
+  //     UPDATE invoices
+  //     SET status=${status}
+  //     WHERE id=${id}
+  //   `;
+  //   revalidatePath('/dashboard/invoices');
+  //   return { success: true, message: '' };
+  // } catch (error) {
+  //   return {
+  //     status: 'error',
+  //     message: 'Database Error: Failed to update project.',
+  //   };
+  // }
+}
