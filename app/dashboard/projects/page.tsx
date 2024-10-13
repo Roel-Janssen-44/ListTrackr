@@ -8,7 +8,7 @@ import { fetchProjects } from '@/app/lib/data';
 import { Project } from '@/app/lib/definitions';
 
 export default async function Projects() {
-  const projects: Project[] = await fetchProjects();
+  const projects: Project[] | undefined = await fetchProjects();
 
   return (
     <div className="w-full">

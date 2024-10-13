@@ -2,8 +2,14 @@
 
 import { sql } from '@vercel/postgres';
 import { auth } from 'auth';
-import { Customer, InvoiceTemplate, Project } from '@/app/lib/definitions';
+import {
+  Customer,
+  InvoiceTemplate,
+  Project,
+  Task,
+} from '@/app/lib/definitions';
 // import { unstable_noStore as noStore } from 'next/cache';
+import db from './db';
 
 // Fetch tables
 export async function fetchTables() {
@@ -493,24 +499,56 @@ export async function fetchInvoice(invoiceId: string) {
 
 // Projects
 
-export async function fetchProjects() {
+export async function fetchProjects(): Promise<Project[] | undefined> {
   const session = await auth();
   const userId = session?.user?.id;
-  if (!userId) return;
+  if (!userId) return undefined;
 
   try {
-    const data = await sql`
-      select id, title, startdate, enddate, status, customer_id, project_number from projects
-      WHERE user_id = ${userId}
-    `;
-    const projects: Project[] = data.rows.map((project) => ({
+    const data = await db
+      .selectFrom('projects')
+      .innerJoin('customers', 'projects.customer_id', 'customers.id')
+      .select([
+        'projects.id',
+        'projects.title',
+        'projects.startdate',
+        'projects.enddate',
+        'projects.status',
+        'projects.project_number as projectNumber',
+        'customers.id as customerId',
+        'customers.name as customerName',
+        'customers.email as customerEmail',
+        'customers.phone_number as customerPhone',
+        'customers.postalcode as customerPostalCode',
+        'customers.streetname as customerStreet',
+        'customers.housenumber as customerHouseNumber',
+        'customers.country as customerCountry',
+      ])
+      .where('projects.user_id', '=', userId as any)
+      .execute();
+
+    const projects: Project[] = data.map((project) => ({
       id: project.id,
       title: project.title,
-      number: project.project_number,
-      startDate: project.startdate,
-      endDate: project.enddate,
-      status: project.status,
-      customer_id: project.customer_id,
+      number: project.projectNumber,
+      startDate: project.startdate?.toString() || '',
+      endDate: project.enddate?.toString() || '',
+      status: project.status as
+        | 'completed'
+        | 'created'
+        | 'waiting'
+        | 'in progress',
+
+      customer: {
+        id: project.customerId,
+        name: project.customerName,
+        email: project.customerEmail,
+        phone: project.customerPhone,
+        postalCode: project.customerPostalCode,
+        street: project.customerStreet,
+        houseNumber: project.customerHouseNumber,
+        country: project.customerCountry,
+      },
     }));
 
     return projects;
@@ -520,55 +558,88 @@ export async function fetchProjects() {
   }
 }
 
-export async function fetchProject(projectId: string) {
+export async function fetchProject(projectId: string): Promise<Project | null> {
   const session = await auth();
   const userId = session?.user?.id;
   if (!userId) return;
-
   if (!projectId) return;
 
   try {
-    const data = await sql`
-      SELECT
-        id,
-        title,
-        startdate,
-        enddate,
-        status,
-        user_id,
-        customer_id,
-        project_number
-      from projects
-      where id = ${projectId}
-    `;
+    const projectDBData = await db
+      .selectFrom('projects')
+      .innerJoin('customers', 'projects.customer_id', 'customers.id')
+      .select([
+        'projects.id',
+        'projects.title',
+        'projects.startdate',
+        'projects.enddate',
+        'projects.status',
+        'projects.project_number as projectNumber',
+        'customers.id as customerId',
+        'customers.name as customerName',
+        'customers.email as customerEmail',
+        'customers.phone_number as customerPhone',
+        'customers.postalcode as customerPostalCode',
+        'customers.streetname as customerStreet',
+        'customers.housenumber as customerHouseNumber',
+        'customers.country as customerCountry',
+      ])
+      .where('projects.user_id', '=', userId as any)
+      .where('projects.id', '=', projectId)
+      .execute();
 
-    const projectTasks = await sql`
-      SELECT * FROM tasks
-      WHERE project_id = ${projectId}
-      AND user_id = ${userId} 
-    `;
+    if (projectDBData.length === 0) {
+      return null;
+    }
 
-    const tasks = projectTasks.rows.map((task) => ({
+    const projectData = projectDBData[0];
+
+    const projectTasks = await db
+      .selectFrom('tasks')
+      .selectAll()
+      .where('user_id', '=', userId as any)
+      .where('project_id', '=', projectId)
+      .execute();
+
+    const tasks: Task[] = projectTasks.map((task) => ({
       id: task.id,
       title: task.title,
       completed: task.completed,
-      priority: task.priority,
-      date: task.date,
+      priority: task.priority as '' | 'low' | 'medium' | 'high',
+      date: task.date?.toString() || '',
       table_id: task.table_id,
-      status: task.status,
+      status: task.status as
+        | ''
+        | 'planned'
+        | 'working on it'
+        | 'done'
+        | 'stuck',
       order: task.order,
       type: task.type,
       user_id: task.user_id,
     }));
 
     const project: Project = {
-      id: projectId,
-      title: data.rows[0].title,
-      number: data.rows[0].project_number,
-      startDate: data.rows[0].startdate,
-      endDate: data.rows[0].enddate,
-      status: data.rows[0].status,
-      customer_id: data.rows[0].customer_id,
+      id: projectData.id,
+      title: projectData.title,
+      number: projectData.projectNumber,
+      startDate: projectData.startdate?.toString() || '',
+      endDate: projectData.enddate?.toString() || '',
+      status: projectData.status as
+        | 'completed'
+        | 'created'
+        | 'waiting'
+        | 'in progress',
+      customer: {
+        id: projectData.customerId,
+        name: projectData.customerName,
+        email: '',
+        phone: '',
+        postalCode: '',
+        street: '',
+        houseNumber: '',
+        country: '',
+      },
       tasks: tasks,
     };
 

@@ -22,7 +22,6 @@ export default async function Page() {
   return (
     <main>
       <DashboardMessage />
-
       <Accordion
         type="multiple"
         defaultValue={['Weekly view', 'My tasks']}

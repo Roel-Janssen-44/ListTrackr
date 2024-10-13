@@ -30,9 +30,8 @@ export type Project = {
   number: string;
   startDate: string;
   endDate?: string;
-  // Todo - Status misschien nog aanpassen
   status: 'created' | 'waiting' | 'in progress' | 'completed';
-  customer_id: string;
+  customer: Customer;
   tasks?: Task[];
 };
 
@@ -56,7 +55,6 @@ export type Invoice = {
   project_id?: string;
 };
 
-// Todo - Invoice template
 export type InvoiceTemplate = {
   id: string;
   name: string;
