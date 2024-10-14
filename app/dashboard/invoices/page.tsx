@@ -1,14 +1,16 @@
-'use server';
-
 import { exo } from '@/app/components/fonts';
 import { Suspense } from 'react';
 import InvoiceTemplateTable from '@/app/components/invoices/templates/table';
 import InvoiceTable from '@/app/components/invoices/table';
 import { fetchInvoiceTemplates, fetchInvoices } from '@/app/lib/data';
-import { Invoice } from '@/app/lib/definitions';
+import { Invoice, InvoiceTemplateName } from '@/app/lib/definitions';
+import { Metadata } from 'next';
 
+export const metadata: Metadata = {
+  title: 'Invoice templates',
+};
 export default async function Invoices() {
-  const templates = await fetchInvoiceTemplates();
+  const templates: InvoiceTemplateName[] = await fetchInvoiceTemplates();
   const invoices: Invoice[] = await fetchInvoices();
 
   return (

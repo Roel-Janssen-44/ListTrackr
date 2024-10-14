@@ -1,10 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { Button } from '@/app/components/button';
-import { Invoice } from '@/app/lib/definitions';
+import { Invoice, InvoiceTemplateName } from '@/app/lib/definitions';
 import Link from 'next/link';
-import { Pencil } from 'lucide-react';
 import { format } from 'date-fns';
 import {
   Select,
@@ -30,22 +28,22 @@ export default function InvoicesTable({
   templates,
 }: {
   invoices: Invoice[];
-  templates;
+  templates: InvoiceTemplateName[];
 }) {
   return (
     <>
       <div className="flex flex-col flex-wrap gap-2">
         <div className="relative my-6 rounded-lg bg-white p-3 text-tertiary dark:bg-primary dark:text-white">
           <div className="w-full overflow-x-auto rounded-lg bg-white scrollbar scrollbar-track-slate-300 scrollbar-thumb-active scrollbar-track-rounded scrollbar-thumb-rounded scrollbar-h-3 dark:bg-secondary">
-            <div className="ml-[50px] table text-left text-sm font-normal">
-              <div className="flex w-full flex-row flex-nowrap items-center">
-                <div className="inline-block w-[350px] px-4 py-3 pb-2 font-medium sm:pl-6">
+            <div className="table w-full text-left text-sm font-normal">
+              <div className="justify-bwetween flex w-full flex-row flex-nowrap items-center justify-between">
+                <div className="inline-block w-[350px] px-4 py-3 pb-2 font-medium sm:pl-2">
                   Invoicenumber
                 </div>
                 <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
                   Amount
                 </div>
-                <div className="inline-block w-[175px] px-3 py-3 pb-2 pl-6 font-medium">
+                <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
                   Date
                 </div>
                 <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
@@ -61,7 +59,7 @@ export default function InvoicesTable({
                   className={`relative flex flex-row border-t-[1px] border-gray-200 odd:bg-gray-50 dark:border-white dark:border-opacity-10 dark:odd:bg-primary`}
                 >
                   {/* Todo - Order of invoices */}
-                  <div className="group flex w-full flex-row flex-nowrap items-center text-sm transition-colors hover:bg-gray-100 dark:hover:bg-active">
+                  <div className="group flex w-full flex-row flex-nowrap items-center justify-between text-sm transition-colors hover:bg-gray-100 dark:hover:bg-active">
                     <div className="w-[350px] border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10">
                       {invoice.number}
                     </div>
@@ -134,7 +132,8 @@ export default function InvoicesTable({
                     href={`/dashboard/invoices/create/${template.id}`}
                     className="flex h-36 w-36 items-center justify-center rounded-md border-2 border-primary transition-all hover:bg-primary hover:text-white"
                   >
-                    {template.templatename}
+                    {/* Todo - change to name */}
+                    {template.name}
                   </Link>
                 ))}
               </div>

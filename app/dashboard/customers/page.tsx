@@ -1,11 +1,14 @@
-'use server';
-
 import { exo } from '@/app/components/fonts';
 import { Suspense } from 'react';
 import { fetchCustomers } from '@/app/lib/data';
 import { Customer } from '@/app/lib/definitions';
 import Link from 'next/link';
 import CustomerCreationForm from '@/app/components/customers/createForm';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Customers',
+};
 
 export default async function Customers() {
   const customers = await fetchCustomers();

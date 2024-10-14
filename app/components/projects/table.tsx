@@ -66,7 +66,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
                       {project.customer.name}
                     </div>
 
-                    <div className="my-1 w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
+                    <div className="my-1 w-[175px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
                       {format(project.startDate, 'dd/MM/yyyy')}
                       {/* <Select
                         defaultValue={project.status}

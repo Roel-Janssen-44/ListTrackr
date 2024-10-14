@@ -102,3 +102,8 @@ export type Comment = {
   content: string;
   project_id: string;
 };
+
+export type InvoiceTemplateName = {
+  id: string;
+  name: string;
+};

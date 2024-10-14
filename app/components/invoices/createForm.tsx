@@ -16,10 +16,10 @@ export default function CreateInvoice({
   const [invoice, setInvoice] = useState<InvoiceTemplate>(invoiceTemplate);
   const router = useRouter();
 
-  useEffect(() => {
-    console.log('invoice creation from template');
-    console.log(invoice);
-  }, [invoice]);
+  // useEffect(() => {
+  //   console.log('invoice creation from template');
+  //   console.log(invoice);
+  // }, [invoice]);
 
   return (
     <>

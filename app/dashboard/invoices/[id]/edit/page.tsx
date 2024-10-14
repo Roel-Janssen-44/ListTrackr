@@ -1,12 +1,13 @@
-'use server';
-
-import { exo } from '@/app/components/fonts';
 import { Suspense } from 'react';
-import Link from 'next/link';
-import { ChevronLeftIcon } from '@heroicons/react/24/outline';
 import DeleteInvoiceForm from '@/app/components/invoices/deleteForm';
 import { fetchInvoice } from '@/app/lib/data';
 import InvoiceEditForm from '@/app/components/invoices/editForm';
+import PreviousPage from '@/app/components/previousPage';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Edit invoice',
+};
 
 export default async function InvoiceEdit({
   params,
@@ -18,19 +19,7 @@ export default async function InvoiceEdit({
   return (
     <div className="w-full">
       <div className="mb-6 flex flex-row justify-start gap-6">
-        <Link
-          href={`/dashboard/invoices/${params.id}`}
-          className="group flex flex-row items-center justify-center gap-1 hover:text-active"
-        >
-          <span className="mt-0.5 w-4">
-            <ChevronLeftIcon className="stroke-[3]" />
-          </span>{' '}
-          <h2
-            className={`${exo.className} my-auto self-baseline text-lg font-bold`}
-          >
-            Previous
-          </h2>
-        </Link>
+        <PreviousPage />
 
         <h1 className="my-auto mr-20 w-full self-baseline text-center text-2xl font-bold">
           {invoice.fieldGroups[3].fields[0].value}

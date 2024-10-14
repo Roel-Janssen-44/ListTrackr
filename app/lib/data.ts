@@ -7,6 +7,8 @@ import {
   InvoiceTemplate,
   Project,
   Task,
+  Invoice,
+  InvoiceTemplateName,
 } from '@/app/lib/definitions';
 // import { unstable_noStore as noStore } from 'next/cache';
 import db from './db';
@@ -297,11 +299,21 @@ export async function fetchInvoiceTemplates() {
   if (!userId) return;
 
   try {
-    const data = await sql`
-      select id, templatename from invoices
-      WHERE user_id = ${userId} AND status IS NULL
-    `;
-    return data.rows;
+    const data = await db
+      .selectFrom('invoices')
+      .select(['id', 'templatename'])
+      .where('user_id', '=', userId as any)
+      .where('status', 'is', null)
+      .execute();
+
+    const invoiceTemplatesNames: InvoiceTemplateName[] = data.map(
+      (invoice) => ({
+        id: invoice.id,
+        name: invoice.templatename,
+      }),
+    );
+
+    return invoiceTemplatesNames;
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch all invoices.');
@@ -644,6 +656,37 @@ export async function fetchProject(projectId: string): Promise<Project | null> {
     };
 
     return project;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch invoice template.');
+  }
+}
+
+export async function fetchProjectInvoices(
+  projectId: string,
+): Promise<Invoice[] | null> {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return;
+  if (!projectId) return;
+
+  try {
+    const invoicesData = await db
+      .selectFrom('invoices')
+      .select(['id', 'amount', 'invoice_number', 'status', 'datecreated'])
+      .where('user_id', '=', userId as any)
+      .where('project_id', '=', projectId)
+      .execute();
+
+    const invoices: Invoice[] = invoicesData.map((invoice) => ({
+      id: invoice.id,
+      number: invoice.invoice_number,
+      amount: Number(invoice.amount),
+      status: invoice.status as 'paid' | 'pending' | 'overdue' | 'created',
+      date: invoice.datecreated.toString(),
+    }));
+
+    return invoices;
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch invoice template.');

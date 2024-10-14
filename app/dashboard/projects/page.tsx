@@ -1,11 +1,13 @@
-'use server';
-
 import { exo } from '@/app/components/fonts';
 import { Suspense } from 'react';
-import Link from 'next/link';
 import ProjectsTable from '@/app/components/projects/table';
 import { fetchProjects } from '@/app/lib/data';
 import { Project } from '@/app/lib/definitions';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Projects',
+};
 
 export default async function Projects() {
   const projects: Project[] | undefined = await fetchProjects();
