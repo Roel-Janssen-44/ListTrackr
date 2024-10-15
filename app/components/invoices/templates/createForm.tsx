@@ -167,10 +167,10 @@ export default function CreateInvoiceTemplate({
 
   const router = useRouter();
 
-  useEffect(() => {
-    console.log('invoice template creation');
-    console.log(invoice);
-  }, [invoice]);
+  // useEffect(() => {
+  //   console.log('invoice template creation');
+  //   console.log(invoice);
+  // }, [invoice]);
 
   return (
     <>

@@ -2,11 +2,15 @@
 
 import { useState } from 'react';
 import { Button } from '@/app/components/button';
-import { InvoiceTemplate } from '@/app/lib/definitions';
+import { InvoiceTemplateName } from '@/app/lib/definitions';
 import Link from 'next/link';
 import { Pencil } from 'lucide-react';
 
-export default function InvoiceTemplatesTable({ templates }: { templates }) {
+export default function InvoiceTemplatesTable({
+  templates,
+}: {
+  templates: InvoiceTemplateName[];
+}) {
   return (
     <>
       <div className="mb-8 flex flex-row flex-wrap gap-8">
@@ -15,7 +19,7 @@ export default function InvoiceTemplatesTable({ templates }: { templates }) {
             key={template.id}
             className="group relative flex h-56 w-56 items-center justify-center overflow-hidden rounded-lg p-8 shadow"
           >
-            <h3 className="text-center">{template.templatename}</h3>
+            <h3 className="text-center">{template.name}</h3>
             <div className="absolute top-full flex flex-row gap-4 opacity-0 transition-all group-hover:top-[75%] group-hover:opacity-100">
               <Link href={`/dashboard/invoices/create/${template.id}`}>
                 <Button>Use</Button>

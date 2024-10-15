@@ -58,7 +58,6 @@ export default function InvoicesTable({
                   key={invoice.id}
                   className={`relative flex flex-row border-t-[1px] border-gray-200 odd:bg-gray-50 dark:border-white dark:border-opacity-10 dark:odd:bg-primary`}
                 >
-                  {/* Todo - Order of invoices */}
                   <div className="group flex w-full flex-row flex-nowrap items-center justify-between text-sm transition-colors hover:bg-gray-100 dark:hover:bg-active">
                     <div className="w-[350px] border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10">
                       {invoice.number}
@@ -132,7 +131,6 @@ export default function InvoicesTable({
                     href={`/dashboard/invoices/create/${template.id}`}
                     className="flex h-36 w-36 items-center justify-center rounded-md border-2 border-primary transition-all hover:bg-primary hover:text-white"
                   >
-                    {/* Todo - change to name */}
                     {template.name}
                   </Link>
                 ))}

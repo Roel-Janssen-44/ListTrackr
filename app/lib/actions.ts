@@ -11,7 +11,7 @@ import { v4 as uuid } from 'uuid';
 import { format, startOfWeek, addDays } from 'date-fns';
 import { Customer, InvoiceTemplate } from '@/app/lib/definitions';
 import { getCurrentFieldGroup } from '@/app/lib/utils';
-import { calculateSubTotal } from '@/app/lib/utils';
+import { calculateSubTotal, calculateInvoice } from '@/app/lib/utils';
 
 import db from './db';
 
@@ -654,7 +654,10 @@ export async function updateInvoiceTemplate(invoice: InvoiceTemplate) {
   }
 }
 
-export async function createInvoice(invoice: InvoiceTemplate) {
+export async function createInvoice(
+  invoice: InvoiceTemplate,
+  templateId: string,
+) {
   const session = await auth();
   const userId = session?.user?.id;
   if (!userId) return;
@@ -669,10 +672,21 @@ export async function createInvoice(invoice: InvoiceTemplate) {
     invoiceAppendix,
   } = invoice.settings;
 
-  getCurrentFieldGroup(invoice.fieldGroups, 'rows');
-  const amount = calculateSubTotal(
-    getCurrentFieldGroup(invoice.fieldGroups, 'rows'),
-  );
+  // getCurrentFieldGroup(invoice.fieldGroups, 'rows');
+  // // const subtotalAmount = calculateSubTotal(
+  // //   getCurrentFieldGroup(invoice.fieldGroups, 'rows'),
+  // // );
+  // // const amount  =
+
+  const invoiceCosts = calculateInvoice({
+    subtotal: calculateSubTotal(
+      getCurrentFieldGroup(invoice.fieldGroups, 'rows'),
+    ),
+    taxPercentage: invoice.settings.taxAmount,
+    taxType: invoice.settings.taxSetting,
+    discountAmount: invoice.settings.discountAmount || 0,
+    discountType: invoice.settings.discountType,
+  });
 
   const date = new Date().toISOString();
   const invoiceNumberFieldGroup = getCurrentFieldGroup(
@@ -684,8 +698,8 @@ export async function createInvoice(invoice: InvoiceTemplate) {
 
   try {
     await sql`
-    insert into invoices(id, invoice_number, message, amount, status, datecreated, discounttype, discountamount, taxsetting, taxamount, invoicebase, invoiceappendix, user_id, customer_id)
-    VALUES (${id}, ${invoiceNumber}, ${message}, ${amount}, 'created', ${date}, ${discountType}, ${discountAmount}, ${taxSetting}, ${taxAmount}, ${invoiceBase}, ${invoiceAppendix}, ${userId}, ${customerId})
+    insert into invoices(id, invoice_number, message, amount, status, datecreated, discounttype, discountamount, taxsetting, taxamount, invoicebase, invoiceappendix, user_id, customer_id, invoice_template_id)
+    VALUES (${id}, ${invoiceNumber}, ${message}, ${invoiceCosts.total}, 'created', ${date}, ${discountType}, ${discountAmount}, ${taxSetting}, ${taxAmount}, ${invoiceBase}, ${invoiceAppendix}, ${userId}, ${customerId}, ${templateId})
     `;
 
     for (const fieldGroup of invoice.fieldGroups) {

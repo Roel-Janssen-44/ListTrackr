@@ -10,8 +10,10 @@ import { useRouter } from 'next/navigation';
 
 export default function CreateInvoice({
   invoiceTemplate,
+  templateId,
 }: {
   invoiceTemplate: InvoiceTemplate;
+  templateId: string;
 }) {
   const [invoice, setInvoice] = useState<InvoiceTemplate>(invoiceTemplate);
   const router = useRouter();
@@ -27,8 +29,8 @@ export default function CreateInvoice({
       <div className="mt-6 flex flex-row gap-6">
         <Button
           onClick={() => {
-            createInvoice(invoice);
-            router.push(`/dashboard/invoices`);
+            createInvoice(invoice, templateId);
+            router.push(`/dashboard/invoices/${invoice.id}`);
           }}
         >
           Create

@@ -21,6 +21,7 @@ export default async function Invoices() {
       </Suspense>
       <h2 className="mb-4 mt-8 text-lg font-bold">Templates:</h2>
       <Suspense fallback={'Loading...'}>
+        {templates.length === 0 && <p>No templates found.</p>}
         <InvoiceTemplateTable templates={templates} />
       </Suspense>
     </div>

@@ -1,10 +1,10 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { InvoiceTemplate, Field } from '@/app/lib/definitions';
+import { InvoiceTemplate, Field, FieldGroup } from '@/app/lib/definitions';
 import { v4 as uuid } from 'uuid';
 
 export const formatCurrency = (amount: number) => {
-  return (amount / 100).toLocaleString('nl-NL', {
+  return amount.toLocaleString('nl-NL', {
     style: 'currency',
     currency: 'EUR',
   });
@@ -63,7 +63,10 @@ export function cn(...inputs: ClassValue[]) {
 
 // Invoice functions
 
-export function getCurrentFieldGroup(fieldGroups, fieldGroupName) {
+export function getCurrentFieldGroup(
+  fieldGroups: FieldGroup[],
+  fieldGroupName: string,
+) {
   const result = fieldGroups.filter(
     (fieldGroup) => fieldGroup.name == fieldGroupName,
   );

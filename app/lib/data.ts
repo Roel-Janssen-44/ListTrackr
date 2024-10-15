@@ -320,22 +320,26 @@ export async function fetchInvoiceTemplates() {
   }
 }
 
-export async function fetchInvoices() {
+export async function fetchInvoices(): Promise<Invoice[] | undefined> {
   const session = await auth();
   const userId = session?.user?.id;
   if (!userId) return;
 
   try {
-    const data = await sql`
-      select id, amount, invoice_number, status, datecreated from invoices
-      WHERE user_id = ${userId} AND status IS NOT NULL
-    `;
-    const invoices = data.rows.map((invoice) => ({
+    const invoicesData = await db
+      .selectFrom('invoices')
+      .select(['id', 'amount', 'invoice_number', 'status', 'datecreated'])
+      .where('user_id', '=', userId as any)
+      .where('status', 'is not', null)
+      .orderBy('invoice_number', 'asc')
+      .execute();
+
+    const invoices = invoicesData.map((invoice) => ({
       id: invoice.id,
       number: invoice.invoice_number,
-      amount: invoice.amount,
-      status: invoice.status,
-      date: invoice.datecreated,
+      amount: Number(invoice.amount),
+      status: invoice.status as 'paid' | 'pending' | 'overdue' | 'created',
+      date: invoice.datecreated?.toString() || '',
     }));
 
     return invoices;
@@ -354,7 +358,10 @@ export async function fetchInvoiceTemplate(invoiceId: string) {
 
   try {
     const rowCount = await sql`
-      SELECT count(*) AS exact_count FROM invoices where user_id='5' AND status IS NOT NULL;
+      SELECT count(*) AS exact_count FROM invoices 
+      WHERE user_id=${userId} 
+      AND status IS NOT NULL
+      AND invoice_template_id=${invoiceId};
     `;
 
     const data = await sql`

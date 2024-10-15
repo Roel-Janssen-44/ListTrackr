@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import InvoiceCreateForm from '@/app/components/invoices/createForm';
+import CreateInvoice from '@/app/components/invoices/createForm';
 import { fetchInvoiceTemplate } from '@/app/lib/data';
 import { InvoiceTemplate } from '@/app/lib/definitions';
 import { v4 as uuid } from 'uuid';
@@ -16,11 +16,14 @@ export default async function InvoiceTemplateCreation({
 }: {
   params: { id: string };
 }) {
-  let invoiceTemplate: InvoiceTemplate = await fetchInvoiceTemplate(params.id);
+  const invoiceTemplate: InvoiceTemplate = await fetchInvoiceTemplate(
+    params.id,
+  );
 
+  let newInvoice = { ...invoiceTemplate };
   // Generate new id's to prevent duplicate id's from the template
-  invoiceTemplate.id = uuid();
-  invoiceTemplate.fieldGroups.forEach((fieldGroup) => {
+  newInvoice.id = uuid();
+  newInvoice.fieldGroups.forEach((fieldGroup) => {
     fieldGroup.id = uuid();
     fieldGroup.fields.forEach((field) => {
       field.id = uuid();
@@ -28,10 +31,20 @@ export default async function InvoiceTemplateCreation({
 
     // Auto generate date and invcoice number
     if (fieldGroup.name == 'invoiceNumber') {
-      fieldGroup.fields[0].value =
-        invoiceTemplate.settings.invoiceBase +
-        invoiceTemplate.invoiceCount *
-          Number(invoiceTemplate.settings.invoiceAppendix);
+      const invoiceCount = newInvoice.invoiceCount + 1;
+      const invoiceAppendix = Number(newInvoice.settings.invoiceAppendix);
+      const invoiceBaseStr = newInvoice.settings.invoiceBase;
+
+      const lastNumberMatch = invoiceBaseStr.match(/(\d+)(?!.*\d)/);
+      const invoiceBase = lastNumberMatch ? Number(lastNumberMatch[0]) : 0;
+
+      const newNumber = String(invoiceBase + invoiceCount * invoiceAppendix);
+      const newInvoiceBaseStr = invoiceBaseStr.replace(
+        /(\d+)(?!.*\d)/,
+        newNumber,
+      );
+
+      fieldGroup.fields[0].value = newInvoiceBaseStr;
       fieldGroup.fields[1].value = format(new Date(), 'dd-MM-yyyy');
     }
   });
@@ -42,7 +55,10 @@ export default async function InvoiceTemplateCreation({
         <PreviousPage />
       </div>
       <Suspense fallback={'Loading...'}>
-        <InvoiceCreateForm invoiceTemplate={invoiceTemplate} />
+        <CreateInvoice
+          invoiceTemplate={newInvoice}
+          templateId={invoiceTemplate.id}
+        />
       </Suspense>
     </div>
   );

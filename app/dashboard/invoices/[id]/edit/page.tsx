@@ -22,7 +22,7 @@ export default async function InvoiceEdit({
         <PreviousPage />
 
         <h1 className="my-auto mr-20 w-full self-baseline text-center text-2xl font-bold">
-          {invoice.fieldGroups[3].fields[0].value}
+          {invoice.fieldGroups[3]?.fields[0].value}
         </h1>
 
         <div className="flex flex-row justify-center gap-4">

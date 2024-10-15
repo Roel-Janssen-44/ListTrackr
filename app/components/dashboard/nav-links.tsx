@@ -75,7 +75,7 @@ export default function NavLinks() {
               key={link.name}
               href={link.href}
               className={clsx(
-                'flex h-[48px] grow items-center justify-center gap-2 rounded-md  p-3 text-sm font-medium dark:hover:text-white md:flex-none md:justify-center md:p-2 md:px-3',
+                'flex h-[48px] grow items-center justify-center gap-2 rounded-md  p-3 text-sm font-medium dark:hover:text-white md:flex-none md:justify-center md:p-2 md:px-3 group-hover:md:justify-start',
                 {
                   'bg-active text-white hover:bg-active hover:text-white dark:bg-active dark:text-white':
                     pathname.includes(link.activeFilter) ||
@@ -105,7 +105,7 @@ export default function NavLinks() {
               <Link
                 href={link.href}
                 className={clsx(
-                  'flex h-[48px] grow items-center justify-center gap-2 rounded-md  p-3 text-sm font-medium dark:hover:text-white md:flex-none md:justify-center md:p-2 md:px-3',
+                  'flex h-[48px] grow items-center justify-center gap-2 rounded-md  p-3 text-sm font-medium dark:hover:text-white md:flex-none md:justify-center md:p-2 md:px-3 group-hover:md:justify-start',
                   {
                     'bg-active text-white hover:bg-active hover:text-white dark:bg-active dark:text-white':
                       pathname.includes(link.activeFilter) ||
