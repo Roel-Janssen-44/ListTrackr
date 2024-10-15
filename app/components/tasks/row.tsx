@@ -140,7 +140,7 @@ export default function TaskRow({
             }}
           />
           <label
-            className="absolute left-0 top-0 h-full w-full cursor-pointer"
+            className="absolute left-0 top-1/2 h-full min-h-[46px] w-full -translate-y-1/2 cursor-pointer"
             htmlFor={task.id}
           ></label>
         </div>

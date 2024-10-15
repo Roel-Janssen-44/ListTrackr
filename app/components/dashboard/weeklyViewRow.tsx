@@ -58,8 +58,12 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
             ({task.completedDates.length} of {task.daysPerWeek})
           </span>
         </div>
-        <div className="inline-block w-[95px] border-l-2 border-gray-200 p-1 text-center font-medium dark:border-active">
-          <form ref={mondayRef} action={dispatch}>
+        <div className="inline-block min-h-[40px] w-[95px] border-l-2 border-gray-200 p-1 text-center font-medium dark:border-active">
+          <form
+            ref={mondayRef}
+            action={dispatch}
+            className="relative flex h-full min-h-[40px] w-full items-center justify-center"
+          >
             <input type="hidden" name="day" value={'monday'} />
             <input
               type="hidden"
@@ -68,8 +72,13 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
                 task.completedDates.find((dateObj) => dateObj.day == '1')?.id
               }
             />
+            <label
+              className="absolute left-0 top-0 h-full w-full cursor-pointer"
+              htmlFor={`monday-${task.id}`}
+            ></label>
             <Checkbox
               name="completed"
+              id={`monday-${task.id}`}
               defaultChecked={task.completedDates.some(
                 (dateObj) => dateObj.day == '1',
               )}
@@ -83,8 +92,12 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
             />
           </form>
         </div>
-        <div className="inline-block w-[95px] border-l-2 border-gray-200 p-1 text-center font-medium dark:border-active">
-          <form ref={tuesdayRef} action={dispatch}>
+        <div className="inline-block min-h-[40px] w-[95px] border-l-2 border-gray-200 p-1 text-center font-medium dark:border-active">
+          <form
+            ref={tuesdayRef}
+            action={dispatch}
+            className="relative flex h-full min-h-[40px] w-full items-center justify-center"
+          >
             <input type="hidden" name="day" value={'tuesday'} />
             <input
               type="hidden"
@@ -93,7 +106,13 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
                 task.completedDates.find((dateObj) => dateObj.day == '2')?.id
               }
             />
+            <label
+              className="absolute left-0 top-0 h-full w-full cursor-pointer"
+              htmlFor={`tuesday-${task.id}`}
+            ></label>
+
             <Checkbox
+              id={`tuesday-${task.id}`}
               name="completed"
               defaultChecked={task.completedDates.some(
                 (dateObj) => dateObj.day == '2',
@@ -108,8 +127,12 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
             />
           </form>
         </div>
-        <div className="inline-block w-[95px] border-l-2 border-gray-200 p-1 text-center font-medium dark:border-active">
-          <form ref={wednesdayRef} action={dispatch}>
+        <div className="inline-block min-h-[40px] w-[95px] border-l-2 border-gray-200 p-1 text-center font-medium dark:border-active">
+          <form
+            ref={wednesdayRef}
+            action={dispatch}
+            className="relative flex h-full min-h-[40px] w-full items-center justify-center"
+          >
             <input type="hidden" name="day" value={'wednesday'} />
             <input
               type="hidden"
@@ -117,8 +140,13 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
               value={
                 task.completedDates.find((dateObj) => dateObj.day == '3')?.id
               }
-            />
+            />{' '}
+            <label
+              className="absolute left-0 top-0 h-full w-full cursor-pointer"
+              htmlFor={`wednesday-${task.id}`}
+            ></label>
             <Checkbox
+              id={`wednesday-${task.id}`}
               name="completed"
               defaultChecked={task.completedDates.some(
                 (dateObj) => dateObj.day == '3',
@@ -131,8 +159,12 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
             />
           </form>
         </div>
-        <div className="inline-block w-[95px] border-l-2 border-gray-200 p-1 text-center font-medium dark:border-active">
-          <form ref={thursdayRef} action={dispatch}>
+        <div className="inline-block min-h-[40px] w-[95px] border-l-2 border-gray-200 p-1 text-center font-medium dark:border-active">
+          <form
+            ref={thursdayRef}
+            action={dispatch}
+            className="relative flex h-full min-h-[40px] w-full items-center justify-center"
+          >
             <input type="hidden" name="day" value={'thursday'} />
             <input
               type="hidden"
@@ -141,8 +173,14 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
                 task.completedDates.find((dateObj) => dateObj.day == '4')?.id
               }
             />
+            <label
+              className="absolute left-0 top-0 h-full w-full cursor-pointer"
+              htmlFor={`thursday-${task.id}`}
+            ></label>
+
             <Checkbox
               name="completed"
+              id={`thursday-${task.id}`}
               defaultChecked={task.completedDates.some(
                 (dateObj) => dateObj.day == '4',
               )}
@@ -155,8 +193,12 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
           </form>
         </div>
 
-        <div className="inline-block w-[95px] border-l-2 border-gray-200 p-1 text-center font-medium dark:border-active">
-          <form ref={fridayRef} action={dispatch}>
+        <div className="inline-block min-h-[40px] w-[95px] border-l-2 border-gray-200 p-1 text-center font-medium dark:border-active">
+          <form
+            ref={fridayRef}
+            action={dispatch}
+            className="relative flex h-full min-h-[40px] w-full items-center justify-center"
+          >
             <input type="hidden" name="day" value={'friday'} />
             <input
               type="hidden"
@@ -165,8 +207,14 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
                 task.completedDates.find((dateObj) => dateObj.day == '5')?.id
               }
             />
+            <label
+              className="absolute left-0 top-0 h-full w-full cursor-pointer"
+              htmlFor={`friday-${task.id}`}
+            ></label>
+
             <Checkbox
               name="completed"
+              id={`friday-${task.id}`}
               defaultChecked={task.completedDates.some(
                 (dateObj) => dateObj.day == '5',
               )}
@@ -178,8 +226,12 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
             />
           </form>
         </div>
-        <div className="inline-block w-[95px] border-l-2 border-gray-200 p-1 text-center font-medium dark:border-active">
-          <form ref={saturdayRef} action={dispatch}>
+        <div className="inline-block min-h-[40px] w-[95px] border-l-2 border-gray-200 p-1 text-center font-medium dark:border-active">
+          <form
+            ref={saturdayRef}
+            action={dispatch}
+            className="relative flex h-full min-h-[40px] w-full items-center justify-center"
+          >
             <input type="hidden" name="day" value={'saturday'} />
             <input
               type="hidden"
@@ -188,7 +240,13 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
                 task.completedDates.find((dateObj) => dateObj.day == '6')?.id
               }
             />
+            <label
+              className="absolute left-0 top-0 h-full w-full cursor-pointer"
+              htmlFor={`saturday-${task.id}`}
+            ></label>
+
             <Checkbox
+              id={`saturday-${task.id}`}
               name="completed"
               defaultChecked={task.completedDates.some(
                 (dateObj) => dateObj.day == '6',
@@ -201,8 +259,12 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
             />
           </form>
         </div>
-        <div className="inline-block w-[95px] border-l-2 border-gray-200 p-1 text-center font-medium dark:border-active">
-          <form ref={sundayRef} action={dispatch}>
+        <div className="inline-block min-h-[40px] w-[95px] border-l-2 border-gray-200 p-1 text-center font-medium dark:border-active">
+          <form
+            ref={sundayRef}
+            action={dispatch}
+            className="relative flex h-full min-h-[40px] w-full items-center justify-center"
+          >
             <input type="hidden" name="day" value={'sunday'} />
             <input
               type="hidden"
@@ -211,7 +273,12 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
                 task.completedDates.find((dateObj) => dateObj.day == '7')?.id
               }
             />
+            <label
+              className="absolute left-0 top-0 h-full w-full cursor-pointer"
+              htmlFor={`sunday-${task.id}`}
+            ></label>
             <Checkbox
+              id={`sunday-${task.id}`}
               name="completed"
               defaultChecked={task.completedDates.some(
                 (dateObj) => dateObj.day == '7',
