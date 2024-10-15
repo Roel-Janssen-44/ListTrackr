@@ -58,7 +58,7 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
             ({task.completedDates.length} of {task.daysPerWeek})
           </span>
         </div>
-        <div className="inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active">
+        <div className="inline-block w-[95px] border-l-2 border-gray-200 p-1 text-center font-medium dark:border-active">
           <form ref={mondayRef} action={dispatch}>
             <input type="hidden" name="day" value={'monday'} />
             <input
@@ -83,7 +83,7 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
             />
           </form>
         </div>
-        <div className="inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active">
+        <div className="inline-block w-[95px] border-l-2 border-gray-200 p-1 text-center font-medium dark:border-active">
           <form ref={tuesdayRef} action={dispatch}>
             <input type="hidden" name="day" value={'tuesday'} />
             <input
@@ -108,7 +108,7 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
             />
           </form>
         </div>
-        <div className="inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active">
+        <div className="inline-block w-[95px] border-l-2 border-gray-200 p-1 text-center font-medium dark:border-active">
           <form ref={wednesdayRef} action={dispatch}>
             <input type="hidden" name="day" value={'wednesday'} />
             <input
@@ -124,8 +124,6 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
                 (dateObj) => dateObj.day == '3',
               )}
               onCheckedChange={(e) => {
-                console.log('log wednesday change');
-                console.log(e);
                 if (wednesdayRef.current) {
                   wednesdayRef.current.requestSubmit();
                 }
@@ -133,7 +131,7 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
             />
           </form>
         </div>
-        <div className="inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active">
+        <div className="inline-block w-[95px] border-l-2 border-gray-200 p-1 text-center font-medium dark:border-active">
           <form ref={thursdayRef} action={dispatch}>
             <input type="hidden" name="day" value={'thursday'} />
             <input
@@ -149,8 +147,6 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
                 (dateObj) => dateObj.day == '4',
               )}
               onCheckedChange={(e) => {
-                console.log('log thursday change');
-                console.log(e);
                 if (thursdayRef.current) {
                   thursdayRef.current.requestSubmit();
                 }
@@ -159,7 +155,7 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
           </form>
         </div>
 
-        <div className="inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active">
+        <div className="inline-block w-[95px] border-l-2 border-gray-200 p-1 text-center font-medium dark:border-active">
           <form ref={fridayRef} action={dispatch}>
             <input type="hidden" name="day" value={'friday'} />
             <input
@@ -175,8 +171,6 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
                 (dateObj) => dateObj.day == '5',
               )}
               onCheckedChange={(e) => {
-                console.log('log friday change');
-                console.log(e);
                 if (fridayRef.current) {
                   fridayRef.current.requestSubmit();
                 }
@@ -184,7 +178,7 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
             />
           </form>
         </div>
-        <div className="inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active">
+        <div className="inline-block w-[95px] border-l-2 border-gray-200 p-1 text-center font-medium dark:border-active">
           <form ref={saturdayRef} action={dispatch}>
             <input type="hidden" name="day" value={'saturday'} />
             <input
@@ -200,8 +194,6 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
                 (dateObj) => dateObj.day == '6',
               )}
               onCheckedChange={(e) => {
-                console.log('log saturday change');
-                console.log(e);
                 if (saturdayRef.current) {
                   saturdayRef.current.requestSubmit();
                 }
@@ -209,7 +201,7 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
             />
           </form>
         </div>
-        <div className="inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active">
+        <div className="inline-block w-[95px] border-l-2 border-gray-200 p-1 text-center font-medium dark:border-active">
           <form ref={sundayRef} action={dispatch}>
             <input type="hidden" name="day" value={'sunday'} />
             <input
@@ -225,8 +217,6 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
                 (dateObj) => dateObj.day == '7',
               )}
               onCheckedChange={(e) => {
-                console.log('log sunday change');
-                console.log(e);
                 if (sundayRef.current) {
                   sundayRef.current.requestSubmit();
                 }
