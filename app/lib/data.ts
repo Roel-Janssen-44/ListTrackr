@@ -365,7 +365,7 @@ export async function fetchInvoiceTemplate(invoiceId: string) {
     `;
 
     const data = await sql`
-      select templatename, message, discounttype, discountamount, taxsetting, taxamount, invoicebase, invoiceappendix
+      select templatename, message, discounttype, discountamount, taxsetting, taxamount, invoicebase, invoiceappendix, logo_url
       from invoices
       where id = ${invoiceId}
     `;
@@ -410,11 +410,13 @@ export async function fetchInvoiceTemplate(invoiceId: string) {
       taxamount,
       invoicebase,
       invoiceappendix,
+      logo_url: templateLogo,
     } = data.rows[0];
 
     const invoiceTemplate: InvoiceTemplate = {
       id: invoiceId,
       name: templateName,
+      logo: templateLogo,
       fieldGroups: fieldGroupsWithFields,
       customerId: '',
       invoiceCount: Number(rowCount.rows[0].exact_count),
@@ -445,7 +447,7 @@ export async function fetchInvoice(invoiceId: string) {
 
   try {
     const data = await sql`
-      select message, discounttype, templatename, discountamount, taxsetting, taxamount, invoicebase, invoiceappendix, customer_id
+      select message, discounttype, templatename, discountamount, taxsetting, taxamount, invoicebase, invoiceappendix, customer_id, logo_url
       from invoices
       where id = ${invoiceId}
     `;
@@ -491,11 +493,13 @@ export async function fetchInvoice(invoiceId: string) {
       invoicebase,
       invoiceappendix,
       customer_id,
+      logo_url: templateLogo,
     } = data.rows[0];
 
     const invoiceTemplate: InvoiceTemplate = {
       id: invoiceId,
       name: templatename,
+      logo: templateLogo,
       fieldGroups: fieldGroupsWithFields,
       customerId: customer_id,
       message: message,

@@ -23,7 +23,12 @@ export default function CreateInvoiceTemplate({
         id: uuid(),
         name: 'logo',
         position: 1,
-        fields: [],
+        fields: [
+          {
+            id: uuid(),
+            data: '',
+          },
+        ],
       },
       {
         id: uuid(),

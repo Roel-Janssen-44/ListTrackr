@@ -58,6 +58,7 @@ export type Invoice = {
 export type InvoiceTemplate = {
   id: string;
   name: string;
+  logo: string;
   fieldGroups: FieldGroup[];
   message: string;
   customerId?: string;

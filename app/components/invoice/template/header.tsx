@@ -4,7 +4,6 @@ import TemplateInvoiceNumber from './invoiceNumber';
 import TemplateClientData from './clientData';
 
 import { getCurrentFieldGroup } from '@/app/lib/utils';
-
 import { InvoiceTemplate } from '@/app/lib/definitions';
 
 export default function TemplateHeader({
@@ -18,7 +17,11 @@ export default function TemplateHeader({
     <ul className="m-0 grid grid-cols-2 gap-4 gap-y-8 p-4 pb-0">
       <div className="">
         {/* Todo - logo upload */}
-        <TemplateLogoUpload invoice={invoice} setInvoice={setInvoice} />
+        <TemplateLogoUpload
+          invoice={invoice}
+          setInvoice={setInvoice}
+          fields={getCurrentFieldGroup(invoice.fieldGroups, 'logo')}
+        />
       </div>
       <div className="">
         <TemplateInvoiceNumber

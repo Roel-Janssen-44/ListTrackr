@@ -1,6 +1,6 @@
 'use client';
 
-import InvoiceLogoUpload from './logo';
+import InvoiceLogo from './logo';
 import InvoiceCompanyData from './companydata';
 import InvoiceInvoiceNumber from './invoiceNumber';
 import InvoiceClientData from './clientData';
@@ -18,7 +18,7 @@ export default function InvoiceHeader({
   return (
     <ul className="m-0 grid grid-cols-2 gap-4 gap-y-8 p-4 pb-0">
       <div className="">
-        <InvoiceLogoUpload />
+        <InvoiceLogo logo={invoice.logo} />
       </div>
       <div className="">
         <InvoiceInvoiceNumber
