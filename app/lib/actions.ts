@@ -237,7 +237,7 @@ export async function updateTask(
     try {
       sql`
       UPDATE tasks
-      set
+      set 
       title=${title},
       completed=false,
       priority=${priority},

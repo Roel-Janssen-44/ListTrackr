@@ -18,7 +18,7 @@ export default function Invoice({
 }) {
   return (
     <div className="flex flex-row flex-wrap justify-between">
-      <div className="w-[704px] min-w-[704px] max-w-[704px] flex-1 rounded-xl shadow-xl">
+      <div className="mt-6 w-[704px] min-w-[704px] max-w-[704px] flex-1 rounded-xl shadow-xl">
         <div
           className={`flex-1 overflow-visible p-8 ${
             viewStyle === 'preview'

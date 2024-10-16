@@ -384,18 +384,21 @@ export function convertToCurrency(amount) {
     minimumFractionDigits: 2,
   });
 
+  // Replace the last two digits (cents) with a dash
+  const formattedWithoutCents = formattedValue.replace(/,00$/, ',-');
+
   // Add a space after the Euro sign
-  const euroSignIndex = formattedValue.indexOf('€');
-  if (euroSignIndex !== -1) {
+  const euroSignIndex = formattedWithoutCents.indexOf('€');
+  if (euroSignIndex !== 0) {
     const euroSignPosition = euroSignIndex + 1;
-    const formattedOutput = `${formattedValue.slice(
+    const formattedOutput = `${formattedWithoutCents.slice(
       0,
       euroSignPosition,
-    )} ${formattedValue.slice(euroSignPosition)}`;
+    )} ${formattedWithoutCents.slice(euroSignPosition)}`;
     return formattedOutput;
   }
 
-  return formattedValue;
+  return formattedWithoutCents;
 }
 
 export function removeNonNumericCharacters(value) {

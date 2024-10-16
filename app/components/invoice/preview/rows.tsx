@@ -22,7 +22,9 @@ export default function PreviewRows({ fields }: { fields: any }) {
               key={'preview_column-2' + field.id}
               className="my-2 flex flex-row last-of-type:mb-0"
             >
-              <span className="w-[108px]">{field.price}</span>
+              <span className="w-[108px]">
+                {convertToCurrency(Number(field.price))}
+              </span>
             </div>
           ))}
         </li>
