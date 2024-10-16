@@ -1,13 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import { Button } from '@/app/components/button';
 import Invoice from '@/app/components/invoice/invoice';
 import Link from 'next/link';
 import { v4 as uuid } from 'uuid';
 import { InvoiceTemplate } from '@/app/lib/definitions';
-import { Input } from '@/app/components/chadcn/input';
 import { useRouter } from 'next/navigation';
 
 export default function CreateInvoiceTemplate({
@@ -158,8 +157,8 @@ export default function CreateInvoiceTemplate({
     settings: {
       discountType: 'none',
       discountAmount: 0,
-      // Todo - add theme color
-      // themeColor: "#12a1c1" ,
+      themeColor: '#5E0035',
+      // Todo - update to correct type
       // @ts-ignore
       taxSetting: '',
       taxAmount: '',
@@ -172,20 +171,8 @@ export default function CreateInvoiceTemplate({
 
   const router = useRouter();
 
-  // useEffect(() => {
-  //   console.log('invoice template creation');
-  //   console.log(invoice);
-  // }, [invoice]);
-
   return (
     <>
-      {/* Todo - change look of input */}
-      <Input
-        className="max-w-[44rem]"
-        placeholder="Template name..."
-        value={invoice.name}
-        onChange={(e) => setInvoice({ ...invoice, name: e.target.value })}
-      />
       <Invoice
         invoice={invoice}
         setInvoice={setInvoice}

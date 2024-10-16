@@ -309,7 +309,7 @@ export function editInvoiceSetting({
 }: {
   invoice: InvoiceTemplate;
   setInvoice: Function;
-  settingName: 'taxAmount';
+  settingName: 'taxAmount' | 'themeColor' | 'invoiceBase' | 'invoiceAppendix';
   newValue: string;
 }) {
   setInvoice({
@@ -526,5 +526,17 @@ export function calculateInvoice({
     discountedAmount,
     tax,
     total,
+  };
+}
+
+export function debounce(func: (...args: any[]) => void, delay: number) {
+  let timeoutId: ReturnType<typeof setTimeout>;
+  return (...args: any[]) => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    timeoutId = setTimeout(() => {
+      func(...args);
+    }, delay);
   };
 }

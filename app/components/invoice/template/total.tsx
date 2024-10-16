@@ -89,9 +89,14 @@ export default function TemplateTotal({
                 value={field.name}
                 className={`w-[115px] py-1 text-right text-sm`}
                 id={field.id}
+                style={
+                  invoice.settings.themeColor
+                    ? { color: invoice.settings.themeColor }
+                    : null
+                }
               />
               {index === 0 && (
-                <div>
+                <div className="text-gray-900">
                   <Select
                     onValueChange={(e) => {
                       handleSelectChange({
@@ -112,7 +117,7 @@ export default function TemplateTotal({
                 </div>
               )}
               {index === 1 && (
-                <div>
+                <div className="text-gray-900">
                   <Select
                     onValueChange={(e) => {
                       handleTaxChange({

@@ -70,6 +70,7 @@ export type InvoiceTemplate = {
     taxAmount: '21' | '9' | '0' | '';
     invoiceBase: string;
     invoiceAppendix: string;
+    themeColor: string;
   };
 };
 

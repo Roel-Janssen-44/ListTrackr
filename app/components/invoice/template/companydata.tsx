@@ -42,24 +42,6 @@ export default function TemplateCompanyData({
       fieldId: fieldId,
     });
   };
-  // const onDragEnd = (result) => {
-  //     const { source, destination } = result;
-  //     if (!destination) {
-  //       return;
-  //     }
-  //     const { droppableId: sourceDroppableId, index: sourceIndex } = source;
-  //     const { droppableId: destinationDroppableId, index: destinationIndex } =
-  //       destination;
-  //     if (templateId === undefined) return;
-  //     dispatch(
-  //       changeItemOrder({
-  //         templateId,
-  //         fieldGroupName: "company",
-  //         startIndex: sourceIndex,
-  //         endIndex: destinationIndex,
-  //       })
-  //     );
-  // };
 
   return (
     <>
@@ -71,7 +53,14 @@ export default function TemplateCompanyData({
               className="flex justify-end"
             >
               {index === 0 && (
-                <div className=" w-48">
+                <div
+                  className="w-48"
+                  style={
+                    invoice.settings.themeColor
+                      ? { color: invoice.settings.themeColor }
+                      : null
+                  }
+                >
                   <Input
                     onChange={(e) =>
                       handleChangeTemplateField({
@@ -86,7 +75,7 @@ export default function TemplateCompanyData({
               )}
             </div>
           ))}
-          <div className="flex flex-col items-end">
+          <div className="flex flex-col items-end text-gray-900">
             {fields.map((field, index) => (
               <div key={field.id} className="group relative my-1 w-48">
                 {index !== 0 && (
@@ -101,7 +90,7 @@ export default function TemplateCompanyData({
                     id={field.id}
                   />
                 )}
-                <div className="absolute -left-12 top-1/2 hidden h-12 w-12 -translate-y-1/2 rounded-lg bg-white py-1 shadow-sm group-hover:block hover:block">
+                <div className="absolute -left-12 top-1/2 hidden h-12 w-12 -translate-y-1/2 rounded-lg py-1 group-hover:block hover:block">
                   <div
                     className="flex h-full justify-center"
                     aria-label="outlined primary button group"
@@ -109,6 +98,11 @@ export default function TemplateCompanyData({
                     <Button
                       aria-label="Delete item"
                       color="primary"
+                      style={
+                        invoice.settings.themeColor
+                          ? { background: invoice.settings.themeColor }
+                          : null
+                      }
                       onClick={() => handleRemoveItem(field.id)}
                     >
                       <TrashIcon />
@@ -119,8 +113,17 @@ export default function TemplateCompanyData({
             ))}
           </div>
         </ul>
+
         <div className="flex justify-end">
-          <Button className="w-[192px]" onClick={handleAddItem}>
+          <Button
+            className="w-[192px]"
+            style={
+              invoice.settings.themeColor
+                ? { background: invoice.settings.themeColor }
+                : null
+            }
+            onClick={handleAddItem}
+          >
             Veld toevoegen
           </Button>
         </div>

@@ -12,9 +12,6 @@ export default function TemplateLogoUpload({
   invoice: InvoiceTemplate;
   setInvoice: Function;
 }) {
-  console.log('invoice');
-  console.log(invoice);
-
   const [file, setFile] = useState<File>(null);
   const [url, setUrl] = useState('');
   const [uploading, setUploading] = useState(false);
@@ -28,10 +25,8 @@ export default function TemplateLogoUpload({
 
   const uploadFile = async () => {
     if (isInitialRender) {
-      console.log('initial render');
       if (!invoice.logo || invoice.logo == '') return;
       setUploading(true);
-      console.log('logo fetch');
       const urlRequest = await fetch('/api/sign', {
         method: 'POST',
         headers: {
@@ -51,8 +46,6 @@ export default function TemplateLogoUpload({
         const keyRequest = await fetch('/api/key');
         const keyData = await keyRequest.json();
         const upload = await pinata.upload.file(file).key(keyData.JWT);
-        console.log('upload');
-        console.log(upload);
         const urlRequest = await fetch('/api/sign', {
           method: 'POST',
           headers: {
@@ -100,6 +93,12 @@ export default function TemplateLogoUpload({
   const handleDragLeave = (e) => {
     e.currentTarget.classList.add('border-white');
     e.currentTarget.classList.remove('border-primary');
+    // if (
+    //   invoice.settings.themeColor !== '' ||
+    //   invoice.settings.themeColor !== null
+    // ) {
+    //   e.currentTarget.styles.add({ borderCcolor: invoice.settings.themeColor });
+    // }
   };
 
   return (
@@ -109,13 +108,23 @@ export default function TemplateLogoUpload({
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         htmlFor={`dropzone-file-${invoice.id}`}
-        className="relative flex h-auto w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-white bg-white px-3 py-3 text-gray-800 shadow duration-150 hover:border-primary hover:border-transparent xs:w-auto xs:px-5 sm:inline-block md:px-8 md:py-4"
+        // style={
+        //   invoice.settings.themeColor
+        //     ? { borderColor: invoice.settings.themeColor }
+        //     : null
+        // }
+        className="relative flex h-auto w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-transparent bg-white px-3 py-3 text-gray-800 shadow duration-150 hover:border-primary xs:w-auto xs:px-5 sm:inline-block md:px-8 md:py-4"
       >
         <>
           <div className="flex flex-row items-center gap-3">
             <svg
+              style={
+                invoice.settings.themeColor
+                  ? { color: invoice.settings.themeColor }
+                  : null
+              }
               aria-hidden="true"
-              className={`hidden h-10 w-10 text-gray-400 sm:block ${
+              className={`hidden h-10 w-10  sm:block ${
                 url || uploading ? 'text-transparent' : ''
               }`}
               fill="none"
@@ -132,7 +141,7 @@ export default function TemplateLogoUpload({
             </svg>
             <div className="flex flex-col justify-center">
               <p
-                className={`mb-2 text-sm text-gray-600 ${
+                className={`mb-2 text-sm text-gray-900 ${
                   url || uploading ? 'text-transparent' : ''
                 }`}
               >
@@ -140,7 +149,7 @@ export default function TemplateLogoUpload({
                 drag a file.
               </p>
               <p
-                className={`text-xs text-gray-600 ${
+                className={`text-xs text-gray-900 ${
                   url || uploading ? 'text-transparent' : ''
                 }`}
               >

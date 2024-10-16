@@ -67,7 +67,7 @@ export default function TemplateInvoiceNumber({
 
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col text-gray-500">
         <div className="pt-0">
           {fields.map((field, index) => (
             <div
@@ -84,6 +84,11 @@ export default function TemplateInvoiceNumber({
                 value={field.name}
                 className={`${index == 2 ? 'w-[133px]' : 'w-[156px]'} py-1`}
                 id={field.id}
+                style={
+                  invoice.settings.themeColor
+                    ? { color: invoice.settings.themeColor }
+                    : null
+                }
               />
 
               {index === 2 ? (
@@ -95,19 +100,24 @@ export default function TemplateInvoiceNumber({
                     });
                   }}
                   value={field.value}
-                  className="w-[133px] py-1"
+                  className="w-[133px] py-1 text-gray-900"
                   id={field.id}
                 />
               ) : (
                 <Skeleton className="relative my-auto h-[30px] w-[110px]" />
               )}
 
-              <div className="absolute -left-[36px] top-1/2 hidden h-12 w-12 -translate-y-1/2 rounded-lg bg-white py-1 shadow-sm group-hover:block hover:block">
+              <div className="absolute -left-[36px] top-1/2 hidden h-12 w-12 -translate-y-1/2 rounded-lg bg-transparent py-1 group-hover:block hover:block">
                 <div
                   className="flex h-full justify-center"
                   aria-label="outlined primary button group"
                 >
                   <Button
+                    style={
+                      invoice.settings.themeColor
+                        ? { background: invoice.settings.themeColor }
+                        : null
+                    }
                     aria-label="Delete item"
                     color="primary"
                     onClick={() => handleRemoveItem(field.id)}
@@ -120,7 +130,15 @@ export default function TemplateInvoiceNumber({
           ))}
         </div>
         <div className="mt-2 flex justify-end">
-          <Button className="w-[282px]" onClick={handleAddItem}>
+          <Button
+            style={
+              invoice.settings.themeColor
+                ? { background: invoice.settings.themeColor }
+                : null
+            }
+            className="w-[282px]"
+            onClick={handleAddItem}
+          >
             Veld toevoegen
           </Button>
         </div>

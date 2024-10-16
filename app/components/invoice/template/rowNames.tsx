@@ -21,7 +21,14 @@ export default function TemplateRowNames({
   };
 
   return (
-    <div className="mb-2">
+    <div
+      className="mb-2"
+      style={
+        invoice.settings.themeColor
+          ? { color: invoice.settings.themeColor }
+          : null
+      }
+    >
       <ul className="m-0 flex gap-2 p-0">
         {fields.map((field, index) => (
           <Input

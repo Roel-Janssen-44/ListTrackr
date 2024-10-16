@@ -1,7 +1,7 @@
 'use strict';
 
-// import { ChromePicker } from "react-color";
-
+import { ChromePicker } from 'react-color';
+import { useState, useRef } from 'react';
 import { InvoiceTemplate } from '@/app/lib/definitions';
 import { Input } from '@/app/components/chadcn/input';
 import {
@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/app/components/chadcn/select';
+import { debounce } from '@/app/lib/utils';
 
 import { editInvoiceSetting } from '@/app/lib/utils';
 
@@ -21,17 +22,23 @@ export default function InvoiceSettingsTemplate({
   invoice: InvoiceTemplate;
   setInvoice: Function;
 }) {
-  // const [color, setColor] = useState('#1020AB');
-  // const handleColorChange = (props) => {
-  //   // setColor(props.hex);
-  //   // dispatch(
-  //   //   editTemplateSettings({
-  //   //     templateId,
-  //   //     settingName: "themeColor",
-  //   //     newValue: props.hex,
-  //   //   })
-  //   // );
-  // };
+  const [color, setColor] = useState('#5E0035');
+
+  const handleColorChange = (props) => {
+    setColor(props.hex);
+    debouncedHandleColorChange(props.hex);
+  };
+
+  const debouncedHandleColorChange = useRef(
+    debounce((newColor) => {
+      editInvoiceSetting({
+        invoice,
+        setInvoice,
+        settingName: 'themeColor',
+        newValue: newColor,
+      });
+    }, 300),
+  ).current;
 
   const handleSettingChange = ({ newValue, targetSetting }) => {
     editInvoiceSetting({
@@ -43,16 +50,30 @@ export default function InvoiceSettingsTemplate({
   };
 
   return (
-    <div className="mt-16 p-6">
-      <p>Invoice settings</p>
-      {/* <p>Branding</p> */}
-      {/* <ChromePicker
+    <div className="mt-16 p-6 text-gray-900">
+      <h3 className="mb-3 text-lg font-semibold">Template settings</h3>
+
+      <Input
+        onChange={(e) => setInvoice({ ...invoice, name: e.target.value })}
+        value={invoice.name}
+        placeholder="Name (internal only)"
+        className="mb-2 w-full"
+      />
+
+      <hr className="mb-3 mt-5" />
+
+      <h4 className="mb-2 pl-0.5 text-sm">Branding</h4>
+      <ChromePicker
         color={color}
+        defaultView="hex"
         onChangeComplete={handleColorChange}
         onChange={handleColorChange}
-      /> */}
-      <hr className="mb-4 mt-8" />
-      <p className="mb-0.5 pl-0.5 text-sm">Number</p>
+        className="ml-0.5"
+      />
+
+      <hr className="mb-3 mt-5" />
+
+      <p className="mb-1 pl-0.5 text-sm">Invoice number</p>
       <Input
         onChange={(e) =>
           handleSettingChange({
@@ -61,11 +82,12 @@ export default function InvoiceSettingsTemplate({
           })
         }
         value={invoice.settings.invoiceBase}
-        placeholder="Invoice startnumber"
-        className="mb-2 w-full placeholder-green-400"
+        // placeholder="ABC123"
+        placeholder="..."
+        className="mb-2 w-full"
       />
 
-      <p className="mb-0.5 pl-0.5 text-sm">Auto increment</p>
+      <p className="mb-1 pl-0.5 text-sm">Auto increment</p>
       <Select
         onValueChange={(e) => {
           handleSettingChange({
@@ -92,7 +114,7 @@ export default function InvoiceSettingsTemplate({
         </SelectContent>
       </Select>
 
-      <p className="mb-0.5 pl-0.5 text-sm">Filled in products are</p>
+      <p className="mb-1 pl-0.5 text-sm">Filled in products are</p>
       <Select
         onValueChange={(e) => {
           handleSettingChange({

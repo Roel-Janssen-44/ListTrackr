@@ -15,7 +15,7 @@ export default function TemplateMessage({
   };
 
   return (
-    <ul className="m-0 flex w-64 gap-2 p-0">
+    <ul className="m-0 flex w-64 gap-2 p-0 text-gray-900">
       <Textarea
         onChange={(e) => {
           handleChange(e.target.value);

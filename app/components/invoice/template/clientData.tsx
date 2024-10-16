@@ -24,7 +24,14 @@ export default function TemplateClientData({
 
   return (
     <>
-      <div className="flex flex-col">
+      <div
+        className="flex flex-col"
+        style={
+          invoice.settings.themeColor
+            ? { color: invoice.settings.themeColor }
+            : null
+        }
+      >
         <ul className="p-0">
           {fields.map((field, index) => (
             <div key={'template-client_data' + field.id} className="flex">
