@@ -657,6 +657,7 @@ export async function updateInvoiceTemplate(invoice: InvoiceTemplate) {
 export async function createInvoice(
   invoice: InvoiceTemplate,
   templateId: string,
+  projectId?: string,
 ) {
   const session = await auth();
   const userId = session?.user?.id;
@@ -671,12 +672,6 @@ export async function createInvoice(
     invoiceBase,
     invoiceAppendix,
   } = invoice.settings;
-
-  // getCurrentFieldGroup(invoice.fieldGroups, 'rows');
-  // // const subtotalAmount = calculateSubTotal(
-  // //   getCurrentFieldGroup(invoice.fieldGroups, 'rows'),
-  // // );
-  // // const amount  =
 
   const invoiceCosts = calculateInvoice({
     subtotal: calculateSubTotal(
@@ -698,8 +693,12 @@ export async function createInvoice(
 
   try {
     await sql`
-    insert into invoices(id, invoice_number, message, amount, status, datecreated, discounttype, discountamount, taxsetting, taxamount, invoicebase, invoiceappendix, user_id, customer_id, invoice_template_id)
-    VALUES (${id}, ${invoiceNumber}, ${message}, ${invoiceCosts.total}, 'created', ${date}, ${discountType}, ${discountAmount}, ${taxSetting}, ${taxAmount}, ${invoiceBase}, ${invoiceAppendix}, ${userId}, ${customerId}, ${templateId})
+    insert into invoices(id, invoice_number, project_id, message, amount, status, datecreated, discounttype, discountamount, taxsetting, taxamount, invoicebase, invoiceappendix, user_id, customer_id, invoice_template_id)
+    VALUES (${id}, ${invoiceNumber}, ${
+      projectId ? projectId : null
+    },${message}, ${
+      invoiceCosts.total
+    }, 'created', ${date}, ${discountType}, ${discountAmount}, ${taxSetting}, ${taxAmount}, ${invoiceBase}, ${invoiceAppendix}, ${userId}, ${customerId}, ${templateId})
     `;
 
     for (const fieldGroup of invoice.fieldGroups) {

@@ -56,7 +56,11 @@ export default async function ProjectView({
       </Suspense>
 
       <Suspense fallback={'Loading...'}>
-        <ProjectInvoices invoices={invoices} templates={templates} />
+        <ProjectInvoices
+          projectId={projectId}
+          invoices={invoices}
+          templates={templates}
+        />
       </Suspense>
     </div>
   );

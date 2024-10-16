@@ -11,17 +11,14 @@ import { useRouter } from 'next/navigation';
 export default function CreateInvoice({
   invoiceTemplate,
   templateId,
+  projectId,
 }: {
   invoiceTemplate: InvoiceTemplate;
   templateId: string;
+  projectId?: string;
 }) {
   const [invoice, setInvoice] = useState<InvoiceTemplate>(invoiceTemplate);
   const router = useRouter();
-
-  // useEffect(() => {
-  //   console.log('invoice creation from template');
-  //   console.log(invoice);
-  // }, [invoice]);
 
   return (
     <>
@@ -29,7 +26,7 @@ export default function CreateInvoice({
       <div className="mt-6 flex flex-row gap-6">
         <Button
           onClick={() => {
-            createInvoice(invoice, templateId);
+            createInvoice(invoice, templateId, projectId);
             router.push(`/dashboard/invoices/${invoice.id}`);
           }}
         >

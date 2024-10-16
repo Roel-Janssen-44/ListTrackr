@@ -26,9 +26,11 @@ import {
 export default function InvoicesTable({
   invoices,
   templates,
+  projectId,
 }: {
   invoices: Invoice[];
   templates: InvoiceTemplateName[];
+  projectId?: string;
 }) {
   return (
     <>
@@ -128,7 +130,9 @@ export default function InvoicesTable({
                 {templates?.map((template) => (
                   <Link
                     key={template.id}
-                    href={`/dashboard/invoices/create/${template.id}`}
+                    href={`/dashboard/invoices/create/${template.id}${
+                      projectId ? `?projectId=${projectId}` : ''
+                    }`}
                     className="flex h-36 w-36 items-center justify-center rounded-md border-2 border-primary transition-all hover:bg-primary hover:text-white"
                   >
                     {template.name}

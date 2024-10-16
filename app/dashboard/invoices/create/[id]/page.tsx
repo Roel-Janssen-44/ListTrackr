@@ -13,14 +13,17 @@ export const metadata: Metadata = {
 
 export default async function InvoiceTemplateCreation({
   params,
+  searchParams,
 }: {
   params: { id: string };
+  searchParams?: { projectId: string };
 }) {
   const invoiceTemplate: InvoiceTemplate = await fetchInvoiceTemplate(
     params.id,
   );
 
-  let newInvoice = { ...invoiceTemplate };
+  let newInvoice: InvoiceTemplate = { ...invoiceTemplate };
+
   // Generate new id's to prevent duplicate id's from the template
   newInvoice.id = uuid();
   newInvoice.fieldGroups.forEach((fieldGroup) => {
@@ -58,6 +61,7 @@ export default async function InvoiceTemplateCreation({
         <CreateInvoice
           invoiceTemplate={newInvoice}
           templateId={invoiceTemplate.id}
+          projectId={searchParams?.projectId || null}
         />
       </Suspense>
     </div>

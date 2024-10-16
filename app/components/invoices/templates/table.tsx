@@ -13,7 +13,7 @@ export default function InvoiceTemplatesTable({
 }) {
   return (
     <>
-      <div className="mb-8 flex flex-row flex-wrap gap-8">
+      <div className="mb-6 flex flex-row flex-wrap gap-6">
         {templates?.map((template) => (
           <div
             key={template.id}
