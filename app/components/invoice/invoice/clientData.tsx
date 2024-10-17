@@ -76,10 +76,21 @@ export default function InvoiceClientData({
   //   console.log(customers);
   // }, [customers]);
 
+  // Todo - add check if customer is selected
+
   return (
     <>
       {/* Todo - add loader */}
-      <p>Customer {'[i]'}</p>
+      <p
+        style={
+          invoice.settings.themeColor
+            ? { color: invoice.settings.themeColor }
+            : null
+        }
+        className="mb-2 font-semibold"
+      >
+        Customer {'[i]'}
+      </p>
       {/* Todo - show tooltip that the select won't go on the invoice */}
       <Select
         value={invoice.customerId}
@@ -128,7 +139,7 @@ export default function InvoiceClientData({
           });
         }}
       >
-        <SelectTrigger className="mb-2 w-[180px]">
+        <SelectTrigger className="mb-2 w-[180px] text-gray-900">
           <SelectValue placeholder="Select a customer-" />
         </SelectTrigger>
         <SelectContent>
@@ -147,8 +158,13 @@ export default function InvoiceClientData({
               if (index === 0 && field.name !== '') {
                 return (
                   <h3
+                    style={
+                      invoice.settings.themeColor
+                        ? { color: invoice.settings.themeColor }
+                        : null
+                    }
                     key={'client_data-title' + field.id}
-                    className="m-0 cursor-not-allowed"
+                    className="m-0 cursor-not-allowed font-semibold"
                   >
                     {field.name}
                   </h3>
@@ -159,7 +175,7 @@ export default function InvoiceClientData({
               {fields.map((field, index) => {
                 if (index !== 0) {
                   return (
-                    <div key={field.id}>
+                    <div key={field.id} className="text-gray-900">
                       <div className="group relative my-1 w-48">
                         <Input
                           onChange={(e) =>
@@ -193,7 +209,15 @@ export default function InvoiceClientData({
             </div>
           </ul>
           <div>
-            <Button className="w-[192px]" onClick={handleAddItem}>
+            <Button
+              style={
+                invoice.settings.themeColor
+                  ? { background: invoice.settings.themeColor }
+                  : null
+              }
+              className="w-[192px]"
+              onClick={handleAddItem}
+            >
               Veld toevoegen
             </Button>
           </div>

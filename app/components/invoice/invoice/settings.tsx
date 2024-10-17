@@ -30,7 +30,7 @@ export default function InvoiceSettings({
   };
 
   return (
-    <div className="mt-16 p-6">
+    <div className="mt-16 p-6 text-gray-900">
       <p>discount</p>
       <Select
         onValueChange={(e) =>

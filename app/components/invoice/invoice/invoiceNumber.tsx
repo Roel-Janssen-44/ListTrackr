@@ -30,7 +30,16 @@ export default function InvoiceInvoiceNumber({
           key={'invoice_invoice_data-name' + field.id}
         >
           <li className="flex flex-row justify-center gap-2">
-            <NonEditableItem label={field.name} />
+            <div
+              className="flex items-center font-semibold"
+              style={
+                invoice.settings.themeColor
+                  ? { color: invoice.settings.themeColor }
+                  : null
+              }
+            >
+              <NonEditableItem label={field.name} />
+            </div>
             <Input
               onChange={(e) =>
                 handleChangeField({
@@ -39,7 +48,7 @@ export default function InvoiceInvoiceNumber({
                 })
               }
               value={`${field.data === 'Template data' ? '' : field.value}`}
-              className="w-[156px] py-1"
+              className="w-[156px] py-1 text-gray-900"
               id={field.id}
             />
           </li>

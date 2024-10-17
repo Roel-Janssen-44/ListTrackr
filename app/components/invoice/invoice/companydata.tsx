@@ -1,14 +1,26 @@
+import { Field, InvoiceTemplate } from '@/app/lib/definitions';
 import NonEditableItem from '@/app/components/nonEditableItem';
 
-export default function InvoiceCompanyData({ fields = [] }) {
+export default function InvoiceCompanyData({
+  invoice,
+  fields = [],
+}: {
+  invoice: InvoiceTemplate;
+  fields: Field[];
+}) {
   return (
     <ul className="m-0 flex h-full flex-col items-end justify-center gap-4 pl-0">
       {fields.map((field, index) => {
         if (index === 0 && field.name !== '')
           return (
             <h3
+              style={
+                invoice.settings.themeColor
+                  ? { color: invoice.settings.themeColor }
+                  : null
+              }
               key={'company_data-title' + field.id}
-              className="m-0 cursor-not-allowed"
+              className="m-0 cursor-not-allowed font-semibold"
             >
               {field.name}
             </h3>
@@ -16,10 +28,12 @@ export default function InvoiceCompanyData({ fields = [] }) {
         else
           return (
             index !== 0 && (
-              <NonEditableItem
+              <div
                 key={'incvoice_company_data-name' + field.id}
-                label={field.name}
-              />
+                className="text-gray-900"
+              >
+                <NonEditableItem label={field.name} />
+              </div>
             )
           );
       })}

@@ -534,7 +534,7 @@ export async function createInvoiceTemplate(invoice: InvoiceTemplate) {
   const userId = session?.user?.id;
   if (!userId) return;
 
-  const { id, name, message } = invoice;
+  const { id, name, message, logo } = invoice;
   const {
     discountType,
     taxSetting,
@@ -547,7 +547,7 @@ export async function createInvoiceTemplate(invoice: InvoiceTemplate) {
   try {
     await sql`
     insert into invoices(id, templatename, message, discounttype, taxsetting, taxamount, invoicebase, invoiceappendix, user_id, logo_url, theme_color)
-    VALUES (${id}, ${name}, ${message}, ${discountType}, ${taxSetting}, ${taxAmount}, ${invoiceBase}, ${invoiceAppendix}, ${userId}, ${invoice.logo}, ${themeColor})
+    VALUES (${id}, ${name}, ${message}, ${discountType}, ${taxSetting}, ${taxAmount}, ${invoiceBase}, ${invoiceAppendix}, ${userId}, ${logo}, ${themeColor})
     `;
     // console.log('first insert complete');
 
@@ -652,7 +652,7 @@ export async function createInvoice(
   const userId = session?.user?.id;
   if (!userId) return;
 
-  const { id, message, customerId } = invoice;
+  const { id, message, customerId, logo } = invoice;
   const {
     discountType,
     discountAmount,
@@ -681,14 +681,19 @@ export async function createInvoice(
 
   const invoiceNumber = invoiceNumberFieldGroup[0].value;
 
+  console.log('logo');
+  console.log(logo);
+
+  console.log(invoice);
+
   try {
     await sql`
-    insert into invoices(id, invoice_number, project_id, message, amount, status, datecreated, discounttype, discountamount, taxsetting, taxamount, invoicebase, invoiceappendix, user_id, customer_id, invoice_template_id, theme_color)
+    insert into invoices(id, invoice_number, project_id, message, amount, status, datecreated, discounttype, discountamount, taxsetting, taxamount, invoicebase, invoiceappendix, user_id, customer_id, invoice_template_id, logo_url, theme_color)
     VALUES (${id}, ${invoiceNumber}, ${
       projectId ? projectId : null
     },${message}, ${
       invoiceCosts.total
-    }, 'created', ${date}, ${discountType}, ${discountAmount}, ${taxSetting}, ${taxAmount}, ${invoiceBase}, ${invoiceAppendix}, ${userId}, ${customerId}, ${templateId}, ${themeColor})
+    }, 'created', ${date}, ${discountType}, ${discountAmount}, ${taxSetting}, ${taxAmount}, ${invoiceBase}, ${invoiceAppendix}, ${userId}, ${customerId}, ${templateId}, ${logo}, ${themeColor})
     `;
 
     for (const fieldGroup of invoice.fieldGroups) {
@@ -720,7 +725,7 @@ export async function updateInvoice(invoice: InvoiceTemplate) {
   const userId = session?.user?.id;
   if (!userId) return;
 
-  const { id, message, customerId } = invoice;
+  const { id, message, customerId, logo } = invoice;
   const {
     discountType,
     discountAmount,
@@ -760,6 +765,7 @@ export async function updateInvoice(invoice: InvoiceTemplate) {
         invoiceappendix = ${invoiceAppendix},
         user_id = ${userId},
         customer_id = ${customerId},
+        logo_url = ${logo},
         theme_color = ${themeColor}
     WHERE id = ${id};
     `;

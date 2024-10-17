@@ -22,5 +22,9 @@ export default function InvoiceLogo({ logo }: { logo: string }) {
     fetchImage();
   }, []);
 
-  return <>{url !== '' && <img src={url} alt="" width={125} height={150} />}</>;
+  return (
+    <div className="flex">
+      {url !== '' && <img src={url} alt="" width={250} height={150} />}
+    </div>
+  );
 }

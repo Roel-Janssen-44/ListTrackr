@@ -6,7 +6,7 @@ export default function NonEditableItem({
   styles?: string;
 }) {
   return (
-    <p className={`flex cursor-not-allowed items-center opacity-40 ${styles}`}>
+    <p className={`flex cursor-not-allowed items-center opacity-80 ${styles}`}>
       {label}
     </p>
   );

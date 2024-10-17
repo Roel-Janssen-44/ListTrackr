@@ -36,6 +36,7 @@ export default function InvoiceHeader({
       </div>
       <div className="">
         <InvoiceCompanyData
+          invoice={invoice}
           fields={getCurrentFieldGroup(invoice.fieldGroups, 'company')}
         />
       </div>

@@ -89,8 +89,6 @@ export default function InvoiceRows({
                 key={'row_group-' + index}
                 className={`flex list-none flex-row gap-2 py-1 pl-0 text-sm`}
               >
-                {/* {console.log('field')}
-                {console.log(field)} */}
                 <li className="flex-1">
                   <Input
                     onChange={(e) =>
@@ -100,7 +98,7 @@ export default function InvoiceRows({
                       })
                     }
                     value={field.name}
-                    className="w-[294px]"
+                    className="w-[294px] text-gray-900"
                   />
                 </li>
                 <li className="w-[115px] text-right">
@@ -112,7 +110,7 @@ export default function InvoiceRows({
                       })
                     }
                     value={field?.price}
-                    className="w-[115px] text-right"
+                    className="w-[115px] text-right text-gray-900"
                   />
                 </li>
                 <li className="w-[115px] text-right">
@@ -124,7 +122,7 @@ export default function InvoiceRows({
                       })
                     }
                     value={field?.amount}
-                    className="w-[115px] text-right"
+                    className="w-[115px] text-right text-gray-900"
                   />
                 </li>
                 <li className="flex w-[60px] items-center justify-end text-right">
@@ -137,6 +135,11 @@ export default function InvoiceRows({
                   aria-label="outlined primary button group"
                 >
                   <Button
+                    style={
+                      invoice.settings.themeColor
+                        ? { background: invoice.settings.themeColor }
+                        : null
+                    }
                     aria-label="Delete item"
                     color="primary"
                     onClick={() => handleRemoveItem(field.id)}
@@ -148,7 +151,15 @@ export default function InvoiceRows({
             </div>
           ))}
         </ul>
-        <Button className="mb-6 w-full" onClick={handleAddItem}>
+        <Button
+          style={
+            invoice.settings.themeColor
+              ? { backgroundColor: invoice.settings.themeColor }
+              : null
+          }
+          className="mb-6 w-full"
+          onClick={handleAddItem}
+        >
           Rij toevoegen
         </Button>
       </div>

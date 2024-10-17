@@ -101,6 +101,8 @@ export default function TemplateLogoUpload({
     // }
   };
 
+  // Todo - add border color on hover
+
   return (
     <div>
       <label
@@ -124,9 +126,7 @@ export default function TemplateLogoUpload({
                   : null
               }
               aria-hidden="true"
-              className={`hidden h-10 w-10  sm:block ${
-                url || uploading ? 'text-transparent' : ''
-              }`}
+              className={`h-10 w-10 ${url || uploading ? 'hidden' : 'block'}`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -176,7 +176,7 @@ export default function TemplateLogoUpload({
               width={150}
               aria-hidden
               alt="Uploaded file from user"
-              className="absolute left-1/2 top-1/2 h-full w-auto -translate-x-1/2 -translate-y-1/2 rounded-lg p-4"
+              className="absolute left-1/2 top-1/2 h-full w-auto -translate-x-1/2 -translate-y-1/2 rounded-3xl p-4"
             />
           </div>
         )}
