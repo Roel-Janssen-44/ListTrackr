@@ -365,7 +365,7 @@ export async function fetchInvoiceTemplate(invoiceId: string) {
     `;
 
     const data = await sql`
-      select templatename, message, discounttype, discountamount, taxsetting, taxamount, invoicebase, invoiceappendix, logo_url
+      select templatename, message, discounttype, discountamount, taxsetting, taxamount, invoicebase, invoiceappendix, logo_url, theme_color
       from invoices
       where id = ${invoiceId}
     `;
@@ -411,6 +411,7 @@ export async function fetchInvoiceTemplate(invoiceId: string) {
       invoicebase,
       invoiceappendix,
       logo_url: templateLogo,
+      theme_color: themeColor,
     } = data.rows[0];
 
     const invoiceTemplate: InvoiceTemplate = {
@@ -428,6 +429,7 @@ export async function fetchInvoiceTemplate(invoiceId: string) {
         taxAmount: taxamount,
         invoiceBase: invoicebase,
         invoiceAppendix: invoiceappendix,
+        themeColor: themeColor,
       },
     };
 
@@ -447,7 +449,7 @@ export async function fetchInvoice(invoiceId: string) {
 
   try {
     const data = await sql`
-      select message, discounttype, templatename, discountamount, taxsetting, taxamount, invoicebase, invoiceappendix, customer_id, logo_url
+      select message, discounttype, templatename, discountamount, taxsetting, taxamount, invoicebase, invoiceappendix, customer_id, logo_url, theme_color
       from invoices
       where id = ${invoiceId}
     `;
@@ -494,6 +496,7 @@ export async function fetchInvoice(invoiceId: string) {
       invoiceappendix,
       customer_id,
       logo_url: templateLogo,
+      theme_color: themeColor,
     } = data.rows[0];
 
     const invoiceTemplate: InvoiceTemplate = {
@@ -510,6 +513,7 @@ export async function fetchInvoice(invoiceId: string) {
         taxAmount: taxamount,
         invoiceBase: invoicebase,
         invoiceAppendix: invoiceappendix,
+        themeColor: themeColor,
       },
     };
 

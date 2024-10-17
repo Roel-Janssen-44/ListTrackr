@@ -22,7 +22,7 @@ export default function InvoiceSettingsTemplate({
   invoice: InvoiceTemplate;
   setInvoice: Function;
 }) {
-  const [color, setColor] = useState('#5E0035');
+  const [color, setColor] = useState(invoice.settings.themeColor);
 
   const handleColorChange = (props) => {
     setColor(props.hex);

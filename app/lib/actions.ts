@@ -535,13 +535,19 @@ export async function createInvoiceTemplate(invoice: InvoiceTemplate) {
   if (!userId) return;
 
   const { id, name, message } = invoice;
-  const { discountType, taxSetting, taxAmount, invoiceBase, invoiceAppendix } =
-    invoice.settings;
+  const {
+    discountType,
+    taxSetting,
+    taxAmount,
+    invoiceBase,
+    invoiceAppendix,
+    themeColor,
+  } = invoice.settings;
 
   try {
     await sql`
-    insert into invoices(id, templatename, message, discounttype, taxsetting, taxamount, invoicebase, invoiceappendix, user_id, logo_url)
-    VALUES (${id}, ${name}, ${message}, ${discountType}, ${taxSetting}, ${taxAmount}, ${invoiceBase}, ${invoiceAppendix}, ${userId}, ${invoice.logo})
+    insert into invoices(id, templatename, message, discounttype, taxsetting, taxamount, invoicebase, invoiceappendix, user_id, logo_url, theme_color)
+    VALUES (${id}, ${name}, ${message}, ${discountType}, ${taxSetting}, ${taxAmount}, ${invoiceBase}, ${invoiceAppendix}, ${userId}, ${invoice.logo}, ${themeColor})
     `;
     // console.log('first insert complete');
 
@@ -580,8 +586,14 @@ export async function updateInvoiceTemplate(invoice: InvoiceTemplate) {
   if (!userId) return;
 
   const { id, name, message, logo } = invoice;
-  const { discountType, taxSetting, taxAmount, invoiceBase, invoiceAppendix } =
-    invoice.settings;
+  const {
+    discountType,
+    taxSetting,
+    taxAmount,
+    invoiceBase,
+    invoiceAppendix,
+    themeColor,
+  } = invoice.settings;
 
   try {
     await sql`
@@ -594,7 +606,8 @@ export async function updateInvoiceTemplate(invoice: InvoiceTemplate) {
           invoicebase = ${invoiceBase},
           invoiceappendix = ${invoiceAppendix},
           user_id = ${userId},
-          logo_url = ${logo}
+          logo_url = ${logo},
+          theme_color = ${themeColor}
       WHERE id = ${id};
       `;
 
@@ -647,6 +660,7 @@ export async function createInvoice(
     taxAmount,
     invoiceBase,
     invoiceAppendix,
+    themeColor,
   } = invoice.settings;
 
   const invoiceCosts = calculateInvoice({
@@ -669,12 +683,12 @@ export async function createInvoice(
 
   try {
     await sql`
-    insert into invoices(id, invoice_number, project_id, message, amount, status, datecreated, discounttype, discountamount, taxsetting, taxamount, invoicebase, invoiceappendix, user_id, customer_id, invoice_template_id)
+    insert into invoices(id, invoice_number, project_id, message, amount, status, datecreated, discounttype, discountamount, taxsetting, taxamount, invoicebase, invoiceappendix, user_id, customer_id, invoice_template_id, theme_color)
     VALUES (${id}, ${invoiceNumber}, ${
       projectId ? projectId : null
     },${message}, ${
       invoiceCosts.total
-    }, 'created', ${date}, ${discountType}, ${discountAmount}, ${taxSetting}, ${taxAmount}, ${invoiceBase}, ${invoiceAppendix}, ${userId}, ${customerId}, ${templateId})
+    }, 'created', ${date}, ${discountType}, ${discountAmount}, ${taxSetting}, ${taxAmount}, ${invoiceBase}, ${invoiceAppendix}, ${userId}, ${customerId}, ${templateId}, ${themeColor})
     `;
 
     for (const fieldGroup of invoice.fieldGroups) {
@@ -714,6 +728,7 @@ export async function updateInvoice(invoice: InvoiceTemplate) {
     taxAmount,
     invoiceBase,
     invoiceAppendix,
+    themeColor,
   } = invoice.settings;
 
   getCurrentFieldGroup(invoice.fieldGroups, 'rows');
@@ -744,7 +759,8 @@ export async function updateInvoice(invoice: InvoiceTemplate) {
         invoicebase = ${invoiceBase},
         invoiceappendix = ${invoiceAppendix},
         user_id = ${userId},
-        customer_id = ${customerId}
+        customer_id = ${customerId},
+        theme_color = ${themeColor}
     WHERE id = ${id};
     `;
 

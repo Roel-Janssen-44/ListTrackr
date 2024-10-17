@@ -20,22 +20,8 @@ export default function CreateInvoiceTemplate({
 
   const router = useRouter();
 
-  // useEffect(() => {
-  //   console.log('invoice template creation');
-  //   console.log(invoiceState);
-  // }, [invoiceState]);
-
   return (
     <>
-      {/* Todo - change look of input */}
-      <Input
-        className="max-w-[44rem]"
-        placeholder="Template name..."
-        value={invoiceState.name}
-        onChange={(e) =>
-          setInvoiceState({ ...invoiceState, name: e.target.value })
-        }
-      />
       <Invoice
         invoice={invoiceState}
         setInvoice={setInvoiceState}

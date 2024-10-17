@@ -158,7 +158,7 @@ export default function CreateInvoiceTemplate({
       discountType: 'none',
       discountAmount: 0,
       themeColor: '#5E0035',
-      // Todo - update to correct type
+      // Todo - update taxSetting to correct type
       // @ts-ignore
       taxSetting: '',
       taxAmount: '',
