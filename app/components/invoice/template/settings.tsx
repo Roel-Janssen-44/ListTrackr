@@ -50,7 +50,7 @@ export default function InvoiceSettingsTemplate({
   };
 
   return (
-    <div className="mt-16 p-6 text-gray-900">
+    <div className="mt-16 w-[276px] p-6 text-gray-900">
       <h3 className="mb-3 text-lg font-semibold">Template settings</h3>
 
       <Input
@@ -68,7 +68,8 @@ export default function InvoiceSettingsTemplate({
         defaultView="hex"
         onChangeComplete={handleColorChange}
         onChange={handleColorChange}
-        className="ml-0.5"
+        className="ml-0.5 w-full"
+        styles={{ width: '100%' }}
       />
 
       <hr className="mb-3 mt-5" />
@@ -97,7 +98,7 @@ export default function InvoiceSettingsTemplate({
         }}
         value={invoice.settings.invoiceAppendix}
       >
-        <SelectTrigger className="mb-2 w-[180px]">
+        <SelectTrigger className="mb-2">
           <SelectValue placeholder="Select an option" />
         </SelectTrigger>
         <SelectContent>
@@ -124,7 +125,7 @@ export default function InvoiceSettingsTemplate({
         }}
         value={invoice.settings.taxSetting}
       >
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger>
           <SelectValue placeholder="Select an option" />
         </SelectTrigger>
         <SelectContent>

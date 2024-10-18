@@ -1,9 +1,22 @@
-import NonEditableItem from '@/app/components/nonEditableItem';
+import { Field, InvoiceTemplate } from '@/app/lib/definitions';
 
-export default function PreviewRowNames({ fields = [] }) {
+export default function PreviewRowNames({
+  fields = [],
+  invoice,
+}: {
+  fields: Field[];
+  invoice: InvoiceTemplate;
+}) {
   return (
     <div className="mb-2">
-      <ul className="m-0 flex gap-2 p-0">
+      <ul
+        className="m-0 flex gap-2 p-0"
+        style={
+          invoice.settings.themeColor
+            ? { color: invoice.settings.themeColor }
+            : null
+        }
+      >
         {fields?.map((field, index) => (
           <span
             key={'invoice_item_header-' + field.name}

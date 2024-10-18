@@ -1,10 +1,15 @@
-import { Skeleton } from '@/app/components/chadcn/skeleton';
-import { Field } from '@/app/lib/definitions';
 import { convertToCurrency } from '@/app/lib/utils';
+import { Field, InvoiceTemplate } from '@/app/lib/definitions';
 
-export default function PreviewRows({ fields }: { fields: any }) {
+export default function PreviewRows({
+  fields = [],
+  invoice,
+}: {
+  fields: Field[];
+  invoice: InvoiceTemplate;
+}) {
   return (
-    <div className="">
+    <div className="text-gray-900">
       <ul className="flex list-none flex-row">
         <li className="flex-1">
           {fields.map((field: Field) => (
