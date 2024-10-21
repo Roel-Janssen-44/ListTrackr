@@ -4,6 +4,7 @@ import TasksToday from '@/app/components/dashboard/today';
 import TasksTomorrow from '@/app/components/dashboard/tomorrow';
 import Tables from '@/app/components/tasks/tables';
 import Goals from '@/app/components/goals/tables';
+import Projects from '@/app/components/projects/tasks';
 import { exo } from '@/app/components/fonts';
 import {
   Accordion,
@@ -24,10 +25,11 @@ export default async function Page() {
       <DashboardMessage />
       <Accordion
         type="multiple"
-        defaultValue={['Weekly view', 'My tasks']}
+        // defaultValue={['Weekly view', 'My tasks']}
+        defaultValue={['My projects']}
         className="w-full"
       >
-        <AccordionItem value={'Weekly view'}>
+        {/* <AccordionItem value={'Weekly view'}>
           <AccordionTrigger>
             <h2 className={`mb-4 text-2xl font-bold ${exo.className}`}>
               Weekly view
@@ -70,6 +72,19 @@ export default async function Page() {
           <AccordionContent>
             <Suspense fallback={'Loading goald'}>
               <Goals showCreateNewTable={false} />
+            </Suspense>
+          </AccordionContent>
+        </AccordionItem> */}
+
+        <AccordionItem value={'My projects'}>
+          <AccordionTrigger>
+            <h2 className={`mb-4 text-2xl font-bold ${exo.className}`}>
+              My projects
+            </h2>
+          </AccordionTrigger>
+          <AccordionContent>
+            <Suspense fallback={'Loading goald'}>
+              <Projects />
             </Suspense>
           </AccordionContent>
         </AccordionItem>

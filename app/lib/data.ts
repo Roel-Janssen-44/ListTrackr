@@ -707,3 +707,69 @@ export async function fetchProjectInvoices(
     throw new Error('Failed to fetch invoice template.');
   }
 }
+
+export async function fetchProjectsTasks(): Promise<
+  | {
+      id: string;
+      title: string;
+      tasks: Task[];
+    }[]
+  | null
+> {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return;
+
+  try {
+    // Todo fetch projects and tasks in one query
+    const data = await sql`
+      SELECT
+        tasks.id,
+        tasks.title,
+        tasks.completed,
+        tasks.priority,
+        tasks.date,
+        tasks.daysperweek,
+        tasks.status,
+        tasks.order,
+        tasks.type,
+        tasks.user_id,
+        projects.id AS project_id,
+        projects.title AS project_title
+      FROM tasks
+      FULL JOIN projects on tasks.project_id = projects.id
+      WHERE tasks.user_id = ${userId}
+      ORDER BY "order" ASC
+    `;
+
+    const projects: { title: string; id: string; tasks: Task[] }[] =
+      data.rows.map((task) => ({
+        id: task.project_id,
+        title: task.project_title,
+        tasks: [
+          {
+            id: task.id,
+            title: task.title,
+            completed: task.completed,
+            priority: task.priority as '' | 'low' | 'medium' | 'high',
+            date: task.date?.toString() || '',
+            table_id: task.table_id,
+            status: task.status as
+              | ''
+              | 'planned'
+              | 'working on it'
+              | 'done'
+              | 'stuck',
+            order: task.order,
+            type: task.type,
+            user_id: task.user_id,
+          },
+        ],
+      }));
+
+    return projects;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch tasks.');
+  }
+}
