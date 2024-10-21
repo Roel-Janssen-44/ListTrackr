@@ -20,7 +20,7 @@ export default function TemplateHeader({
         <TemplateLogoUpload
           invoice={invoice}
           setInvoice={setInvoice}
-          fields={getCurrentFieldGroup(invoice.fieldGroups, 'logo')}
+          // fields={getCurrentFieldGroup(invoice.fieldGroups, 'logo')}
         />
       </div>
       <div className="">
