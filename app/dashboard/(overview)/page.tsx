@@ -25,11 +25,11 @@ export default async function Page() {
       <DashboardMessage />
       <Accordion
         type="multiple"
-        // defaultValue={['Weekly view', 'My tasks']}
-        defaultValue={['My projects']}
+        defaultValue={['Weekly view', 'My tasks', 'My projects']}
+        // defaultValue={['My projects']}
         className="w-full"
       >
-        {/* <AccordionItem value={'Weekly view'}>
+        <AccordionItem value={'Weekly view'}>
           <AccordionTrigger>
             <h2 className={`mb-4 text-2xl font-bold ${exo.className}`}>
               Weekly view
@@ -63,19 +63,6 @@ export default async function Page() {
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value={'My goals'}>
-          <AccordionTrigger>
-            <h2 className={`mb-4 text-2xl font-bold ${exo.className}`}>
-              My goals
-            </h2>
-          </AccordionTrigger>
-          <AccordionContent>
-            <Suspense fallback={'Loading goald'}>
-              <Goals showCreateNewTable={false} />
-            </Suspense>
-          </AccordionContent>
-        </AccordionItem> */}
-
         <AccordionItem value={'My projects'}>
           <AccordionTrigger>
             <h2 className={`mb-4 text-2xl font-bold ${exo.className}`}>
@@ -85,6 +72,19 @@ export default async function Page() {
           <AccordionContent>
             <Suspense fallback={'Loading goald'}>
               <Projects />
+            </Suspense>
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value={'My goals'}>
+          <AccordionTrigger>
+            <h2 className={`mb-4 text-2xl font-bold ${exo.className}`}>
+              My goals
+            </h2>
+          </AccordionTrigger>
+          <AccordionContent>
+            <Suspense fallback={'Loading goald'}>
+              <Goals showCreateNewTable={false} />
             </Suspense>
           </AccordionContent>
         </AccordionItem>

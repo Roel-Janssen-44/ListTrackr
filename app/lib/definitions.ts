@@ -35,6 +35,12 @@ export type Project = {
   tasks?: Task[];
 };
 
+export type ProjectTasks = {
+  id: string;
+  title: string;
+  tasks?: Task[];
+};
+
 export type Customer = {
   id: string;
   name: string;

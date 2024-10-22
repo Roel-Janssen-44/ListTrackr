@@ -1,12 +1,18 @@
 'use client';
 
 import { Task } from '@/app/lib/definitions';
-import { Project } from '@/app/lib/definitions';
+import { Project, ProjectTasks } from '@/app/lib/definitions';
 import { useState } from 'react';
 import CreateTask from '@/app/components/createRow';
 import TableRow from '@/app/components/tasks/row';
 
-export default function ProjectTasksTable({ project }: { project: Project }) {
+export default function ProjectTasksTable({
+  project,
+  showTitle = false,
+}: {
+  project: Project | ProjectTasks;
+  showTitle?: boolean;
+}) {
   const [tasksToRender, setTasksToRender] = useState<Task[]>(project.tasks);
 
   if (!project) return null;
@@ -75,6 +81,10 @@ export default function ProjectTasksTable({ project }: { project: Project }) {
   return (
     <div>
       <div className="relative mt-6 rounded-lg bg-white p-3 text-tertiary dark:bg-primary dark:text-white">
+        {showTitle && (
+          <h3 className="px-3 py-2 text-lg font-bold">{project.title}</h3>
+        )}
+
         <div className="w-full overflow-x-auto rounded-lg bg-white scrollbar scrollbar-track-slate-300 scrollbar-thumb-active scrollbar-track-rounded scrollbar-thumb-rounded scrollbar-h-3 dark:bg-secondary">
           <div className="ml-[50px] table text-left text-sm font-normal">
             <div className="flex w-full flex-row flex-nowrap items-center">

@@ -722,54 +722,83 @@ export async function fetchProjectsTasks(): Promise<
 
   try {
     // Todo fetch projects and tasks in one query
-    const data = await sql`
-      SELECT
-        tasks.id,
-        tasks.title,
-        tasks.completed,
-        tasks.priority,
-        tasks.date,
-        tasks.daysperweek,
-        tasks.status,
-        tasks.order,
-        tasks.type,
-        tasks.user_id,
-        projects.id AS project_id,
-        projects.title AS project_title
-      FROM tasks
-      FULL JOIN projects on tasks.project_id = projects.id
-      WHERE tasks.user_id = ${userId}
-      ORDER BY "order" ASC
-    `;
+    // const data = await sql`
+    //   SELECT
+    //     tasks.id,
+    //     tasks.title,
+    //     tasks.completed,
+    //     tasks.priority,
+    //     tasks.date,
+    //     tasks.daysperweek,
+    //     tasks.status,
+    //     tasks.order,
+    //     tasks.type,
+    //     tasks.user_id,
+    //     projects.id AS project_id,
+    //     projects.title AS project_title
+    //   FROM tasks
+    //   FULL JOIN projects on tasks.project_id = projects.id
+    //   WHERE tasks.user_id = ${userId}
+    //   ORDER BY "order" ASC
+    // `;
+
+    const data = await db
+      .selectFrom('tasks')
+      .innerJoin('projects', 'tasks.project_id', 'projects.id')
+      .select([
+        'projects.id as projectId',
+        'projects.title as projectTitle',
+        'tasks.id as taskId',
+        'tasks.title as taskTitle',
+        'tasks.completed',
+        'tasks.priority',
+        'tasks.date',
+        'tasks.table_id',
+        'tasks.status',
+        'tasks.order',
+        'tasks.type',
+        'tasks.user_id',
+      ])
+      .where('projects.user_id', '=', userId as any)
+      .execute();
 
     const projects: { title: string; id: string; tasks: Task[] }[] =
-      data.rows.map((task) => ({
-        id: task.project_id,
-        title: task.project_title,
-        tasks: [
-          {
-            id: task.id,
-            title: task.title,
-            completed: task.completed,
-            priority: task.priority as '' | 'low' | 'medium' | 'high',
-            date: task.date?.toString() || '',
-            table_id: task.table_id,
-            status: task.status as
+      data.reduce(
+        (acc, row) => {
+          let project = acc.find((p) => p.id === row.projectId);
+
+          if (!project) {
+            project = {
+              id: row.projectId,
+              title: row.projectTitle,
+              tasks: [],
+            };
+            acc.push(project);
+          }
+
+          project.tasks.push({
+            id: row.taskId,
+            title: row.taskTitle,
+            completed: row.completed,
+            priority: row.priority as '' | 'low' | 'medium' | 'high',
+            date: row.date ? row.date.toString() : '',
+            table_id: row.table_id,
+            status: row.status as
               | ''
               | 'planned'
               | 'working on it'
               | 'done'
               | 'stuck',
-            order: task.order,
-            type: task.type,
-            user_id: task.user_id,
-          },
-        ],
-      }));
+          });
+
+          return acc;
+        },
+        [] as { id: string; title: string; tasks: Task[] }[],
+      );
 
     return projects;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch tasks.');
+    throw new Error('Failed to fetch tasks from projects.');
   }
 }

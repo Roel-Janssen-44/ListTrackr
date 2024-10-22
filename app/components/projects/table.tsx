@@ -14,7 +14,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
             <div className="table text-left text-sm font-normal">
               <div className="flex w-full flex-row flex-nowrap items-center">
                 <div className="inline-block w-[350px] px-4 py-3 pb-2 font-medium sm:pl-3">
-                  Projectnumber
+                  Projecttitle
                 </div>
                 <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
                   Status
@@ -36,7 +36,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
                 >
                   <div className="group flex w-full flex-row flex-nowrap items-center text-sm transition-colors hover:bg-gray-100 dark:hover:bg-active">
                     <div className="w-[350px] border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10">
-                      {project.number}
+                      {project.title}
                     </div>
                     <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
                       {project.status}
