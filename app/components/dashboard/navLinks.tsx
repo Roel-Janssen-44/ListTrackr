@@ -109,10 +109,7 @@ export function NavLinks() {
         } else {
           return (
             <React.Fragment key={link.name}>
-              <div
-                key={link.name}
-                className="hidden h-auto w-full grow rounded-md bg-gray-50 dark:bg-secondary md:block"
-              ></div>
+              <div className="hidden h-auto w-full grow rounded-md bg-gray-50 dark:bg-secondary md:block"></div>
               <TooltipProvider delayDuration={100}>
                 <Tooltip>
                   <TooltipTrigger>
@@ -158,6 +155,7 @@ export function MobileNavLinks() {
         if (index + 1 < links.length) {
           return (
             <Link
+              key={link.name}
               href={link.href}
               className={clsx(
                 'flex h-[48px] grow items-center justify-start gap-2 rounded-md p-3 text-sm font-medium outline-gray-900 dark:hover:text-white md:flex-none md:justify-center md:p-2 md:px-3',
@@ -180,10 +178,7 @@ export function MobileNavLinks() {
         } else {
           return (
             <React.Fragment key={link.name}>
-              <div
-                key={link.name}
-                className="hidden h-auto w-full grow rounded-md bg-gray-50 dark:bg-secondary md:block"
-              ></div>
+              <div className="hidden h-auto w-full grow rounded-md bg-gray-50 dark:bg-secondary md:block"></div>
 
               <Link
                 href={link.href}

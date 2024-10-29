@@ -4,7 +4,7 @@ import { useTheme } from 'next-themes';
 import { Moon, Sun } from 'lucide-react';
 import { Label } from '@/app/components/chadcn/label';
 import { Switch } from '@/app/components/chadcn/switch';
-import { Button } from './button';
+
 export default function ThemeSwitcher() {
   const { setTheme, theme } = useTheme();
 
