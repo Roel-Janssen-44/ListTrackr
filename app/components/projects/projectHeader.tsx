@@ -65,7 +65,7 @@ export default function ProjectHeader({
           <span className="font-bold">Projectnumber</span>
           <Input
             name="number"
-            className="mt-3  bg-transparent text-center transition-all duration-75 dark:bg-transparent"
+            className="mt-3 max-w-[275px] bg-transparent text-center transition-all duration-75 dark:bg-transparent"
             defaultValue={project.number}
             onBlur={(e) => {
               if (e.target.value == '') return;

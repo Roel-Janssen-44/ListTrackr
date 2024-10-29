@@ -69,7 +69,7 @@ import {
   TooltipTrigger,
 } from '@/app/components/chadcn/tooltip';
 
-export default function NavLinks() {
+export function NavLinks() {
   const pathname = usePathname();
 
   return (
@@ -84,7 +84,7 @@ export default function NavLinks() {
                   <Link
                     href={link.href}
                     className={clsx(
-                      'flex h-[48px] grow items-center justify-center gap-2 rounded-md  p-3 text-sm font-medium dark:hover:text-white md:flex-none md:justify-center md:p-2 md:px-3 group-hover:md:justify-start',
+                      'flex h-[48px] grow items-center justify-start gap-2 rounded-md p-3 text-sm font-medium outline-gray-900 dark:hover:text-white md:flex-none md:justify-center md:p-2 md:px-3',
                       {
                         'bg-active text-white hover:bg-active hover:text-white dark:bg-active dark:text-white':
                           pathname.includes(link.activeFilter) ||
@@ -98,9 +98,6 @@ export default function NavLinks() {
                     )}
                   >
                     <LinkIcon className="w-6" />
-                    <p className="hidden transition-all md:hidden group-hover:md:block">
-                      {link.name}
-                    </p>
                   </Link>
                 </TooltipTrigger>
                 <TooltipContent style={{ marginBottom: '16px' }} side="right">
@@ -122,7 +119,7 @@ export default function NavLinks() {
                     <Link
                       href={link.href}
                       className={clsx(
-                        'flex h-[48px] grow items-center justify-center gap-2 rounded-md  p-3 text-sm font-medium dark:hover:text-white md:flex-none md:justify-center md:p-2 md:px-3 group-hover:md:justify-start',
+                        'center flex h-[48px] grow items-center justify-start gap-2 rounded-md p-3 text-sm font-medium outline-gray-900 dark:hover:text-white md:flex-none md:justify-center md:p-2 md:px-3',
                         {
                           'bg-active text-white hover:bg-active hover:text-white dark:bg-active dark:text-white':
                             pathname.includes(link.activeFilter) ||
@@ -136,9 +133,6 @@ export default function NavLinks() {
                       )}
                     >
                       <LinkIcon className="w-5" />
-                      <p className="hidden transition-all md:hidden group-hover:md:block">
-                        {link.name}
-                      </p>
                     </Link>
                   </TooltipTrigger>
                   <TooltipContent style={{ marginBottom: '16px' }} side="right">
@@ -146,6 +140,70 @@ export default function NavLinks() {
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
+            </React.Fragment>
+          );
+        }
+      })}
+    </>
+  );
+}
+
+export function MobileNavLinks() {
+  const pathname = usePathname();
+
+  return (
+    <>
+      {links.map((link, index) => {
+        const LinkIcon = link.icon;
+        if (index + 1 < links.length) {
+          return (
+            <Link
+              href={link.href}
+              className={clsx(
+                'flex h-[48px] grow items-center justify-start gap-2 rounded-md p-3 text-sm font-medium outline-gray-900 dark:hover:text-white md:flex-none md:justify-center md:p-2 md:px-3',
+                {
+                  'bg-active text-white hover:bg-active hover:text-white dark:bg-active dark:text-white':
+                    pathname.includes(link.activeFilter) ||
+                    pathname === link.href,
+                },
+                {
+                  'bg-gray-50 text-tertiary hover:bg-gray-200 dark:bg-secondary dark:text-white dark:hover:bg-active':
+                    !pathname.includes(link.activeFilter) &&
+                    pathname !== link.href,
+                },
+              )}
+            >
+              <LinkIcon className="w-6" />
+              <p className="block transition-all md:hidden">{link.name}</p>
+            </Link>
+          );
+        } else {
+          return (
+            <React.Fragment key={link.name}>
+              <div
+                key={link.name}
+                className="hidden h-auto w-full grow rounded-md bg-gray-50 dark:bg-secondary md:block"
+              ></div>
+
+              <Link
+                href={link.href}
+                className={clsx(
+                  'center flex h-[48px] grow items-center justify-start gap-2 rounded-md p-3 text-sm font-medium outline-gray-900 dark:hover:text-white md:flex-none md:justify-center md:p-2 md:px-3',
+                  {
+                    'bg-active text-white hover:bg-active hover:text-white dark:bg-active dark:text-white':
+                      pathname.includes(link.activeFilter) ||
+                      pathname === link.href,
+                  },
+                  {
+                    'bg-gray-50 text-tertiary hover:bg-gray-200 dark:bg-secondary dark:text-white dark:hover:bg-active':
+                      !pathname.includes(link.activeFilter) ||
+                      pathname !== link.href,
+                  },
+                )}
+              >
+                <LinkIcon className="w-5" />
+                <p className="transition-all md:hidden">{link.name}</p>
+              </Link>
             </React.Fragment>
           );
         }

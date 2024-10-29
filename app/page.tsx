@@ -1,7 +1,3 @@
-import { ArrowRightIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import { exo } from '@/app/components/fonts';
-import Image from 'next/image';
 import Navbar from '@/app/components/navbar';
 import Footer from '@/app/components/footer';
 import { Metadata } from 'next';

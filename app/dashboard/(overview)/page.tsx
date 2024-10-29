@@ -22,7 +22,9 @@ export const metadata: Metadata = {
 export default async function Page() {
   return (
     <main>
-      <DashboardMessage />
+      <div className="hidden md:block">
+        <DashboardMessage />
+      </div>
       <Accordion
         type="multiple"
         defaultValue={['Weekly view', 'My tasks', 'My projects']}

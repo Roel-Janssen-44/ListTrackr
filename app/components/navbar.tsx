@@ -1,6 +1,5 @@
 import ThemeSwitcher from '@/app/components/themeSwitcher';
 import { exo } from '@/app/components/fonts';
-import { Button } from './button';
 import Link from 'next/link';
 import Image from 'next/image';
 
