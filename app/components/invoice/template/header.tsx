@@ -16,12 +16,7 @@ export default function TemplateHeader({
   return (
     <ul className="m-0 grid grid-cols-2 gap-4 gap-y-8 p-4 pb-0">
       <div className="">
-        {/* Todo - logo upload */}
-        <TemplateLogoUpload
-          invoice={invoice}
-          setInvoice={setInvoice}
-          // fields={getCurrentFieldGroup(invoice.fieldGroups, 'logo')}
-        />
+        <TemplateLogoUpload invoice={invoice} setInvoice={setInvoice} />
       </div>
       <div className="">
         <TemplateInvoiceNumber

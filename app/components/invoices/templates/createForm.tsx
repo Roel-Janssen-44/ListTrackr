@@ -173,7 +173,6 @@ export default function CreateInvoiceTemplate() {
       const response = await createInvoiceTemplate(invoice);
       console.log('response', response);
       if (response.success) {
-        console.log('redirecting to invoice page');
         router.push(`/dashboard/invoices/create/${invoice.id}`);
       } else {
         console.error('Failed to create invoice.');

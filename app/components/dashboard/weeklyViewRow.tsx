@@ -1,36 +1,20 @@
 'use client';
 
-import { format, startOfWeek, addDays } from 'date-fns';
+import { startOfWeek } from 'date-fns';
 import { Goal } from '@/app/lib/definitions';
-import { Button } from '@/app/components/chadcn/button';
-import { TrashIcon } from '@heroicons/react/24/outline';
-import { updateWeeklyTask, deleteTask } from '@/app/lib/actions';
+import { updateWeeklyTask } from '@/app/lib/actions';
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/app/components/chadcn/select';
 import { CornerDownRight } from 'lucide-react';
 
 import { Checkbox } from '@components/chadcn/checkbox';
 import { useRef } from 'react';
-import { Input } from '@/app/components/chadcn/input';
 import { useFormState } from 'react-dom';
 
 export default function WeeklyViewRow({ task }: { task: Goal }) {
   const initialState = { message: null, errors: {} };
 
-  const formRef = useRef(null);
-
   const updateWeeklyTaskWithId = updateWeeklyTask.bind(null, task.id);
   const [state, dispatch] = useFormState(updateWeeklyTaskWithId, initialState);
-
-  const currentDate = new Date();
-  const currentDayOfTheWeek = currentDate.getDay();
-  const weekStart = startOfWeek(currentDate, { weekStartsOn: 1 });
 
   const mondayRef = useRef(null);
   const tuesdayRef = useRef(null);
@@ -40,8 +24,23 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
   const saturdayRef = useRef(null);
   const sundayRef = useRef(null);
 
+  let weeklyGoalMet: boolean;
+  if (task.completedDates.length >= Number(task.daysPerWeek)) {
+    weeklyGoalMet = true;
+  } else {
+    weeklyGoalMet = false;
+  }
+
   return (
-    <div className="border-b-[1px] border-gray-200 odd:bg-gray-100 dark:border-active dark:odd:bg-secondary">
+    <div className="relative border-b-[1px] border-gray-200 odd:bg-gray-100 dark:border-active dark:odd:bg-secondary">
+      {weeklyGoalMet == true && (
+        <div
+          aria-hidden
+          className="absolute left-0 top-0 h-full w-full bg-black bg-opacity-20"
+        >
+          <div className="absolute left-[1%] top-1/2 z-0 h-[1px] w-[91%] -translate-y-1/2 rounded bg-black "></div>
+        </div>
+      )}
       <div className="relative flex w-full flex-row flex-nowrap items-center text-sm transition-colors hover:bg-gray-200 dark:hover:bg-active">
         {task.table_title && (
           <>

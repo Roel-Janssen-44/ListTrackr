@@ -855,6 +855,13 @@ export async function createProject(formData: FormData) {
   const startDate = formData.get('start-date').toString();
   const endDate = formData.get('end-date').toString();
 
+  let startDateFormatted: string | null;
+  if (startDate == format(new Date(), 'yyyy-MM-dd')) {
+    startDateFormatted = null;
+  } else {
+    startDateFormatted = startDate;
+  }
+
   let endDateFormatted: string | null;
   if (endDate == format(new Date(), 'yyyy-MM-dd')) {
     endDateFormatted = null;
@@ -863,13 +870,13 @@ export async function createProject(formData: FormData) {
   }
 
   try {
+    const projectId = uuid();
     await sql`
     insert into projects(id, title, project_number, status, customer_id, user_id, startdate, enddate)
-    VALUES (${uuid()}, ${name}, ${number}, 'created' ,${customerId}, ${userId}, ${startDate}, ${endDateFormatted})
+    VALUES (${projectId}, ${name}, ${number}, 'created' ,${customerId}, ${userId}, ${startDateFormatted}, ${endDateFormatted})
     `;
     revalidatePath('/layout');
-    // Todo - redirect to project/projects page
-    return { success: true, message: '' };
+    return { success: true, message: '', projectId: projectId };
   } catch (error) {
     console.log('error');
     console.log(error);

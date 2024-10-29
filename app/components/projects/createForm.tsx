@@ -21,11 +21,15 @@ import {
   PopoverTrigger,
 } from '@/app/components/chadcn/popover';
 import { format } from 'date-fns';
+import { useRouter } from 'next/navigation';
 
 export default function CreateProjectForm() {
+  const [isLoading, setIsLoading] = useState(false);
   const [customers, setCustomers] = useState([]);
   const [startDate, setStartDate] = useState(format(new Date(), 'yyyy-MM-dd'));
   const [endDate, setEndDate] = useState('');
+
+  const router = useRouter();
 
   useEffect(() => {
     const showCustomers = async () => {
@@ -35,11 +39,35 @@ export default function CreateProjectForm() {
     showCustomers();
   }, []);
 
+  async function handleFormSubmission(formData: FormData) {
+    setIsLoading(true);
+    try {
+      const res = await createProject(formData);
+      if (res.success) {
+        router.push(`/dashboard/projects/${res.projectId}`);
+      } else {
+        console.error('Error creating customer:', res.message);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.error('Error:', error);
+    }
+  }
+
   return (
-    <form action={createProject} className="flex max-w-md flex-col gap-2">
+    <form
+      action={handleFormSubmission}
+      className="flex max-w-md flex-col gap-2"
+    >
       <div>
         <label htmlFor="name">* Project name</label>
-        <Input className="mt-1" placeholder="123" id="name" name="name" />
+        <Input
+          className="mt-1"
+          placeholder="Acme Corporation"
+          id="name"
+          name="name"
+        />
       </div>
       <div>
         <label htmlFor="number">* Project number</label>
@@ -130,7 +158,10 @@ export default function CreateProjectForm() {
           </Popover>
         </div>
       </div>
-      <Button className="mt-2 w-auto max-w-[180px] bg-primary hover:bg-active">
+      <Button
+        disabled={isLoading}
+        className="mt-2 w-auto max-w-[180px] bg-primary hover:bg-active"
+      >
         Create project
       </Button>
     </form>

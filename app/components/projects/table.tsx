@@ -46,7 +46,9 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
                     </div>
 
                     <div className="my-1 w-[175px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
-                      {format(project.startDate, 'dd/MM/yyyy')}
+                      {(project.startDate &&
+                        format(project.startDate, 'dd/MM/yyyy')) ||
+                        ''}
                     </div>
                   </div>
                 </Link>

@@ -26,7 +26,7 @@ import {
 } from '@/app/components/chadcn/popover';
 import { cn } from '@lib/utils';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Input } from '@/app/components/chadcn/input';
 import { useFormState } from 'react-dom';
 
@@ -41,6 +41,7 @@ export default function TaskRow({
   removeTask: Function;
   updateTaskState: Function;
 }) {
+  const [popoverOpen, setPopoverOpen] = useState(false);
   const [focussed, setFocussed] = useState(false);
 
   const initialState = { message: null, errors: {} };
@@ -111,6 +112,11 @@ export default function TaskRow({
       });
     }
   };
+
+  useEffect(() => {
+    console.log('TaskRow useEffect');
+    console.log(popoverOpen);
+  }, [popoverOpen]);
 
   return (
     <form
@@ -216,7 +222,7 @@ export default function TaskRow({
             ref={dateInputRef}
             defaultValue={task.date ? format(task.date, 'yyyy-MM-dd') : null}
           />
-          <Popover>
+          <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
             <PopoverTrigger asChild name="date">
               <Button
                 name="date"
@@ -238,6 +244,7 @@ export default function TaskRow({
                   if (task.date == null || task.date == '') {
                     handleUpdateTask('date', e);
                     handleBlur();
+                    setPopoverOpen(false);
                     return;
                   } else if (
                     format(new Date(task.date), 'yyyy-MM-dd') ==
@@ -248,6 +255,7 @@ export default function TaskRow({
                   }
                   handleUpdateTask('date', e);
                   handleBlur();
+                  setPopoverOpen(false);
                 }}
                 initialFocus
               />
