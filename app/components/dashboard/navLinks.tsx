@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   HomeIcon,
   ClipboardDocumentListIcon,
@@ -68,6 +68,17 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/app/components/chadcn/tooltip';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/app/components/chadcn/sheet';
+import { Bars3Icon } from '@heroicons/react/24/outline';
+// import SignoutButton from '@/app/components/signoutButton';
+
+// Todo - add signout button
 
 export function NavLinks() {
   const pathname = usePathname();
@@ -147,62 +158,80 @@ export function NavLinks() {
 
 export function MobileNavLinks() {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
 
   return (
     <>
-      {links.map((link, index) => {
-        const LinkIcon = link.icon;
-        if (index + 1 < links.length) {
-          return (
-            <Link
-              key={link.name}
-              href={link.href}
-              className={clsx(
-                'flex h-[48px] grow items-center justify-start gap-2 rounded-md p-3 text-sm font-medium outline-gray-900 dark:hover:text-white md:flex-none md:justify-center md:p-2 md:px-3',
-                {
-                  'bg-active text-white hover:bg-active hover:text-white dark:bg-active dark:text-white':
-                    pathname.includes(link.activeFilter) ||
-                    pathname === link.href,
-                },
-                {
-                  'bg-gray-50 text-tertiary hover:bg-gray-200 dark:bg-secondary dark:text-white dark:hover:bg-active':
-                    !pathname.includes(link.activeFilter) &&
-                    pathname !== link.href,
-                },
-              )}
-            >
-              <LinkIcon className="w-6" />
-              <p className="block transition-all md:hidden">{link.name}</p>
-            </Link>
-          );
-        } else {
-          return (
-            <React.Fragment key={link.name}>
-              <div className="hidden h-auto w-full grow rounded-md bg-gray-50 dark:bg-secondary md:block"></div>
+      <Sheet open={open} onOpenChange={setOpen}>
+        <SheetTrigger className="block md:hidden">
+          <Bars3Icon className="w-8 text-white" />
+        </SheetTrigger>
+        <SheetContent side="left">
+          <SheetHeader>
+            <SheetTitle className="text-left">Menu</SheetTitle>
+          </SheetHeader>
+          <div>
+            {links.map((link, index) => {
+              const LinkIcon = link.icon;
+              if (index + 1 < links.length) {
+                return (
+                  <Link
+                    onClick={() => setOpen(false)}
+                    key={link.name}
+                    href={link.href}
+                    className={clsx(
+                      'flex h-[48px] grow items-center justify-start gap-2 rounded-md p-3 text-sm font-medium outline-gray-900 dark:hover:text-white md:flex-none md:justify-center md:p-2 md:px-3',
+                      {
+                        'bg-active text-white hover:bg-active hover:text-white dark:bg-active dark:text-white':
+                          pathname.includes(link.activeFilter) ||
+                          pathname === link.href,
+                      },
+                      {
+                        'bg-gray-50 text-tertiary hover:bg-gray-200 dark:bg-secondary dark:text-white dark:hover:bg-active':
+                          !pathname.includes(link.activeFilter) &&
+                          pathname !== link.href,
+                      },
+                    )}
+                  >
+                    <LinkIcon className="w-6" />
+                    <p className="block transition-all md:hidden">
+                      {link.name}
+                    </p>
+                  </Link>
+                );
+              } else {
+                return (
+                  <React.Fragment key={link.name}>
+                    <div className="hidden h-auto w-full grow rounded-md bg-gray-50 dark:bg-secondary md:block"></div>
 
-              <Link
-                href={link.href}
-                className={clsx(
-                  'center flex h-[48px] grow items-center justify-start gap-2 rounded-md p-3 text-sm font-medium outline-gray-900 dark:hover:text-white md:flex-none md:justify-center md:p-2 md:px-3',
-                  {
-                    'bg-active text-white hover:bg-active hover:text-white dark:bg-active dark:text-white':
-                      pathname.includes(link.activeFilter) ||
-                      pathname === link.href,
-                  },
-                  {
-                    'bg-gray-50 text-tertiary hover:bg-gray-200 dark:bg-secondary dark:text-white dark:hover:bg-active':
-                      !pathname.includes(link.activeFilter) ||
-                      pathname !== link.href,
-                  },
-                )}
-              >
-                <LinkIcon className="w-5" />
-                <p className="transition-all md:hidden">{link.name}</p>
-              </Link>
-            </React.Fragment>
-          );
-        }
-      })}
+                    <Link
+                      onClick={() => setOpen(false)}
+                      href={link.href}
+                      className={clsx(
+                        'center flex h-[48px] grow items-center justify-start gap-2 rounded-md p-3 text-sm font-medium outline-gray-900 dark:hover:text-white md:flex-none md:justify-center md:p-2 md:px-3',
+                        {
+                          'bg-active text-white hover:bg-active hover:text-white dark:bg-active dark:text-white':
+                            pathname.includes(link.activeFilter) ||
+                            pathname === link.href,
+                        },
+                        {
+                          'bg-gray-50 text-tertiary hover:bg-gray-200 dark:bg-secondary dark:text-white dark:hover:bg-active':
+                            !pathname.includes(link.activeFilter) ||
+                            pathname !== link.href,
+                        },
+                      )}
+                    >
+                      <LinkIcon className="w-5" />
+                      <p className="transition-all md:hidden">{link.name}</p>
+                    </Link>
+                  </React.Fragment>
+                );
+              }
+            })}
+            {/* <SignoutButton /> */}
+          </div>
+        </SheetContent>
+      </Sheet>
     </>
   );
 }

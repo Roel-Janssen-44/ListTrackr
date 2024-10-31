@@ -52,15 +52,17 @@ export default async function ProjectView({
       </Suspense>
 
       <Suspense fallback={'Loading...'}>
-        <ProjectTasksTable project={project} />
+        <ProjectTasksTable project={project} showTitle title="Tasks" />
       </Suspense>
 
       <Suspense fallback={'Loading...'}>
-        <ProjectInvoices
-          projectId={projectId}
-          invoices={invoices}
-          templates={templates}
-        />
+        <div className="mt-10">
+          <ProjectInvoices
+            projectId={projectId}
+            invoices={invoices}
+            templates={templates}
+          />
+        </div>
       </Suspense>
     </div>
   );

@@ -34,85 +34,93 @@ export default function InvoicesTable({
 }) {
   return (
     <>
-      <div className="flex flex-col flex-wrap gap-2">
-        <div className="relative my-6 rounded-lg bg-white p-3 text-tertiary dark:bg-primary dark:text-white">
-          <div className="w-full overflow-x-auto rounded-lg bg-white scrollbar scrollbar-track-slate-300 scrollbar-thumb-active scrollbar-track-rounded scrollbar-thumb-rounded scrollbar-h-3 dark:bg-secondary">
-            <div className="table w-full text-left text-sm font-normal">
-              <div className="justify-bwetween flex w-full flex-row flex-nowrap items-center justify-between">
-                <div className="inline-block w-[350px] px-4 py-3 pb-2 font-medium sm:pl-2">
-                  Invoicenumber
-                </div>
-                <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
-                  Amount
-                </div>
-                <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
-                  Date
-                </div>
-                <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
-                  Status
+      {invoices.length !== 0 && (
+        <div className="flex flex-col flex-wrap gap-2">
+          <div className="relative my-6 w-full rounded-lg bg-white p-3 text-tertiary dark:bg-primary dark:text-white">
+            <div className="w-full overflow-x-auto rounded-lg bg-white scrollbar scrollbar-track-slate-300 scrollbar-thumb-active scrollbar-track-rounded scrollbar-thumb-rounded scrollbar-h-3 dark:bg-secondary">
+              <div className="table w-full text-left text-sm font-normal">
+                <div className="justify-bwetween flex w-full flex-row flex-nowrap items-center justify-between">
+                  <div className="inline-block w-[350px] px-4 py-3 pb-2 font-medium sm:pl-2">
+                    Invoicenumber
+                  </div>
+                  <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
+                    Amount
+                  </div>
+                  <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
+                    Date
+                  </div>
+                  <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
+                    Status
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="relative table w-full max-w-full">
-              {invoices?.map((invoice: Invoice) => (
-                <Link
-                  href={`/dashboard/invoices/${invoice.id}`}
-                  key={invoice.id}
-                  className={`relative flex flex-row border-t-[1px] border-gray-200 odd:bg-gray-50 dark:border-white dark:border-opacity-10 dark:odd:bg-primary`}
-                >
-                  <div className="group flex w-full flex-row flex-nowrap items-center justify-between text-sm transition-colors hover:bg-gray-100 dark:hover:bg-active">
-                    <div className="w-[350px] border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10">
-                      {invoice.number}
-                    </div>
-                    <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
-                      {formatCurrency(invoice.amount)}
-                    </div>
-                    <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
-                      {format(invoice.date, 'dd/MM/yyyy')}
-                    </div>
 
-                    <div className="my-1 w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
-                      <Select
-                        defaultValue={invoice.status}
-                        name="priority"
-                        aria-labelledby="priority-error"
-                        onValueChange={async (value) => {
-                          await updateInvoiceStatus({
-                            newValue: value,
-                            invoiceId: invoice.id,
-                          });
-                        }}
-                      >
-                        <SelectTrigger
-                          className={`w-[150px] ${
-                            invoice.status == 'paid'
-                              ? 'bg-green-400'
-                              : invoice.status == 'created'
-                              ? 'bg-gray-200'
-                              : invoice.status == 'pending'
-                              ? 'bg-orange-400'
-                              : invoice.status == 'overdue'
-                              ? 'bg-red-400'
-                              : 'border-none bg-transparent text-transparent dark:bg-transparent'
-                          }`}
+              <div className="relative table w-full max-w-full">
+                {invoices?.map((invoice: Invoice) => (
+                  <Link
+                    href={`/dashboard/invoices/${invoice.id}`}
+                    key={invoice.id}
+                    className={`relative flex flex-row border-t-[1px] border-gray-200 odd:bg-gray-50 dark:border-white dark:border-opacity-10 dark:odd:bg-primary`}
+                  >
+                    <div className="group flex w-full flex-row flex-nowrap items-center justify-between text-sm transition-colors hover:bg-gray-100 dark:hover:bg-active">
+                      <div className="w-[350px] border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10">
+                        {invoice.number}
+                      </div>
+                      <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
+                        {formatCurrency(invoice.amount)}
+                      </div>
+                      <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
+                        {format(invoice.date, 'dd/MM/yyyy')}
+                      </div>
+
+                      <div className="my-1 w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
+                        <Select
+                          defaultValue={invoice.status}
+                          name="priority"
+                          aria-labelledby="priority-error"
+                          onValueChange={async (value) => {
+                            await updateInvoiceStatus({
+                              newValue: value,
+                              invoiceId: invoice.id,
+                            });
+                          }}
                         >
-                          <SelectValue placeholder="" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="created">Created</SelectItem>
-                          <SelectItem value="pending">Pending</SelectItem>
-                          <SelectItem value="overdue">Overdue</SelectItem>
-                          <SelectItem value="paid">Paid</SelectItem>
-                        </SelectContent>
-                      </Select>
+                          <SelectTrigger
+                            className={`w-[150px] ${
+                              invoice.status == 'paid'
+                                ? 'bg-green-400'
+                                : invoice.status == 'created'
+                                ? 'bg-gray-200'
+                                : invoice.status == 'pending'
+                                ? 'bg-orange-400'
+                                : invoice.status == 'overdue'
+                                ? 'bg-red-400'
+                                : 'border-none bg-transparent text-transparent dark:bg-transparent'
+                            }`}
+                          >
+                            <SelectValue placeholder="" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="created">Created</SelectItem>
+                            <SelectItem value="pending">Pending</SelectItem>
+                            <SelectItem value="overdue">Overdue</SelectItem>
+                            <SelectItem value="paid">Paid</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
+      {invoices.length === 0 && (
+        <div>
+          <h3 className="mb-4 text-gray-900">No invoices found.</h3>
+        </div>
+      )}
       <div>
         {templates.length > 0 && (
           <Dialog>
@@ -144,6 +152,11 @@ export default function InvoicesTable({
               </DialogFooter>
             </DialogContent>
           </Dialog>
+        )}
+        {templates.length === 0 && (
+          <div>
+            <h3 className="mb-4 text-gray-900">No templates found.</h3>
+          </div>
         )}
       </div>
     </>

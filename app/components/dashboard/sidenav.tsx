@@ -2,18 +2,11 @@
 
 import Link from 'next/link';
 import { NavLinks, MobileNavLinks } from '@/app/components/dashboard/navLinks';
-import { Bars3Icon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import DashboardMessage from '../dashboardMessage';
-import SignoutButton from '../signoutButton';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/app/components/chadcn/sheet';
+// import SignoutButton from '../signoutButton';
 
+// Todo - add signout button
 export default async function SideNav() {
   return (
     <div className="">
@@ -31,23 +24,11 @@ export default async function SideNav() {
           <div className="block flex-1 md:hidden">
             <DashboardMessage />
           </div>
-          <Sheet>
-            <SheetTrigger className="block md:hidden">
-              <Bars3Icon className="w-8 text-white" />
-            </SheetTrigger>
-
-            <SheetContent side="left">
-              <SheetHeader>
-                <SheetTitle className="text-left">Menu</SheetTitle>
-                <MobileNavLinks />
-                <SignoutButton />
-              </SheetHeader>
-            </SheetContent>
-          </Sheet>
+          <MobileNavLinks />
         </div>
         <div className="hidden grow flex-row justify-between space-x-2 md:flex md:flex-col md:space-x-0 md:space-y-2">
           <NavLinks />
-          <SignoutButton />
+          {/* <SignoutButton /> */}
         </div>
       </div>
     </div>

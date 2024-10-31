@@ -9,9 +9,11 @@ import TableRow from '@/app/components/tasks/row';
 export default function ProjectTasksTable({
   project,
   showTitle = false,
+  title,
 }: {
   project: Project | ProjectTasks;
   showTitle?: boolean;
+  title?: string;
 }) {
   const [tasksToRender, setTasksToRender] = useState<Task[]>(project.tasks);
 
@@ -82,26 +84,31 @@ export default function ProjectTasksTable({
     <div>
       <div className="relative mt-6 rounded-lg bg-white p-3 text-tertiary dark:bg-primary dark:text-white">
         {showTitle && (
-          <h3 className="px-3 py-2 text-lg font-bold">{project.title}</h3>
+          <h3 className="px-3 py-2 text-lg font-bold">
+            {title ? title : project.title}
+          </h3>
         )}
 
         <div className="w-full overflow-x-auto rounded-lg bg-white scrollbar scrollbar-track-slate-300 scrollbar-thumb-active scrollbar-track-rounded scrollbar-thumb-rounded scrollbar-h-3 dark:bg-secondary">
-          <div className="ml-[50px] table text-left text-sm font-normal">
-            <div className="flex w-full flex-row flex-nowrap items-center">
-              <div className="inline-block w-[350px] px-4 py-3 pb-2 font-medium sm:pl-6">
-                Title
-              </div>
-              <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
-                Priority
-              </div>
-              <div className="inline-block w-[175px] px-3 py-3 pb-2 pl-6 font-medium">
-                Date
-              </div>
-              <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
-                Status
+          {project.tasks.length !== 0 && (
+            <div className="ml-[50px] table text-left text-sm font-normal">
+              <div className="flex w-full flex-row flex-nowrap items-center">
+                <div className="inline-block w-[350px] px-4 py-3 pb-2 font-medium sm:pl-6">
+                  Title
+                </div>
+                <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
+                  Priority
+                </div>
+                <div className="inline-block w-[175px] px-3 py-3 pb-2 pl-6 font-medium">
+                  Date
+                </div>
+                <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
+                  Status
+                </div>
               </div>
             </div>
-          </div>
+          )}
+
           <div className="relative table w-full max-w-full">
             {tasksToRender.length != 0 &&
               tasksToRender.map((task: Task) => (

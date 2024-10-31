@@ -96,7 +96,6 @@ export async function createTable(
   } else if (tableType === 'goal') {
     revalidatePath('/dashboard/goals');
   }
-  // redirect('/dashboard/tasks');
 }
 
 export type TaskState = {
@@ -169,10 +168,7 @@ export async function createTask(
       message: 'Database Error: Failed to Create Task.',
     };
   }
-  // revalidatePath('/dashboard');
-  // revalidatePath('/dashboard/tasks');
-  // revalidatePath('/dashboard/goals');
-  revalidatePath('/', 'layout');
+  revalidatePath('/layout');
 }
 
 export async function updateTask(
@@ -180,8 +176,28 @@ export async function updateTask(
   taskId: string,
   prevState: TaskState,
   formData: FormData,
-) {
+): Promise<{ success: boolean; message: string }> {
   const title = formData.get('title');
+
+  if (typeof title == 'string' && title.length == 0) {
+    try {
+      const result = await db
+        .deleteFrom('tasks')
+        .where('id', '=', taskId)
+        .execute();
+
+      return {
+        success: true,
+        message: '',
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: 'Failed to Update Task.',
+      };
+    }
+  }
+
   const priority = formData.get('priority');
   const date = formData.get('date').toString();
   const completed = formData.get('completed');
@@ -203,9 +219,18 @@ export async function updateTask(
   if (typeof title != 'string') return;
   if (typeof priority != 'string') return;
 
-  // Completed
-  if (completedBool) {
-    try {
+  const maxLength = 56;
+
+  if (typeof title !== 'string' || title.length > maxLength) {
+    return {
+      success: false,
+      message: 'Task has to many characters.',
+    };
+  }
+
+  try {
+    // Completed
+    if (completedBool) {
       sql`
       UPDATE tasks
       set
@@ -215,14 +240,8 @@ export async function updateTask(
       status='done',
       date=${validatedDate}
       WHERE id=${taskId}`;
-    } catch (error) {
-      return {
-        message: 'Database Error: Failed to Update Task.',
-      };
-    }
-    // Planned
-  } else if (!completedBool && validatedDate != null) {
-    try {
+      // Planned
+    } else if (!completedBool && validatedDate != null) {
       sql`
       UPDATE tasks
       set 
@@ -232,14 +251,8 @@ export async function updateTask(
       status='planned',
       date=${validatedDate}
       WHERE id=${taskId}`;
-    } catch (error) {
-      return {
-        message: 'Database Error: Failed to Update Task.',
-      };
-    }
-    // Not planned
-  } else {
-    try {
+      // Not planned
+    } else {
       sql`
         UPDATE tasks
         set
@@ -249,17 +262,15 @@ export async function updateTask(
         status=null,
         date=null
         WHERE id=${taskId}`;
-    } catch (error) {
-      return {
-        message: 'Database Error: Failed to Update Task.',
-      };
     }
+  } catch (error) {
+    return {
+      success: false,
+      message: 'Failed to Update Task.',
+    };
   }
-
-  revalidatePath('/dashboard');
-  revalidatePath('/dashboard/tasks');
-  revalidatePath('/dashboard/goals');
-  // redirect('/dashboard/tasks');
+  revalidatePath('/layout');
+  return { success: true, message: '' };
 }
 
 export type GoalState = {
@@ -855,25 +866,11 @@ export async function createProject(formData: FormData) {
   const startDate = formData.get('start-date').toString();
   const endDate = formData.get('end-date').toString();
 
-  let startDateFormatted: string | null;
-  if (startDate == format(new Date(), 'yyyy-MM-dd')) {
-    startDateFormatted = null;
-  } else {
-    startDateFormatted = startDate;
-  }
-
-  let endDateFormatted: string | null;
-  if (endDate == format(new Date(), 'yyyy-MM-dd')) {
-    endDateFormatted = null;
-  } else {
-    endDateFormatted = endDate;
-  }
-
   try {
     const projectId = uuid();
     await sql`
     insert into projects(id, title, project_number, status, customer_id, user_id, startdate, enddate)
-    VALUES (${projectId}, ${name}, ${number}, 'created' ,${customerId}, ${userId}, ${startDateFormatted}, ${endDateFormatted})
+    VALUES (${projectId}, ${name}, ${number}, 'created' ,${customerId}, ${userId}, ${startDate}, ${endDate})
     `;
     revalidatePath('/layout');
     return { success: true, message: '', projectId: projectId };

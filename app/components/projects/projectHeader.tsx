@@ -56,11 +56,11 @@ export default function ProjectHeader({
       key={project.id}
       ref={formRef}
       action={dispatch}
-      className="relative my-6 flex flex-row flex-wrap gap-2 rounded-lg text-tertiary md:flex-nowrap"
+      className="relative my-6 flex flex-row flex-wrap gap-y-6 rounded-lg text-tertiary lg:flex-nowrap"
     >
       <input type="hidden" name="title" value={project.title} />
       <input type="hidden" name="endDate" value={project.endDate} />
-      <div className="w-1/2 md:w-1/4">
+      <div className="w-1/2 pr-3 lg:w-1/4">
         <div className="flex flex-col items-center justify-center rounded-lg bg-white p-6 pb-2 text-center font-medium">
           <span className="font-bold">Projectnumber</span>
           <Input
@@ -75,7 +75,7 @@ export default function ProjectHeader({
           />
         </div>
       </div>
-      <div className="w-1/2 md:w-1/4">
+      <div className="w-1/2 pl-3 lg:w-1/4 lg:px-3">
         <div className="flex flex-col items-center justify-center rounded-lg bg-white p-6 pb-2 text-center font-medium">
           <span className="font-bold">Status</span>
           <Select
@@ -120,7 +120,7 @@ export default function ProjectHeader({
           </Select>
         </div>
       </div>
-      <div className="w-1/2 md:w-1/4">
+      <div className="w-1/2 pr-3 lg:w-1/4 lg:px-3">
         <div className="flex flex-col items-center justify-center rounded-lg bg-white p-6 pb-2 text-center font-medium">
           <span className="font-bold">Customer</span>
           <Select
@@ -148,7 +148,7 @@ export default function ProjectHeader({
           </Select>
         </div>
       </div>
-      <div className="w-1/2 md:w-1/4">
+      <div className="w-1/2 pl-3 lg:w-1/4">
         <div className="flex flex-col items-center justify-center rounded-lg bg-white p-6 pb-2 text-center font-medium">
           <span className="font-bold">Startdate</span>
           <div className="mt-3 w-[175px] px-3">
