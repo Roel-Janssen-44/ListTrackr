@@ -14,7 +14,7 @@ export default async function Projects() {
 
   return (
     <div className="w-full">
-      <h1 className={`${exo.className} mb-4 text-3xl font-bold`}>Projects</h1>
+      <h1 className={`${exo.className} text-3xl font-bold`}>Projects</h1>
       <Suspense fallback={'Loading...'}>
         <ProjectsTable projects={projects} />
       </Suspense>

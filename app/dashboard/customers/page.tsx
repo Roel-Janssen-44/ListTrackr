@@ -15,7 +15,7 @@ export default async function Customers() {
 
   return (
     <div className="w-full">
-      <h1 className={`${exo.className} mb-4 text-3xl font-bold`}>Customers</h1>
+      <h1 className={`${exo.className} text-3xl font-bold`}>Customers</h1>
       <Suspense fallback={'fallback'}>
         <div className="relative my-6 rounded-lg bg-white p-3 text-tertiary dark:bg-primary dark:text-white">
           <div className="w-full overflow-x-auto rounded-lg bg-white scrollbar scrollbar-track-slate-300 scrollbar-thumb-active scrollbar-track-rounded scrollbar-thumb-rounded scrollbar-h-3 dark:bg-secondary">
