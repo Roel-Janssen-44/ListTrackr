@@ -721,30 +721,9 @@ export async function fetchProjectsTasks(): Promise<
   if (!userId) return;
 
   try {
-    // Todo fetch projects and tasks in one query
-    // const data = await sql`
-    //   SELECT
-    //     tasks.id,
-    //     tasks.title,
-    //     tasks.completed,
-    //     tasks.priority,
-    //     tasks.date,
-    //     tasks.daysperweek,
-    //     tasks.status,
-    //     tasks.order,
-    //     tasks.type,
-    //     tasks.user_id,
-    //     projects.id AS project_id,
-    //     projects.title AS project_title
-    //   FROM tasks
-    //   FULL JOIN projects on tasks.project_id = projects.id
-    //   WHERE tasks.user_id = ${userId}
-    //   ORDER BY "order" ASC
-    // `;
-
     const data = await db
-      .selectFrom('tasks')
-      .innerJoin('projects', 'tasks.project_id', 'projects.id')
+      .selectFrom('projects')
+      .leftJoin('tasks', 'tasks.project_id', 'projects.id')
       .select([
         'projects.id as projectId',
         'projects.title as projectTitle',
@@ -776,20 +755,22 @@ export async function fetchProjectsTasks(): Promise<
             acc.push(project);
           }
 
-          project.tasks.push({
-            id: row.taskId,
-            title: row.taskTitle,
-            completed: row.completed,
-            priority: row.priority as '' | 'low' | 'medium' | 'high',
-            date: row.date ? row.date.toString() : '',
-            table_id: row.table_id,
-            status: row.status as
-              | ''
-              | 'planned'
-              | 'working on it'
-              | 'done'
-              | 'stuck',
-          });
+          if (row.taskId) {
+            project.tasks.push({
+              id: row.taskId,
+              title: row.taskTitle,
+              completed: row.completed,
+              priority: row.priority as '' | 'low' | 'medium' | 'high',
+              date: row.date ? row.date.toString() : '',
+              table_id: row.table_id,
+              status: row.status as
+                | ''
+                | 'planned'
+                | 'working on it'
+                | 'done'
+                | 'stuck',
+            });
+          }
 
           return acc;
         },
