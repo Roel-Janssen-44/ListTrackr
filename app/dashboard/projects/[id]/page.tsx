@@ -17,6 +17,7 @@ import {
   InvoiceTemplateName,
 } from '@/app/lib/definitions';
 import { Metadata } from 'next';
+import PorjectTitle from '@/app/components/projects/title';
 
 export const metadata: Metadata = {
   title: 'Project',
@@ -35,11 +36,11 @@ export default async function ProjectView({
 
   return (
     <div className="w-full">
-      <div className="mb-6 flex flex-row justify-start gap-6">
+      <div className="relative mb-24 flex flex-row justify-between gap-6 sm:mb-0 sm:justify-start">
         <PreviousPage />
 
-        <h1 className="my-auto mr-20 w-full self-baseline text-center text-2xl font-bold">
-          {project.title}
+        <h1 className="absolute left-0 top-full my-auto mt-6 w-full self-baseline text-center text-2xl font-bold sm:relative sm:mt-0">
+          <PorjectTitle project={project} />
         </h1>
 
         <div className="flex flex-row justify-center gap-4">

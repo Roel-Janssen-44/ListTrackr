@@ -15,7 +15,7 @@ export default async function Invoices() {
 
   return (
     <div className="w-full">
-      <h1 className={`${exo.className} mb-4 text-3xl font-bold`}>Invoices</h1>
+      <h1 className={`${exo.className} text-3xl font-bold`}>Invoices</h1>
       <Suspense fallback={'Loading...'}>
         <InvoiceTable invoices={invoices} templates={templates} />
       </Suspense>

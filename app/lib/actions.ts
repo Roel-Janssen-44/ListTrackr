@@ -939,3 +939,27 @@ export async function updateProject(
     };
   }
 }
+
+export async function updateProjectTitle({
+  projectId,
+  newValue,
+}: {
+  projectId: string;
+  newValue: string;
+}) {
+  try {
+    const result = await db
+      .updateTable('projects')
+      .set({ title: newValue })
+      .where('id', '=', projectId)
+      .executeTakeFirst();
+
+    revalidatePath('/dashboard/projects');
+    return { success: true, message: '' };
+  } catch (error) {
+    return {
+      status: 'error',
+      message: 'Database Error: Failed to update project title.',
+    };
+  }
+}

@@ -12,7 +12,6 @@ import {
   SelectValue,
 } from '@/app/components/chadcn/select';
 import { fetchCustomers } from '@/app/lib/data';
-import { Customer } from '@/app/lib/definitions';
 import { Button } from '@/app/components/chadcn/button';
 import { Calendar } from '@/app/components/chadcn/calendar';
 import {

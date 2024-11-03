@@ -6,7 +6,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className="md:w-16">
         <SideNav />
       </div>
-      <div className=" p-6 md:overflow-y-auto md:p-12">{children}</div>
+      <div className="p-6 pt-0 md:overflow-y-auto md:p-12">{children}</div>
     </div>
   );
 }
