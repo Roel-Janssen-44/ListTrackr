@@ -64,7 +64,7 @@ export default function CustomerCreationForm() {
                         name="name"
                         type="text"
                         placeholder="Full name *"
-                        className="mt-1 block w-full rounded-md bg-transparent py-2 pl-3 pr-20 text-sm outline-2 placeholder:text-gray-400"
+                        className="mt-1 block w-full rounded-md bg-transparent py-2 pl-3 pr-20 outline-2 placeholder:text-gray-400"
                         aria-labelledby="name-error"
                         required
                       />
@@ -83,7 +83,7 @@ export default function CustomerCreationForm() {
                         name="email"
                         type="text"
                         placeholder="Email *"
-                        className="mt-1 block w-full rounded-md bg-transparent py-2 pl-3 pr-20 text-sm outline-2 placeholder:text-gray-400"
+                        className="mt-1 block w-full rounded-md bg-transparent py-2 pl-3 pr-20 outline-2 placeholder:text-gray-400"
                         aria-labelledby="email-error"
                         required
                       />
@@ -102,7 +102,7 @@ export default function CustomerCreationForm() {
                         name="phone"
                         type="text"
                         placeholder="Phone number *"
-                        className="mt-1 block w-full rounded-md bg-transparent py-2 pl-3 pr-20 text-sm outline-2 placeholder:text-gray-400"
+                        className="mt-1 block w-full rounded-md bg-transparent py-2 pl-3 pr-20 outline-2 placeholder:text-gray-400"
                         aria-labelledby="phone-error"
                         required
                       />
@@ -122,7 +122,7 @@ export default function CustomerCreationForm() {
                         name="streetname"
                         type="text"
                         placeholder="Streetname"
-                        className="mt-1 block w-full rounded-md bg-transparent py-2 pl-3 pr-20 text-sm outline-2 placeholder:text-gray-400"
+                        className="mt-1 block w-full rounded-md bg-transparent py-2 pl-3 pr-20 outline-2 placeholder:text-gray-400"
                         aria-labelledby="street-error"
                       />
                     </div>
@@ -140,7 +140,7 @@ export default function CustomerCreationForm() {
                         name="housenumber"
                         type="text"
                         placeholder="Housenumber"
-                        className="mt-1 block w-full rounded-md bg-transparent py-2 pl-3 pr-20 text-sm outline-2 placeholder:text-gray-400"
+                        className="mt-1 block w-full rounded-md bg-transparent py-2 pl-3 pr-20 outline-2 placeholder:text-gray-400"
                         aria-labelledby="housenumber-error"
                       />
                     </div>
@@ -158,7 +158,7 @@ export default function CustomerCreationForm() {
                         name="postalcode"
                         type="text"
                         placeholder="Postalcode"
-                        className="mt-1 block w-full rounded-md bg-transparent py-2 pl-3 pr-20 text-sm outline-2 placeholder:text-gray-400"
+                        className="mt-1 block w-full rounded-md bg-transparent py-2 pl-3 pr-20 outline-2 placeholder:text-gray-400"
                         aria-labelledby="postalcode-error"
                       />
                     </div>
@@ -176,7 +176,7 @@ export default function CustomerCreationForm() {
                         name="country"
                         type="text"
                         placeholder="Country"
-                        className="mt-1 block w-full rounded-md bg-transparent py-2 pl-3 pr-20 text-sm outline-2 placeholder:text-gray-400"
+                        className="mt-1 block w-full rounded-md bg-transparent py-2 pl-3 pr-20 outline-2 placeholder:text-gray-400"
                         aria-labelledby="country-error"
                       />
                     </div>
