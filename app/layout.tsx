@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   },
   description:
     'ListTrackr is your personal productivity companion designed to help you turn your aspirations into accomplishments.',
-  metadataBase: new URL('https://next-learn-dashboard.vercel.sh'),
+  // metadataBase: new URL('https://next-learn-dashboard.vercel.sh'),
 };
 
 export default async function RootLayout({
@@ -32,9 +32,13 @@ export default async function RootLayout({
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
         />
+
         <meta name="ListTrackr" content="ListTrackr" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
+        />
         <meta name="apple-mobile-web-app-title" content="ListTrackr" />
         <meta name="description" content="ListTrackr" />
         <meta name="format-detection" content="telephone=no" />
