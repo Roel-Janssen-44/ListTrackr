@@ -696,6 +696,9 @@ export async function createInvoice(
   console.log(logo);
 
   console.log(invoice);
+  console.log(invoice.fieldGroups);
+  console.log(invoice.fieldGroups[0]);
+  console.log(invoice.fieldGroups[0].fields);
 
   try {
     await sql`

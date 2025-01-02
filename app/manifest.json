@@ -1,6 +1,6 @@
 {
   "theme_color": "#5E0035",
-  "background_color": "#ffffff",
+  "background_color": "#5E0035",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
@@ -26,13 +26,19 @@
       "src": "/icons/icon-384x384.png",
       "sizes": "384x384",
       "type": "image/png",
+      "purpose": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icons/maskable.png",
+      "src": "/icons/maskable.png",
       "sizes": "1024x1024",
       "type": "image/png",
-      "purpose": "maskable"
+      "purpose": "maskable any"
     }
   ]
 }
