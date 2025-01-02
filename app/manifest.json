@@ -1,6 +1,6 @@
 {
   "theme_color": "#5E0035",
-  "background_color": "#5E0035",
+  "background_color": "#ffffff",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
@@ -38,7 +38,27 @@
       "src": "/icons/maskable.png",
       "sizes": "1024x1024",
       "type": "image/png",
-      "purpose": "maskable any"
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/maskable.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/hero-1.png",
+      "sizes": "400x800",
+      "type": "image/png",
+      "form_factor": "regular"
+    },
+    {
+      "src": "/hero-2.png",
+      "sizes": "400x800",
+      "type": "image/png",
+      "form_factor": "regular"
     }
   ]
 }
