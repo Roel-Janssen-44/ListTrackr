@@ -124,7 +124,7 @@ export default function ProjectHeader({
         <div className="flex flex-col items-center justify-center rounded-lg bg-white p-6 pb-2 text-center font-medium">
           <span className="font-bold">Customer</span>
           <Select
-            defaultValue={project.customer.id}
+            defaultValue={project.customer.id || 'Me'}
             name="customer"
             aria-labelledby="customer-error"
             onValueChange={(value) => {
@@ -136,9 +136,10 @@ export default function ProjectHeader({
             <SelectTrigger
               className={`mt-3 w-[150px] items-center justify-center gap-2`}
             >
-              <SelectValue placeholder="" />
+              <SelectValue placeholder="Me" />
             </SelectTrigger>
             <SelectContent>
+              <SelectItem value={'Me'}>Me</SelectItem>
               {customers.map((customer) => (
                 <SelectItem key={customer.id} value={customer.id}>
                   {customer.name}

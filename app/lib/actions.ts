@@ -865,9 +865,13 @@ export async function createProject(formData: FormData) {
 
   const name = formData.get('name').toString();
   const number = formData.get('number').toString();
-  const customerId = formData.get('customer').toString();
+  let customerId = formData.get('customer').toString();
   const startDate = formData.get('start-date').toString();
   const endDate = formData.get('end-date').toString();
+
+  if (customerId.toLowerCase() == 'me') {
+    customerId = null;
+  }
 
   try {
     const projectId = uuid();
@@ -880,6 +884,8 @@ export async function createProject(formData: FormData) {
   } catch (error) {
     console.log('error');
     console.log(error);
+    alert(error);
+
     return { success: false, message: 'Error creating project' };
   }
 }
@@ -909,12 +915,16 @@ export async function updateProject(
 ) {
   const title = formData.get('title').toString();
   const number = formData.get('number').toString();
-  const customerId = formData.get('customer').toString();
+  let customerId = formData.get('customer').toString();
   const status = formData.get('status').toString();
   const startDate = new Date(formData.get('startDate').toString());
   const endDate = formData.get('endDate')
     ? new Date(formData.get('endDate').toString())
     : null;
+
+  if (customerId.toLowerCase() == 'me') {
+    customerId = null;
+  }
 
   try {
     const result = await db

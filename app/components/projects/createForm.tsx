@@ -57,7 +57,7 @@ export default function CreateProjectForm() {
   return (
     <form
       action={handleFormSubmission}
-      className="flex max-w-md flex-col gap-2"
+      className="mt-6 flex max-w-md flex-col gap-2"
     >
       <div>
         <label htmlFor="name">* Project name</label>
@@ -74,15 +74,16 @@ export default function CreateProjectForm() {
       </div>
       <div>
         <label htmlFor="customer">* Customer</label>
-        <Select name="customer">
+        <Select name="customer" defaultValue="Me">
           <SelectTrigger
             name="customer"
             id="customer"
             className="mb-2 mt-1 w-[180px]"
           >
-            <SelectValue placeholder="Select a customer-" />
+            <SelectValue placeholder="Me" />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value={'Me'}>Me</SelectItem>
             {customers.map((customer) => (
               <SelectItem key={customer.id} value={customer.id}>
                 {customer.name}

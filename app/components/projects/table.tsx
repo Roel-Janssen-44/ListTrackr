@@ -42,7 +42,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
                       {project.status}
                     </div>
                     <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
-                      {project.customer.name}
+                      {project.customer.name || 'Me'}
                     </div>
 
                     <div className="my-1 w-[175px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">

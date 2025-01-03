@@ -534,7 +534,7 @@ export async function fetchProjects(): Promise<Project[] | undefined> {
   try {
     const data = await db
       .selectFrom('projects')
-      .innerJoin('customers', 'projects.customer_id', 'customers.id')
+      .leftJoin('customers', 'projects.customer_id', 'customers.id')
       .select([
         'projects.id',
         'projects.title',
@@ -594,7 +594,7 @@ export async function fetchProject(projectId: string): Promise<Project | null> {
   try {
     const projectDBData = await db
       .selectFrom('projects')
-      .innerJoin('customers', 'projects.customer_id', 'customers.id')
+      .leftJoin('customers', 'projects.customer_id', 'customers.id')
       .select([
         'projects.id',
         'projects.title',

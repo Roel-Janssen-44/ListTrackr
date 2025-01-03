@@ -102,7 +102,7 @@ export function NavLinks() {
                           pathname === link.href,
                       },
                       {
-                        'bg-gray-50 text-tertiary hover:bg-gray-200 dark:bg-secondary dark:text-white dark:hover:bg-active':
+                        'bg-gray-100 text-tertiary hover:bg-gray-200 dark:bg-secondary dark:text-white dark:hover:bg-active':
                           !pathname.includes(link.activeFilter) &&
                           pathname !== link.href,
                       },
@@ -120,7 +120,7 @@ export function NavLinks() {
         } else {
           return (
             <React.Fragment key={link.name}>
-              <div className="hidden h-auto w-full grow rounded-md bg-gray-50 dark:bg-secondary md:block"></div>
+              <div className="hidden h-auto w-full grow rounded-md bg-gray-100 dark:bg-secondary md:block"></div>
               <TooltipProvider delayDuration={100}>
                 <Tooltip>
                   <TooltipTrigger>
@@ -134,7 +134,7 @@ export function NavLinks() {
                             pathname === link.href,
                         },
                         {
-                          'bg-gray-50 text-tertiary hover:bg-gray-200 dark:bg-secondary dark:text-white dark:hover:bg-active':
+                          'bg-gray-100 text-tertiary hover:bg-gray-200 dark:bg-secondary dark:text-white dark:hover:bg-active':
                             !pathname.includes(link.activeFilter) ||
                             pathname !== link.href,
                         },
@@ -187,7 +187,7 @@ export function MobileNavLinks() {
                           pathname === link.href,
                       },
                       {
-                        'bg-gray-50 text-tertiary hover:bg-gray-200 dark:bg-secondary dark:text-white dark:hover:bg-active':
+                        'bg-gray-100 text-tertiary hover:bg-gray-200 dark:bg-secondary dark:text-white dark:hover:bg-active':
                           !pathname.includes(link.activeFilter) &&
                           pathname !== link.href,
                       },
@@ -202,7 +202,7 @@ export function MobileNavLinks() {
               } else {
                 return (
                   <React.Fragment key={link.name}>
-                    <div className="hidden h-auto w-full grow rounded-md bg-gray-50 dark:bg-secondary md:block"></div>
+                    <div className="hidden h-auto w-full grow rounded-md bg-gray-100 dark:bg-secondary md:block"></div>
 
                     <Link
                       onClick={() => setOpen(false)}
@@ -215,7 +215,7 @@ export function MobileNavLinks() {
                             pathname === link.href,
                         },
                         {
-                          'bg-gray-50 text-tertiary hover:bg-gray-200 dark:bg-secondary dark:text-white dark:hover:bg-active':
+                          'bg-gray-100 text-tertiary hover:bg-gray-200 dark:bg-secondary dark:text-white dark:hover:bg-active':
                             !pathname.includes(link.activeFilter) ||
                             pathname !== link.href,
                         },
