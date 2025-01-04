@@ -8,7 +8,7 @@ export default function Navbar() {
     <header className="fixed left-0 top-0 w-full bg-white text-primary shadow-sm">
       <div className="container flex flex-row items-center justify-between">
         <Link href="/" className="rounded-lg p-2 px-3 transition-colors">
-          <div className="flex flex-row items-center justify-start gap-0">
+          <h1 className="flex flex-row items-center justify-start gap-0">
             <Image
               src={'/logo_klein_kleur.svg'}
               width={32}
@@ -18,7 +18,7 @@ export default function Navbar() {
             <span className={`${exo.className} text-2xl font-bold`}>
               ListTrackr
             </span>
-          </div>
+          </h1>
         </Link>
         <div className="flex flex-row gap-4">
           {/* <ThemeSwitcher /> */}
