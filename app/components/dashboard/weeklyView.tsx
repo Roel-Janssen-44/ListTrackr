@@ -132,3 +132,47 @@ export default async function WeeklyView() {
     </div>
   );
 }
+
+export const WeeklyViewLoader = async () => {
+  return (
+    <div className="mb-10">
+      <div className="w-full overflow-x-hidden rounded-lg bg-gray-50 px-3">
+        <div className="table w-full text-left text-sm font-normal">
+          <div className="flex w-full flex-row flex-nowrap items-center border-b-[1px] border-gray-200">
+            <div className="inline-block w-[255px] px-4 py-3 pb-2 font-medium sm:pl-4">
+              <div className="h-7 w-24 animate-pulse rounded bg-gray-300"></div>
+            </div>
+            {[...Array(7)].map((_, index) => (
+              <div
+                key={index}
+                className="inline-block w-[95px] border-l-2 border-gray-200 px-4 py-3 pb-2 text-center font-medium"
+              >
+                <div className="h-7 w-16 animate-pulse rounded bg-gray-300"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="relative table w-full max-w-full">
+          {[...Array(3)].map((_, index) => (
+            <div
+              key={index}
+              className="flex items-center border-b-[1px] border-gray-200"
+            >
+              <div className="w-[255px] px-4">
+                <div className="h-7 w-full animate-pulse rounded bg-gray-300"></div>
+              </div>
+              {[...Array(7)].map((_, i) => (
+                <div
+                  key={i}
+                  className="w-[95px] border-l-2 border-gray-200 px-3 text-center"
+                >
+                  <div className="my-2 h-7 w-full animate-pulse rounded bg-gray-300"></div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};

@@ -12,7 +12,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/app/components/chadcn/accordion';
-import WeeklyView from '@/app/components/dashboard/weeklyView';
+import WeeklyView, {
+  WeeklyViewLoader,
+} from '@/app/components/dashboard/weeklyView';
 import DashboardMessage from '@components/dashboardMessage';
 
 export const metadata: Metadata = {
@@ -38,7 +40,7 @@ export default async function Page() {
             </h2>
           </AccordionTrigger>
           <AccordionContent>
-            <Suspense fallback={'Loading weekly view'}>
+            <Suspense fallback={<WeeklyViewLoader />}>
               <WeeklyView />
             </Suspense>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
