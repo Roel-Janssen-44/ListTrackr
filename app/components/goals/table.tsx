@@ -14,6 +14,8 @@ import { TrashIcon } from '@heroicons/react/24/outline';
 import { deleteTable } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
 import { exo } from '@/app/components/fonts';
+import { TableLoader } from '@/app/components/tasks/table';
+
 export default function TaskTableRow({
   table,
   goals,
@@ -117,3 +119,7 @@ export default function TaskTableRow({
     </div>
   );
 }
+
+export const GoalsTableLoader = () => {
+  return <TableLoader />;
+};

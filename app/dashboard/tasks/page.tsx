@@ -11,9 +11,7 @@ export default async function Page() {
   return (
     <div className="w-full">
       <h1 className={`${exo.className} text-3xl font-bold`}>Tasks</h1>
-      <Suspense fallback={'fallback'}>
-        <Tables showCreateNewTable={true} />
-      </Suspense>
+      <Tables showCreateNewTable={true} />
     </div>
   );
 }

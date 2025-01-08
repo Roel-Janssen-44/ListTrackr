@@ -30,7 +30,6 @@ export default async function Page() {
       <Accordion
         type="multiple"
         defaultValue={['Weekly view', 'My tasks', 'My projects']}
-        // defaultValue={['My projects']}
         className="w-full"
       >
         <AccordionItem value={'Weekly view'}>
@@ -40,16 +39,10 @@ export default async function Page() {
             </h2>
           </AccordionTrigger>
           <AccordionContent>
-            <Suspense fallback={<WeeklyViewLoader />}>
-              <WeeklyView />
-            </Suspense>
+            <WeeklyView />
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              <Suspense fallback={'Loading tasks of today'}>
-                <TasksToday />
-              </Suspense>
-              <Suspense fallback={'Loading tasks for tomorrow'}>
-                <TasksTomorrow />
-              </Suspense>
+              <TasksToday />
+              <TasksTomorrow />
             </div>
           </AccordionContent>
         </AccordionItem>
@@ -61,9 +54,7 @@ export default async function Page() {
             </h2>
           </AccordionTrigger>
           <AccordionContent>
-            <Suspense fallback={'Loading tasks'}>
-              <Tables showCreateNewTable={false} />
-            </Suspense>
+            <Tables showCreateNewTable={false} />
           </AccordionContent>
         </AccordionItem>
 
@@ -74,9 +65,7 @@ export default async function Page() {
             </h2>
           </AccordionTrigger>
           <AccordionContent>
-            <Suspense fallback={'Loading goald'}>
-              <Projects />
-            </Suspense>
+            <Projects />
           </AccordionContent>
         </AccordionItem>
 
@@ -87,9 +76,7 @@ export default async function Page() {
             </h2>
           </AccordionTrigger>
           <AccordionContent>
-            <Suspense fallback={'Loading goald'}>
-              <Goals showCreateNewTable={false} />
-            </Suspense>
+            <Goals showCreateNewTable={false} />
           </AccordionContent>
         </AccordionItem>
       </Accordion>

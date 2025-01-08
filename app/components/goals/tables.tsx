@@ -1,7 +1,8 @@
 import { fetchGoalTables, fetchGoals } from '@/app/lib/data';
 import { Table, Goal } from '@/app/lib/definitions';
-import GoalTable from './table';
+import GoalTable, { GoalsTableLoader } from './table';
 import CreateTable from '@components/createTable';
+import { Suspense } from 'react';
 
 export default async function GoalTables({
   showCreateNewTable,
@@ -40,16 +41,18 @@ export default async function GoalTables({
   });
 
   return (
-    <div>
-      {tables?.map((table: Table) => (
-        <GoalTable
-          key={table.id}
-          table={table}
-          goals={table.goals}
-          showDelete={true}
-        />
-      ))}
-      {showCreateNewTable && <CreateTable type="goal" />}
-    </div>
+    <>
+      <Suspense fallback={<GoalsTableLoader />}>
+        {tables?.map((table: Table) => (
+          <GoalTable
+            key={table.id}
+            table={table}
+            goals={table.goals}
+            showDelete={true}
+          />
+        ))}
+        {showCreateNewTable && <CreateTable type="goal" />}
+      </Suspense>
+    </>
   );
 }

@@ -4,6 +4,7 @@ import { Button } from '@/app/components/button';
 import { Project } from '@/app/lib/definitions';
 import Link from 'next/link';
 import { format } from 'date-fns';
+import { TableLoader } from '@/app/components/tasks/table';
 
 export default function ProjectsTable({ projects }: { projects: Project[] }) {
   return (
@@ -65,3 +66,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
     </>
   );
 }
+
+export const ProjectTableLoader = () => {
+  return <TableLoader />;
+};

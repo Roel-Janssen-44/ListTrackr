@@ -11,9 +11,7 @@ export default async function Page() {
   return (
     <div className="w-full">
       <h1 className={`${exo.className} text-3xl font-bold`}>Goals</h1>
-      <Suspense fallback={'fallback'}>
-        <GoalTables showCreateNewTable={true} />
-      </Suspense>
+      <GoalTables showCreateNewTable={true} />
     </div>
   );
 }

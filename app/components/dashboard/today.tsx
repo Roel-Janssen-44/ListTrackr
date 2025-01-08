@@ -1,6 +1,8 @@
 import { fetchTasksToday, fetchPreviousTasks } from '@/app/lib/data';
 import { Task, Table } from '@/app/lib/definitions';
 import TasksTable from '@components/tasks/table';
+import { TableLoader } from '@components/tasks/table';
+import { Suspense } from 'react';
 
 export default async function TasksToday() {
   const fetchedTasks = await fetchTasksToday();
@@ -15,11 +17,13 @@ export default async function TasksToday() {
   const tasks = [...fetchedTasks, ...fetchedPreviousTasks];
 
   return (
-    <TasksTable
-      table={table}
-      tasks={tasks as Task[]}
-      showDelete={false}
-      date={'today'}
-    />
+    <Suspense fallback={<TableLoader />}>
+      <TasksTable
+        table={table}
+        tasks={tasks as Task[]}
+        showDelete={false}
+        date={'today'}
+      />
+    </Suspense>
   );
 }

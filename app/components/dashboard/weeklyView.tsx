@@ -2,10 +2,8 @@
 
 import { fetchGoals, fetchCompletedTaskDatesThisWeek } from '@/app/lib/data';
 import { Goal } from '@/app/lib/definitions';
-import { format, startOfWeek, addDays, getDay } from 'date-fns';
-import { useRef } from 'react';
-import { Checkbox } from '@components/chadcn/checkbox';
-import { exo } from '@/app/components/fonts';
+import { format, startOfWeek, addDays } from 'date-fns';
+import { Suspense } from 'react';
 import WeeklyViewRow from './weeklyViewRow';
 
 export default async function WeeklyView() {
@@ -47,131 +45,131 @@ export default async function WeeklyView() {
 
   return (
     <div className="mb-10">
-      <div className="w-full overflow-x-auto rounded-lg bg-gray-50 px-3 text-tertiary scrollbar scrollbar-track-slate-300 scrollbar-thumb-primary scrollbar-track-rounded scrollbar-thumb-rounded scrollbar-h-3 dark:bg-primary dark:text-white dark:scrollbar-thumb-active">
-        <div className="table w-full text-left text-sm font-normal">
-          <div className="flex w-full flex-row flex-nowrap items-center border-b-[1px] border-gray-200 dark:border-active">
-            <div className="inline-block w-[255px] px-4 py-3 pb-2 font-medium sm:pl-6"></div>
-            <div
-              className={`inline-block w-[95px] border-l-2 border-gray-200 px-4 py-3 pb-2 text-center font-medium dark:border-active sm:pl-6 ${
-                format(currentDate, 'dd-MM-yyyy') ==
-                format(weekStart, 'dd-MM-yyyy')
-                  ? 'bg-gray-200 dark:bg-active'
-                  : ''
-              }`}
-            >
-              Monday
-            </div>
-            <div
-              className={`inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active ${
-                format(currentDate, 'dd-MM-yyyy') ==
-                format(addDays(weekStart, 1), 'dd-MM-yyyy')
-                  ? 'bg-gray-200 dark:bg-active'
-                  : ''
-              }`}
-            >
-              Tuesday
-            </div>
-            <div
-              className={`inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active ${
-                format(currentDate, 'dd-MM-yyyy') ==
-                format(addDays(weekStart, 2), 'dd-MM-yyyy')
-                  ? 'bg-gray-200 dark:bg-active'
-                  : ''
-              }`}
-            >
-              <span className="-ml-1">Wednesday</span>
-            </div>
-            <div
-              className={`inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active ${
-                format(currentDate, 'dd-MM-yyyy') ==
-                format(addDays(weekStart, 3), 'dd-MM-yyyy')
-                  ? 'bg-gray-200 dark:bg-active'
-                  : ''
-              }`}
-            >
-              Thursday
-            </div>
-            <div
-              className={`inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active ${
-                format(currentDate, 'dd-MM-yyyy') ==
-                format(addDays(weekStart, 4), 'dd-MM-yyyy')
-                  ? 'bg-gray-200 dark:bg-active'
-                  : ''
-              }`}
-            >
-              Friday
-            </div>
-            <div
-              className={`inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active ${
-                format(currentDate, 'dd-MM-yyyy') ==
-                format(addDays(weekStart, 5), 'dd-MM-yyyy')
-                  ? 'bg-gray-200 dark:bg-active'
-                  : ''
-              }`}
-            >
-              Saterday
-            </div>
-            <div
-              className={`inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active ${
-                format(currentDate, 'dd-MM-yyyy') ==
-                format(addDays(weekStart, 6), 'dd-MM-yyyy')
-                  ? 'bg-gray-200 dark:bg-active'
-                  : ''
-              }`}
-            >
-              Sunday
+      <Suspense fallback={<WeeklyViewLoader />}>
+        <div className="w-full overflow-x-auto rounded-lg bg-gray-50 px-3 text-tertiary scrollbar scrollbar-track-slate-300 scrollbar-thumb-primary scrollbar-track-rounded scrollbar-thumb-rounded scrollbar-h-3 dark:bg-primary dark:text-white dark:scrollbar-thumb-active">
+          <div className="table w-full text-left text-sm font-normal">
+            <div className="flex w-full flex-row flex-nowrap items-center border-b-[1px] border-gray-200 dark:border-active">
+              <div className="inline-block w-[255px] px-4 py-3 pb-2 font-medium sm:pl-6"></div>
+              <div
+                className={`inline-block w-[95px] border-l-2 border-gray-200 px-4 py-3 pb-2 text-center font-medium dark:border-active sm:pl-6 ${
+                  format(currentDate, 'dd-MM-yyyy') ==
+                  format(weekStart, 'dd-MM-yyyy')
+                    ? 'bg-gray-200 dark:bg-active'
+                    : ''
+                }`}
+              >
+                Monday
+              </div>
+              <div
+                className={`inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active ${
+                  format(currentDate, 'dd-MM-yyyy') ==
+                  format(addDays(weekStart, 1), 'dd-MM-yyyy')
+                    ? 'bg-gray-200 dark:bg-active'
+                    : ''
+                }`}
+              >
+                Tuesday
+              </div>
+              <div
+                className={`inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active ${
+                  format(currentDate, 'dd-MM-yyyy') ==
+                  format(addDays(weekStart, 2), 'dd-MM-yyyy')
+                    ? 'bg-gray-200 dark:bg-active'
+                    : ''
+                }`}
+              >
+                <span className="-ml-1">Wednesday</span>
+              </div>
+              <div
+                className={`inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active ${
+                  format(currentDate, 'dd-MM-yyyy') ==
+                  format(addDays(weekStart, 3), 'dd-MM-yyyy')
+                    ? 'bg-gray-200 dark:bg-active'
+                    : ''
+                }`}
+              >
+                Thursday
+              </div>
+              <div
+                className={`inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active ${
+                  format(currentDate, 'dd-MM-yyyy') ==
+                  format(addDays(weekStart, 4), 'dd-MM-yyyy')
+                    ? 'bg-gray-200 dark:bg-active'
+                    : ''
+                }`}
+              >
+                Friday
+              </div>
+              <div
+                className={`inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active ${
+                  format(currentDate, 'dd-MM-yyyy') ==
+                  format(addDays(weekStart, 5), 'dd-MM-yyyy')
+                    ? 'bg-gray-200 dark:bg-active'
+                    : ''
+                }`}
+              >
+                Saterday
+              </div>
+              <div
+                className={`inline-block w-[95px] border-l-2 border-gray-200 px-3 py-3 pb-2 text-center font-medium dark:border-active ${
+                  format(currentDate, 'dd-MM-yyyy') ==
+                  format(addDays(weekStart, 6), 'dd-MM-yyyy')
+                    ? 'bg-gray-200 dark:bg-active'
+                    : ''
+                }`}
+              >
+                Sunday
+              </div>
             </div>
           </div>
+          <div className="relative table w-full max-w-full">
+            {goals.map((goal: Goal) => (
+              <WeeklyViewRow key={`weekly_task_${goal.id}`} task={goal} />
+            ))}
+          </div>
         </div>
-        <div className="relative table w-full max-w-full">
-          {goals.map((goal: Goal) => (
-            <WeeklyViewRow key={`weekly_task_${goal.id}`} task={goal} />
-          ))}
-        </div>
-      </div>
+      </Suspense>
     </div>
   );
 }
 
 export const WeeklyViewLoader = async () => {
   return (
-    <div className="mb-10">
-      <div className="w-full overflow-x-hidden rounded-lg bg-gray-50 px-3">
-        <div className="table w-full text-left text-sm font-normal">
-          <div className="flex w-full flex-row flex-nowrap items-center border-b-[1px] border-gray-200">
-            <div className="inline-block w-[255px] px-4 py-3 pb-2 font-medium sm:pl-4">
-              <div className="h-7 w-24 animate-pulse rounded bg-gray-300"></div>
-            </div>
-            {[...Array(7)].map((_, index) => (
-              <div
-                key={index}
-                className="inline-block w-[95px] border-l-2 border-gray-200 px-4 py-3 pb-2 text-center font-medium"
-              >
-                <div className="h-7 w-16 animate-pulse rounded bg-gray-300"></div>
-              </div>
-            ))}
+    <div className="w-full overflow-x-hidden rounded-lg bg-gray-50 px-3">
+      <div className="table w-full text-left text-sm font-normal">
+        <div className="flex w-full flex-row flex-nowrap items-center border-b-[1px] border-gray-200">
+          <div className="inline-block w-[255px] px-4 py-3 pb-2 font-medium sm:pl-4">
+            <div className="h-7 w-24 animate-pulse rounded bg-gray-300"></div>
           </div>
-        </div>
-        <div className="relative table w-full max-w-full">
-          {[...Array(3)].map((_, index) => (
+          {[...Array(7)].map((_, index) => (
             <div
               key={index}
-              className="flex items-center border-b-[1px] border-gray-200"
+              className="inline-block w-[95px] border-l-2 border-gray-200 px-4 py-3 pb-2 text-center font-medium"
             >
-              <div className="w-[255px] px-4">
-                <div className="h-7 w-full animate-pulse rounded bg-gray-300"></div>
-              </div>
-              {[...Array(7)].map((_, i) => (
-                <div
-                  key={i}
-                  className="w-[95px] border-l-2 border-gray-200 px-3 text-center"
-                >
-                  <div className="my-2 h-7 w-full animate-pulse rounded bg-gray-300"></div>
-                </div>
-              ))}
+              <div className="h-7 w-16 animate-pulse rounded bg-gray-300"></div>
             </div>
           ))}
         </div>
+      </div>
+      <div className="relative table w-full max-w-full">
+        {[...Array(4)].map((_, index) => (
+          <div
+            key={index}
+            className="flex items-center border-b-[1px] border-gray-200"
+          >
+            <div className="w-[255px] px-4">
+              <div className="h-7 w-full animate-pulse rounded bg-gray-300"></div>
+            </div>
+            {[...Array(7)].map((_, i) => (
+              <div
+                key={i}
+                className="w-[95px] border-l-[1px] border-gray-200 px-3 text-center"
+              >
+                <div className="my-2 h-7 w-full animate-pulse rounded bg-gray-300"></div>
+              </div>
+            ))}
+          </div>
+        ))}
       </div>
     </div>
   );
