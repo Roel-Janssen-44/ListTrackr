@@ -1,8 +1,7 @@
 import { fetchTables, fetchTasks } from '@/app/lib/data';
 import { Task, Table } from '@/app/lib/definitions';
-import TasksTable, { TableLoader } from './table';
+import TasksTable from './table';
 import CreateForm from '@components/createTable';
-import { Suspense } from 'react';
 
 export default async function TaskTables({
   showCreateNewTable,
@@ -31,18 +30,16 @@ export default async function TaskTables({
 
   return (
     <>
-      <Suspense fallback={<TableLoader />}>
-        {tables?.map((table: Table) => (
-          <TasksTable
-            key={table.id}
-            table={table}
-            tasks={table.tasks}
-            showDelete={true}
-            date={null}
-          />
-        ))}
-        {showCreateNewTable && <CreateForm type="task" />}
-      </Suspense>
+      {tables?.map((table: Table) => (
+        <TasksTable
+          key={table.id}
+          table={table}
+          tasks={table.tasks}
+          showDelete={true}
+          date={null}
+        />
+      ))}
+      {showCreateNewTable && <CreateForm type="task" />}
     </>
   );
 }

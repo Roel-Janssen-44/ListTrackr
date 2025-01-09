@@ -16,6 +16,7 @@ import WeeklyView, {
   WeeklyViewLoader,
 } from '@/app/components/dashboard/weeklyView';
 import DashboardMessage from '@components/dashboardMessage';
+import { TableLoader } from '@/app/components/tasks/table';
 
 export const metadata: Metadata = {
   title: 'Dashboard',
@@ -39,10 +40,16 @@ export default async function Page() {
             </h2>
           </AccordionTrigger>
           <AccordionContent>
-            <WeeklyView />
+            <Suspense fallback={<WeeklyViewLoader />}>
+              <WeeklyView />
+            </Suspense>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              <TasksToday />
-              <TasksTomorrow />
+              <Suspense fallback={<TableLoader />}>
+                <TasksToday />
+              </Suspense>
+              <Suspense fallback={<TableLoader />}>
+                <TasksTomorrow />
+              </Suspense>
             </div>
           </AccordionContent>
         </AccordionItem>
@@ -54,7 +61,9 @@ export default async function Page() {
             </h2>
           </AccordionTrigger>
           <AccordionContent>
-            <Tables showCreateNewTable={false} />
+            <Suspense fallback={<TableLoader />}>
+              <Tables showCreateNewTable={false} />
+            </Suspense>
           </AccordionContent>
         </AccordionItem>
 
@@ -65,7 +74,9 @@ export default async function Page() {
             </h2>
           </AccordionTrigger>
           <AccordionContent>
-            <Projects />
+            <Suspense fallback={<TableLoader />}>
+              <Projects />
+            </Suspense>
           </AccordionContent>
         </AccordionItem>
 
@@ -76,7 +87,9 @@ export default async function Page() {
             </h2>
           </AccordionTrigger>
           <AccordionContent>
-            <Goals showCreateNewTable={false} />
+            <Suspense fallback={<TableLoader />}>
+              <Goals showCreateNewTable={false} />
+            </Suspense>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
