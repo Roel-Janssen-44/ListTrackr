@@ -2,17 +2,15 @@
 
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
-
 import { exo } from '@/app/components/fonts';
+import React, { useEffect } from 'react';
+import { toast, Toaster } from 'sonner';
 
 export default function DashboardMessage() {
   const { data: session, status } = useSession();
   const pathname = usePathname();
 
-  console.log(pathname);
-
   if (pathname !== '/dashboard') return;
-
   if (status === 'authenticated') {
     return (
       <h1

@@ -180,6 +180,12 @@ export async function updateTask(
   const title = formData.get('title');
 
   if (typeof title == 'string' && title.length == 0) {
+    if (title.length > 128) {
+      return {
+        success: false,
+        message: 'Failed to update task, to many characters.',
+      };
+    }
     try {
       const result = await db
         .deleteFrom('tasks')

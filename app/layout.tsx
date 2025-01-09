@@ -6,6 +6,7 @@ import { Metadata } from 'next';
 import Head from 'next/head';
 import { ThemeProvider } from '@/app/components/themeProvider';
 import GoogleAnalytics from '@/app/components/googleAnalytics';
+import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
   title: {
@@ -264,6 +265,7 @@ export default async function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="light">
           <SessionProvider session={session}>{children}</SessionProvider>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

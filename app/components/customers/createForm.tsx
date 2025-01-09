@@ -13,7 +13,6 @@ import {
   DialogTrigger,
 } from '@/app/components/chadcn/dialog';
 import { Button } from '@/app/components/button';
-import { Toaster } from '@/app/components/chadcn/sonner';
 import { toast } from 'sonner';
 
 export default function CustomerCreationForm() {
@@ -38,7 +37,6 @@ export default function CustomerCreationForm() {
 
   return (
     <>
-      <Toaster />
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger>
           <span className="focus-visible:secondary flex h-10 items-center rounded-lg bg-primary px-4 py-3 text-sm font-medium text-white outline-tertiary transition-colors aria-disabled:cursor-not-allowed aria-disabled:opacity-50 hover:bg-active focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 active:bg-active dark:outline-white">

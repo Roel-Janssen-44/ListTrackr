@@ -1,13 +1,18 @@
 'use client';
 
+import { useRef, useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { Task } from '@/app/lib/definitions';
-
 import { Button } from '@/app/components/chadcn/button';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { updateTask, deleteTask } from '@/app/lib/actions';
 import { CornerDownRight } from 'lucide-react';
-
+import { Checkbox } from '@components/chadcn/checkbox';
+import { Calendar } from '@/app/components/chadcn/calendar';
+import { cn } from '@lib/utils';
+import { Input } from '@/app/components/chadcn/input';
+import { useFormState } from 'react-dom';
+import { toast } from 'sonner';
 import {
   Select,
   SelectContent,
@@ -15,22 +20,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/app/components/chadcn/select';
-
-import { Checkbox } from '@components/chadcn/checkbox';
-
-import { Calendar } from '@/app/components/chadcn/calendar';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/app/components/chadcn/popover';
-import { cn } from '@lib/utils';
-
-import { useEffect, useRef, useState } from 'react';
-import { Input } from '@/app/components/chadcn/input';
-import { useFormState } from 'react-dom';
-import { Toaster } from '@/app/components/chadcn/sonner';
-import { toast } from 'sonner';
 
 export default function TaskRow({
   tableId,
@@ -61,11 +55,11 @@ export default function TaskRow({
   const updateTaskWithId = updateTask.bind(null, tableId, task.id);
   const [state, dispatch] = useFormState(updateTaskWithId, initialState);
 
-  useEffect(() => {
-    if (!state.success) {
-      toast.error(state.message);
-    }
-  }, [state]);
+  // useEffect(() => {
+  //   if (!state.success) {
+  //     toast.error(state.message);
+  //   }
+  // }, [state]);
 
   const handleDeleteTask = (id: string) => {
     removeTask(id);
@@ -83,6 +77,15 @@ export default function TaskRow({
         status: task.status,
       });
     } else if (changedField == 'title') {
+      if (newValue.length <= 3) {
+        toast.error('Task must contain more than 3 characters');
+        return;
+      }
+      if (newValue.length > 128) {
+        toast.error('Task must contain less than 128 characters');
+        return;
+      }
+
       updateTaskState({
         id: task.id,
         completed: task.completed,
@@ -123,7 +126,7 @@ export default function TaskRow({
 
   return (
     <>
-      <Toaster richColors />
+      {/* <Toaster richColors /> */}
       <form
         key={task.id}
         ref={formRef}

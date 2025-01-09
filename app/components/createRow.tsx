@@ -5,6 +5,7 @@ import { createTask } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
 import { Input } from '@/app/components/chadcn/input';
 import { v4 as uuidv4 } from 'uuid';
+import { toast } from 'sonner';
 
 export default function CreateTask({
   project_id,
@@ -27,11 +28,21 @@ export default function CreateTask({
   const keydownListenerRef = useRef(null);
 
   const handleBlur = () => {
+    removeEnterEventListener();
+
     const generatedId = uuidv4();
     if (generatedIdRef.current) {
       generatedIdRef.current.value = generatedId;
     }
     if (formRef.current) {
+      if (inputRef.current.value.length <= 3) {
+        toast.error('Task title must be more than 3 characters');
+        return;
+      }
+      if (inputRef.current.value.length > 128) {
+        toast.error('Task title must be less than 128 characters');
+        return;
+      }
       const currentDate = new Date();
       const today = currentDate.setDate(currentDate.getDate());
       const tomorrow = currentDate.setDate(currentDate.getDate() + 1);
@@ -76,7 +87,6 @@ export default function CreateTask({
   };
 
   const removeEnterEventListener = () => {
-    console.log('Removing event listener');
     if (keydownListenerRef.current) {
       window.removeEventListener('keydown', keydownListenerRef.current);
       keydownListenerRef.current = null;
@@ -92,33 +102,35 @@ export default function CreateTask({
   const [state, dispatch] = useFormState(createTaskWithTableId, initialState);
 
   return (
-    <form ref={formRef} action={dispatch}>
-      <input type="hidden" name="date" value={date} />
-      <input type="hidden" name="generatedId" ref={generatedIdRef} />
-      <div className="w-full rounded-md bg-transparent pr-6">
-        <div className="mb-1">
-          <label
-            htmlFor="newTableTitle"
-            className="sr-only mb-2 block text-sm font-medium"
-          >
-            Choose a title for the task
-          </label>
-          <div className="w-full">
-            <Input
-              ref={inputRef}
-              id="newTableTitle"
-              name="title"
-              type="text"
-              placeholder="..."
-              className="ml-3 mt-1 block w-full rounded-md border-none bg-transparent py-2 pl-3 pr-20 text-base outline-2 placeholder:text-gray-400 dark:bg-transparent"
-              aria-labelledby="title-error"
-              onFocusCapture={handleFocus}
-              onBlur={handleInputBlur}
-              onBlurCapture={removeEnterEventListener}
-            />
+    <>
+      <form ref={formRef} action={dispatch}>
+        <input type="hidden" name="date" value={date} />
+        <input type="hidden" name="generatedId" ref={generatedIdRef} />
+        <div className="w-full rounded-md bg-transparent pr-6">
+          <div className="mb-1">
+            <label
+              htmlFor="newTableTitle"
+              className="sr-only mb-2 block text-sm font-medium"
+            >
+              Choose a title for the task
+            </label>
+            <div className="w-full">
+              <Input
+                ref={inputRef}
+                id="newTableTitle"
+                name="title"
+                type="text"
+                placeholder="..."
+                className="ml-3 mt-1 block w-full rounded-md border-none bg-transparent py-2 pl-3 pr-20 text-base outline-2 placeholder:text-gray-400 dark:bg-transparent"
+                aria-labelledby="title-error"
+                onFocusCapture={handleFocus}
+                onBlur={handleInputBlur}
+                onBlurCapture={removeEnterEventListener}
+              />
+            </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </>
   );
 }
