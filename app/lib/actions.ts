@@ -180,12 +180,6 @@ export async function updateTask(
   const title = formData.get('title');
 
   if (typeof title == 'string' && title.length == 0) {
-    if (title.length > 128) {
-      return {
-        success: false,
-        message: 'Failed to update task, to many characters.',
-      };
-    }
     try {
       const result = await db
         .deleteFrom('tasks')
@@ -225,13 +219,21 @@ export async function updateTask(
   if (typeof title != 'string') return;
   if (typeof priority != 'string') return;
 
-  const maxLength = 56;
+  const maxLength = 128;
 
-  if (typeof title !== 'string' || title.length > maxLength) {
-    return {
-      success: false,
-      message: 'Task has to many characters.',
-    };
+  if (typeof title == 'string') {
+    if (title.length > 128) {
+      return {
+        success: false,
+        message: 'Failed to update task, to many characters.',
+      };
+    }
+    if (title.length <= 3) {
+      return {
+        success: false,
+        message: 'Failed to update task, to few characters.',
+      };
+    }
   }
 
   try {

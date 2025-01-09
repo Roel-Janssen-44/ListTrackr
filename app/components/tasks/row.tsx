@@ -55,11 +55,11 @@ export default function TaskRow({
   const updateTaskWithId = updateTask.bind(null, tableId, task.id);
   const [state, dispatch] = useFormState(updateTaskWithId, initialState);
 
-  // useEffect(() => {
-  //   if (!state.success) {
-  //     toast.error(state.message);
-  //   }
-  // }, [state]);
+  useEffect(() => {
+    if (!state.success) {
+      toast.error(state.message);
+    }
+  }, [state]);
 
   const handleDeleteTask = (id: string) => {
     removeTask(id);
