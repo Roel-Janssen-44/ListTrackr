@@ -141,7 +141,7 @@ export default function InvoicesTable({
                     href={`/dashboard/invoices/create/${template.id}${
                       projectId ? `?projectId=${projectId}` : ''
                     }`}
-                    className="flex h-36 w-36 items-center justify-center rounded-md border-2 border-primary transition-all hover:bg-primary hover:text-white"
+                    className="mb-4 flex h-36 w-36 items-center justify-center rounded-md border-2 border-primary text-center transition-all hover:bg-primary hover:text-white"
                   >
                     {template.name}
                   </Link>

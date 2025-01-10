@@ -79,9 +79,9 @@ export default function CreateTask({
   const handleInputBlur = (e) => {
     if (e.target.value === '') return;
     handleBlur();
-    if (inputRef.current) {
-      inputRef.current.value = '';
-    }
+    // if (inputRef.current) {
+    //   inputRef.current.value = '';
+    // }
   };
 
   const removeEnterEventListener = () => {

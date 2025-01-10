@@ -278,7 +278,10 @@ export async function updateTask(
       message: 'Failed to Update Task.',
     };
   }
-  revalidatePath('/layout');
+  // revalidatePath('/layout');
+  console.log('revalidate');
+  revalidatePath('/dashbaord');
+  revalidatePath('/dashboard', 'layout');
   return { success: true, message: '' };
 }
 
