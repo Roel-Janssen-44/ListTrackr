@@ -30,7 +30,13 @@ export default function TaskTable({
   const deleteTableWithId = deleteTable.bind(null, table.id);
   const [state, dispatch] = useFormState(deleteTableWithId, initialState);
 
-  const [tasksToRender, setTasksToRender] = useState<Task[]>(tasks);
+  const [tasksToRender, setTasksToRender] = useState<Task[]>([]);
+
+  useEffect(() => {
+    setTasksToRender(tasks);
+    console.log(tasksToRender);
+    console.log(tasks);
+  }, []);
 
   if (!tasks) return null;
 
@@ -39,6 +45,10 @@ export default function TaskTable({
     updateTableName(table.id, newValue);
   };
 
+  // useEffect(() => {
+  //   setTasksToRender(initialTasks);
+  // }, [initialTasks]);
+
   const addTaskToState = (
     newId: string,
     completed: boolean,
@@ -46,8 +56,20 @@ export default function TaskTable({
     status: '' | 'planned' | 'working on it' | 'done' | 'stuck',
     date: string,
   ) => {
-    setTasksToRender([
-      ...tasksToRender,
+    // setTasksToRender([
+    //   ...prevTasks,
+    //   {
+    //     id: newId,
+    //     title: taskTitle,
+    //     completed: false,
+    //     status: status,
+    //     priority: '',
+    //     date: date,
+    //     table_id: table.id,
+    //   },
+    // ]);
+    setTasksToRender((prevTasks) => [
+      ...prevTasks,
       {
         id: newId,
         title: taskTitle,

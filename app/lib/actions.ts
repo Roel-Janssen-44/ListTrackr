@@ -168,6 +168,7 @@ export async function createTask(
       message: 'Database Error: Failed to Create Task.',
     };
   }
+  revalidatePath('/dashboard');
   revalidatePath('/layout');
 }
 

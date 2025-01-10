@@ -28,8 +28,6 @@ export default function CreateTask({
   const keydownListenerRef = useRef(null);
 
   const handleBlur = () => {
-    removeEnterEventListener();
-
     const generatedId = uuidv4();
     if (generatedIdRef.current) {
       generatedIdRef.current.value = generatedId;
@@ -59,6 +57,7 @@ export default function CreateTask({
       } else {
         addTask(generatedId, false, inputRef.current.value, '', '');
       }
+
       formRef.current.requestSubmit();
       inputRef.current.value = '';
     }
@@ -66,7 +65,6 @@ export default function CreateTask({
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      console.log('Enter key pressed');
       handleBlur();
     }
   };
