@@ -197,24 +197,26 @@ export default function TaskRow({
                   <CornerDownRight className="absolute left-2 top-1/2 h-auto w-3 -translate-y-1/2" />
                 </div>
               )}
-              <Input
-                name="title"
-                className="no-context-menu cursor-pointer select-none border-none bg-transparent transition-all duration-75 dark:bg-transparent"
-                defaultValue={task.title}
-                onDoubleClick={() => console.log('double click')}
-                onBlur={(e) => {
-                  setFocussed(false);
-                  if (e.target.value == '') {
-                    handleDeleteTask(task.id);
-                    return;
-                  }
-                  if (e.target.value == task.title) return;
-                  handleUpdateTask('title', e.target.value);
-                  handleBlur();
-                }}
-                {...attrs}
-                onFocus={() => setFocussed(true)}
-              />
+              <a href="#">
+                <Input
+                  name="title"
+                  className="no-context-menu cursor-pointer select-none border-none bg-transparent transition-all duration-75 dark:bg-transparent"
+                  defaultValue={task.title}
+                  onDoubleClick={() => console.log('double click')}
+                  onBlur={(e) => {
+                    setFocussed(false);
+                    if (e.target.value == '') {
+                      handleDeleteTask(task.id);
+                      return;
+                    }
+                    if (e.target.value == task.title) return;
+                    handleUpdateTask('title', e.target.value);
+                    handleBlur();
+                  }}
+                  {...attrs}
+                  onFocus={() => setFocussed(true)}
+                />
+              </a>
               {!task.completed && (
                 <DialogTrigger className="invisible absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 cursor-pointer group-hover:visible lg:block">
                   <Badge variant="outline" className="bg-white">

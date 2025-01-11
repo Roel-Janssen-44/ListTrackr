@@ -3,20 +3,31 @@
 @tailwind utilities;
 
 .no-context-menu {
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-tap-highlight-color: transparent;
+  user-select: none; /* Disable text selection */
+  -webkit-user-select: none; /* Disable text selection on Safari */
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on touch devices */
+  touch-action: manipulation; /* Prevent double-tap zooming */
 }
 
 .no-context-menu:focus {
-  outline: none;
-}
-
-.no-context-menu {
-  touch-action: manipulation; /* Optimizes touch interactions */
+  outline: none; /* Remove focus outline */
 }
 
 button.no-context-menu,
 input.no-context-menu {
-  -webkit-touch-callout: none; /* Disables the context menu on long press */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+input.no-context-menu::selection,
+textarea.no-context-menu::selection {
+  background: transparent; /* Prevent selection highlight */
+}
+
+input.no-context-menu {
+  pointer-events: auto; /* Ensure inputs are still usable for typing */
 }
