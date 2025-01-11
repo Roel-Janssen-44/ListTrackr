@@ -86,9 +86,9 @@ export default function TaskTableRow({
       </h2>
       <div className="w-full overflow-x-auto rounded-lg bg-gray-50 scrollbar scrollbar-track-slate-300 scrollbar-thumb-active scrollbar-track-rounded scrollbar-thumb-rounded scrollbar-h-3 dark:bg-secondary">
         {goals.length != 0 && (
-          <div className="table text-left text-sm font-normal">
+          <div className="table w-full pr-[50px] text-left text-sm font-normal">
             <div className="flex w-full flex-row flex-nowrap items-center">
-              <div className="inline-block w-[350px] px-4 py-3 pb-2 font-medium sm:pl-6">
+              <div className="inline-block min-w-[250px] flex-1 px-4 py-3 pb-2 font-medium sm:pl-6">
                 Title
               </div>
               <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">

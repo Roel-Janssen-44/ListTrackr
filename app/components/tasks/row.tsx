@@ -158,7 +158,7 @@ export default function TaskRow({
               htmlFor={task.id}
             ></label>
           </div>
-          <div className="relative w-[350px] border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10">
+          <div className="relative min-w-[350px] flex-1 border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10">
             {(task.table_title || task.project_title) && (
               <div
                 className={`pointer-events-none -z-10	 ${

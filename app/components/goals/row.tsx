@@ -54,10 +54,10 @@ export default function GoalTableRow({
       className={`relative flex flex-row border-t-[1px] border-gray-200 odd:bg-gray-100 dark:border-white dark:border-opacity-10 dark:odd:bg-primary`}
     >
       <div className="flex w-full flex-row flex-nowrap items-center text-sm transition-colors hover:bg-gray-200 dark:hover:bg-active">
-        <div className="w-[350px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
+        <div className="min-w-[250px] flex-1 border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
           <Input
             name="title"
-            className="cursor-pointer border-none bg-transparent dark:bg-transparent"
+            className="w-full cursor-pointer border-none bg-transparent dark:bg-transparent"
             defaultValue={goal.title}
             onBlur={(e) => {
               if (e.target.value == '') return;
