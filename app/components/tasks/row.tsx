@@ -151,19 +151,6 @@ export default function TaskRow({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        {/* <section>
-          <h1>useLongPress</h1>
-          <button {...attrs} className="primary">
-            Press Me
-          </button>
-          {isOpen && (
-            <dialog>
-              <button onClick={() => setIsOpen(false)}>X</button>
-              <h2>Modal</h2>
-              <p>This is a modal triggered by a long press.</p>
-            </dialog>
-          )}
-        </section> */}
         <form
           key={task.id}
           ref={formRef}
@@ -213,7 +200,7 @@ export default function TaskRow({
               )}
               <Input
                 name="title"
-                className="cursor-pointer border-none bg-transparent transition-all duration-75 dark:bg-transparent"
+                className="cursor-pointer select-none border-none bg-transparent transition-all duration-75 dark:bg-transparent"
                 defaultValue={task.title}
                 onDoubleClick={() => console.log('double click')}
                 onBlur={(e) => {
