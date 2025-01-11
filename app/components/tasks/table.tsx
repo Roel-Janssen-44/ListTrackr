@@ -34,8 +34,6 @@ export default function TaskTable({
 
   useEffect(() => {
     setTasksToRender(tasks);
-    console.log(tasksToRender);
-    console.log(tasks);
   }, []);
 
   if (!tasks) return null;
@@ -45,10 +43,6 @@ export default function TaskTable({
     updateTableName(table.id, newValue);
   };
 
-  // useEffect(() => {
-  //   setTasksToRender(initialTasks);
-  // }, [initialTasks]);
-
   const addTaskToState = (
     newId: string,
     completed: boolean,
@@ -56,18 +50,6 @@ export default function TaskTable({
     status: '' | 'planned' | 'working on it' | 'done' | 'stuck',
     date: string,
   ) => {
-    // setTasksToRender([
-    //   ...prevTasks,
-    //   {
-    //     id: newId,
-    //     title: taskTitle,
-    //     completed: false,
-    //     status: status,
-    //     priority: '',
-    //     date: date,
-    //     table_id: table.id,
-    //   },
-    // ]);
     setTasksToRender((prevTasks) => [
       ...prevTasks,
       {

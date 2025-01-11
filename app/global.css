@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.no-context-menu {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.no-context-menu:focus {
+  outline: none;
+}
+
+.no-context-menu {
+  touch-action: manipulation; /* Optimizes touch interactions */
+}
+
+button.no-context-menu,
+input.no-context-menu {
+  -webkit-touch-callout: none; /* Disables the context menu on long press */
+}

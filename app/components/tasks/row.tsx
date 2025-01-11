@@ -137,7 +137,6 @@ export default function TaskRow({
   const [isOpen, setIsOpen] = useState(false);
   const attrs = useLongPress(
     () => {
-      console.log('asdasdasd');
       setIsOpen(true);
     },
     {
@@ -200,7 +199,7 @@ export default function TaskRow({
               )}
               <Input
                 name="title"
-                className="cursor-pointer select-none border-none bg-transparent transition-all duration-75 dark:bg-transparent"
+                className="no-context-menu cursor-pointer select-none border-none bg-transparent transition-all duration-75 dark:bg-transparent"
                 defaultValue={task.title}
                 onDoubleClick={() => console.log('double click')}
                 onBlur={(e) => {
@@ -339,10 +338,11 @@ export default function TaskRow({
             </div>
           </div>
         </form>
+
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{task.title}</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="select-none">{task.title}</DialogTitle>
+            <DialogDescription className="select-none">
               {task.description || 'No description'}
             </DialogDescription>
           </DialogHeader>
