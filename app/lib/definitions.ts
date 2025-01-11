@@ -1,6 +1,7 @@
 export type Task = {
   id: string;
   title: string;
+  description?: string;
   completed: boolean;
   status: '' | 'planned' | 'working on it' | 'done' | 'stuck';
   priority: '' | 'low' | 'medium' | 'high';

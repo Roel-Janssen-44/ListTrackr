@@ -13,6 +13,7 @@ import { cn } from '@lib/utils';
 import { Input } from '@/app/components/chadcn/input';
 import { useFormState } from 'react-dom';
 import { toast } from 'sonner';
+import { Badge } from '@/app/components/chadcn/badge';
 import {
   Select,
   SelectContent,
@@ -21,10 +22,19 @@ import {
   SelectValue,
 } from '@/app/components/chadcn/select';
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/app/components/chadcn/dialog';
+import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/app/components/chadcn/popover';
+import { useLongPress } from '@uidotdev/usehooks';
 
 export default function TaskRow({
   tableId,
@@ -124,186 +134,233 @@ export default function TaskRow({
     }
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+  const attrs = useLongPress(
+    () => {
+      console.log('asdasdasd');
+      setIsOpen(true);
+    },
+    {
+      onStart: (event) => null,
+      onFinish: (event) => setIsOpen(true),
+      onCancel: (event) => null,
+      threshold: 500,
+    },
+  );
+
   return (
     <>
-      {/* <Toaster richColors /> */}
-      <form
-        key={task.id}
-        ref={formRef}
-        action={dispatch}
-        className={`relative flex flex-row border-t-[1px] border-gray-200 odd:bg-gray-50 dark:border-white dark:border-opacity-10 dark:odd:bg-primary`}
-      >
-        <div className="group flex w-full flex-row flex-nowrap items-center text-sm transition-colors hover:bg-gray-100 dark:hover:bg-active">
-          {task.completed && (
-            <>
-              <div className="absolute left-0 top-0 h-full w-full bg-black bg-opacity-20"></div>
-              <div className="absolute left-[1%] top-1/2 z-20 h-[1px] w-[91%] -translate-y-1/2 rounded bg-black "></div>
-            </>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        {/* <section>
+          <h1>useLongPress</h1>
+          <button {...attrs} className="primary">
+            Press Me
+          </button>
+          {isOpen && (
+            <dialog>
+              <button onClick={() => setIsOpen(false)}>X</button>
+              <h2>Modal</h2>
+              <p>This is a modal triggered by a long press.</p>
+            </dialog>
           )}
-          <div
-            className={`relative flex w-[50px] items-center justify-center border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10`}
-          >
-            <Checkbox
-              ref={checkboxRef}
-              id={task.id}
-              name="completed"
-              defaultChecked={task.completed}
-              onCheckedChange={(value) => {
-                handleUpdateTask('completed', value);
-                handleBlur();
-              }}
-            />
-            <label
-              className="absolute left-0 top-1/2 h-full min-h-[46px] w-full -translate-y-1/2 cursor-pointer"
-              htmlFor={task.id}
-            ></label>
-          </div>
-          <div className="relative min-w-[350px] flex-1 border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10">
-            {(task.table_title || task.project_title) && (
-              <div
-                className={`pointer-events-none -z-10	 ${
-                  focussed ? 'invisible' : 'visible'
-                }`}
-              >
-                <p className="absolute left-1 top-0.5 z-0 flex flex-row text-xs">
-                  {task.table_title}
-                </p>
-                <p className="absolute left-1 top-0.5 z-0 flex flex-row text-xs">
-                  {task.project_title}
-                </p>
-                <CornerDownRight className="absolute left-2 top-1/2 h-auto w-3 -translate-y-1/2" />
-              </div>
+        </section> */}
+        <form
+          key={task.id}
+          ref={formRef}
+          action={dispatch}
+          className={`relative flex flex-row border-t-[1px] border-gray-200 odd:bg-gray-50 dark:border-white dark:border-opacity-10 dark:odd:bg-primary`}
+        >
+          <div className="group flex w-full flex-row flex-nowrap items-center text-sm transition-colors hover:bg-gray-100 dark:hover:bg-active">
+            {task.completed && (
+              <>
+                <div className="absolute left-0 top-0 z-20 h-full w-full bg-black bg-opacity-20"></div>
+                <div className="absolute left-[1%] top-1/2 z-20 h-[1px] w-[91%] -translate-y-1/2 rounded bg-black "></div>
+              </>
             )}
-            <Input
-              name="title"
-              className="cursor-pointer border-none bg-transparent transition-all duration-75 dark:bg-transparent"
-              defaultValue={task.title}
-              onBlur={(e) => {
-                setFocussed(false);
-                if (e.target.value == '') {
-                  handleDeleteTask(task.id);
-                  return;
-                }
-                if (e.target.value == task.title) return;
-                handleUpdateTask('title', e.target.value);
-                handleBlur();
-              }}
-              onFocus={() => setFocussed(true)}
-            />
-          </div>
-          <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
-            <Select
-              defaultValue={task.priority}
-              name="priority"
-              aria-labelledby="priority-error"
-              onValueChange={(value) => {
-                if (value == '') return;
-                if (value == task.priority) return;
-                handleUpdateTask('priority', value);
-                handleBlur();
-              }}
+            <div
+              className={`relative flex w-[50px] items-center justify-center border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10`}
             >
-              <SelectTrigger
-                className={`w-[150px] ${
-                  task.priority == 'low'
-                    ? 'bg-red-200 dark:bg-red-200'
-                    : task.priority == 'medium'
-                    ? 'bg-red-400 dark:bg-red-400'
-                    : task.priority == 'high'
-                    ? 'bg-red-600 dark:bg-red-600'
-                    : 'border-none bg-transparent text-transparent dark:bg-transparent'
-                }`}
-              >
-                <SelectValue placeholder="" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="null">None</SelectItem>
-                <SelectItem value="low">Low</SelectItem>
-                <SelectItem value="medium">Medium</SelectItem>
-                <SelectItem value="high">High</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
-            <input
-              aria-hidden
-              className="hidden h-20 w-40 bg-green-500"
-              name="date"
-              type="date"
-              ref={dateInputRef}
-              defaultValue={task.date ? format(task.date, 'yyyy-MM-dd') : null}
-            />
-            <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-              <PopoverTrigger asChild name="date">
-                <Button
-                  name="date"
-                  variant={'outline'}
-                  className={cn(
-                    'w-full justify-start border-none bg-transparent text-left font-normal hover:bg-transparent dark:bg-transparent dark:hover:bg-transparent',
-                    !task.date && 'text-muted-foreground',
-                  )}
+              <Checkbox
+                ref={checkboxRef}
+                id={task.id}
+                name="completed"
+                defaultChecked={task.completed}
+                onCheckedChange={(value) => {
+                  handleUpdateTask('completed', value);
+                  handleBlur();
+                }}
+              />
+              <label
+                className="absolute left-0 top-1/2 h-full min-h-[46px] w-full -translate-y-1/2 cursor-pointer"
+                htmlFor={task.id}
+              ></label>
+            </div>
+            <div className="group relative min-w-[350px] flex-1 border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10">
+              {(task.table_title || task.project_title) && (
+                <div
+                  className={`pointer-events-none -z-10	 ${
+                    focussed ? 'invisible' : 'visible'
+                  }`}
                 >
-                  {task.date ? format(task.date, 'yyyy-MM-dd') : ''}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  selected={new Date(task.date)}
-                  onSelect={(e) => {
-                    dateInputRef.current.value = format(e, 'yyyy-MM-dd');
-                    if (task.date == null || task.date == '') {
+                  <p className="absolute left-1 top-0.5 z-0 flex flex-row text-xs">
+                    {task.table_title}
+                  </p>
+                  <p className="absolute left-1 top-0.5 z-0 flex flex-row text-xs">
+                    {task.project_title}
+                  </p>
+                  <CornerDownRight className="absolute left-2 top-1/2 h-auto w-3 -translate-y-1/2" />
+                </div>
+              )}
+              <Input
+                name="title"
+                className="cursor-pointer border-none bg-transparent transition-all duration-75 dark:bg-transparent"
+                defaultValue={task.title}
+                onDoubleClick={() => console.log('double click')}
+                onBlur={(e) => {
+                  setFocussed(false);
+                  if (e.target.value == '') {
+                    handleDeleteTask(task.id);
+                    return;
+                  }
+                  if (e.target.value == task.title) return;
+                  handleUpdateTask('title', e.target.value);
+                  handleBlur();
+                }}
+                {...attrs}
+                onFocus={() => setFocussed(true)}
+              />
+              {!task.completed && (
+                <DialogTrigger className="invisible absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 cursor-pointer group-hover:visible lg:block">
+                  <Badge variant="outline" className="bg-white">
+                    open
+                  </Badge>
+                </DialogTrigger>
+              )}
+            </div>
+            <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
+              <Select
+                defaultValue={task.priority}
+                name="priority"
+                aria-labelledby="priority-error"
+                onValueChange={(value) => {
+                  if (value == '') return;
+                  if (value == task.priority) return;
+                  handleUpdateTask('priority', value);
+                  handleBlur();
+                }}
+              >
+                <SelectTrigger
+                  className={`w-[150px] ${
+                    task.priority == 'low'
+                      ? 'bg-red-200 dark:bg-red-200'
+                      : task.priority == 'medium'
+                      ? 'bg-red-400 dark:bg-red-400'
+                      : task.priority == 'high'
+                      ? 'bg-red-600 dark:bg-red-600'
+                      : 'border-none bg-transparent text-transparent dark:bg-transparent'
+                  }`}
+                >
+                  <SelectValue placeholder="" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="null">None</SelectItem>
+                  <SelectItem value="low">Low</SelectItem>
+                  <SelectItem value="medium">Medium</SelectItem>
+                  <SelectItem value="high">High</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
+              <input
+                aria-hidden
+                className="hidden h-20 w-40 bg-green-500"
+                name="date"
+                type="date"
+                ref={dateInputRef}
+                defaultValue={
+                  task.date ? format(task.date, 'yyyy-MM-dd') : null
+                }
+              />
+              <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+                <PopoverTrigger asChild name="date">
+                  <Button
+                    name="date"
+                    variant={'outline'}
+                    className={cn(
+                      'w-full justify-start border-none bg-transparent text-left font-normal hover:bg-transparent dark:bg-transparent dark:hover:bg-transparent',
+                      !task.date && 'text-muted-foreground',
+                    )}
+                  >
+                    {task.date ? format(task.date, 'yyyy-MM-dd') : ''}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={new Date(task.date)}
+                    onSelect={(e) => {
+                      dateInputRef.current.value = format(e, 'yyyy-MM-dd');
+                      if (task.date == null || task.date == '') {
+                        handleUpdateTask('date', e);
+                        handleBlur();
+                        setPopoverOpen(false);
+                        return;
+                      } else if (
+                        format(new Date(task.date), 'yyyy-MM-dd') ==
+                        format(e, 'yyyy-MM-dd')
+                      ) {
+                        dateInputRef.current.value = '';
+                        return;
+                      }
                       handleUpdateTask('date', e);
                       handleBlur();
                       setPopoverOpen(false);
-                      return;
-                    } else if (
-                      format(new Date(task.date), 'yyyy-MM-dd') ==
-                      format(e, 'yyyy-MM-dd')
-                    ) {
-                      dateInputRef.current.value = '';
-                      return;
-                    }
-                    handleUpdateTask('date', e);
-                    handleBlur();
-                    setPopoverOpen(false);
-                  }}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
+                    }}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
 
-          <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
-            <Button
-              variant="ghost"
-              onClick={null}
-              className={`transition-color w-full rounded-md text-left opacity-100 ${
-                task.status == 'planned'
-                  ? 'bg-blue-200 hover:bg-blue-300'
-                  : task.status == 'done'
-                  ? 'bg-green-200 hover:bg-green-300'
-                  : 'bg-red-200 hover:bg-red-300'
-              }
+            <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
+              <Button
+                variant="ghost"
+                onClick={null}
+                className={`transition-color w-full rounded-md text-left opacity-100 ${
+                  task.status == 'planned'
+                    ? 'bg-blue-200 hover:bg-blue-300'
+                    : task.status == 'done'
+                    ? 'bg-green-200 hover:bg-green-300'
+                    : 'bg-red-200 hover:bg-red-300'
+                }
           `}
-            >
-              {task.status || 'Not planned'}
-            </Button>
+              >
+                {task.status || 'Not planned'}
+              </Button>
+            </div>
+            <div className="z-30 flex h-full items-center bg-transparent px-3">
+              <Button
+                onClick={() => handleDeleteTask(task.id)}
+                size="icon"
+                variant="outline"
+                className="border-transparent bg-red-600 text-white hover:bg-red-400 hover:text-white dark:border-transparent dark:bg-red-600 dark:hover:bg-red-400"
+              >
+                <div className="flex flex-row justify-center">
+                  <TrashIcon className="h-5 w-5" />
+                </div>
+              </Button>
+            </div>
           </div>
-          <div className="z-30 flex h-full items-center bg-transparent px-3">
-            <Button
-              onClick={() => handleDeleteTask(task.id)}
-              size="icon"
-              variant="outline"
-              className="border-transparent bg-red-600 text-white hover:bg-red-400 hover:text-white dark:border-transparent dark:bg-red-600 dark:hover:bg-red-400"
-            >
-              <div className="flex flex-row justify-center">
-                <TrashIcon className="h-5 w-5" />
-              </div>
-            </Button>
-          </div>
-        </div>
-      </form>
+        </form>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{task.title}</DialogTitle>
+            <DialogDescription>
+              {task.description || 'No description'}
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
