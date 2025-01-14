@@ -38,6 +38,7 @@ export default function TaskModal({
   task,
   tableId,
   isOpen,
+  setIsOpen,
   removeTask,
   handleUpdateTask,
   handleDeleteTask,
@@ -77,21 +78,16 @@ export default function TaskModal({
     }
   }, [stateModal]);
 
-  useEffect(() => {
-    console.log('task');
-    console.log(task);
-  }, [task]);
-
   return (
-    <Dialog open={isOpen}>
+    <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
       <DialogContent className="hidden lg:block">
         <DialogHeader>
-          <DialogTitle>Title</DialogTitle>
+          <DialogTitle>{''}</DialogTitle>
         </DialogHeader>
         <DialogDescription>{task.description}</DialogDescription>
         <form key={task.id + 'modal'} ref={formRefModal} action={dispatchModal}>
-          <div className="group flex w-full flex-col">
-            <div className={`relative`}>
+          <div className="group flex w-full flex-col gap-4">
+            {/* <div className={`relative`}>
               <Checkbox
                 ref={checkboxRef}
                 id={task.id}
@@ -106,8 +102,8 @@ export default function TaskModal({
                 className="absolute left-0 top-1/2 h-full min-h-[46px] w-full -translate-y-1/2 cursor-pointer"
                 htmlFor={task.id}
               ></label>
-            </div>
-            <div className="group relative min-w-[350px] flex-1 border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10">
+            </div> */}
+            <div className="group relative min-w-[350px] flex-1 px-3 py-1">
               {(task.table_title || task.project_title) && (
                 <div
                   className={`pointer-events-none -z-10	 ${
@@ -125,24 +121,27 @@ export default function TaskModal({
               )}
               <Input
                 name="title"
-                className="no-context-menu cursor-pointer select-none border-none bg-transparent transition-all duration-75 dark:bg-transparent lg:select-text"
+                className="no-context-menu cursor-pointer select-none bg-transparent transition-all duration-75 dark:bg-transparent lg:select-text"
                 defaultValue={task.title}
-                onDoubleClick={() => console.log('double click')}
+                value={task.title}
+                onChange={(e) => {
+                  handleUpdateTask('title', e.target.value);
+                }}
                 onBlur={(e) => {
                   setFocussed(false);
                   if (e.target.value == '') {
                     handleDeleteTask(task.id);
                     return;
                   }
-                  if (e.target.value == task.title) return;
-                  console.log('blur');
-                  handleUpdateTask('title', e.target.value);
+                  // if (e.target.value == task.title) return;
+                  // console.log('blur');
+                  // handleUpdateTask('title', e.target.value);
                   handleBlur();
                 }}
                 onFocus={() => setFocussed(true)}
               />
             </div>
-            <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
+            <div className="w-[175px] px-3">
               <Select
                 defaultValue={task.priority}
                 name="priority"
@@ -175,7 +174,7 @@ export default function TaskModal({
                 </SelectContent>
               </Select>
             </div>
-            <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
+            <div className="w-[175px] px-3">
               <input
                 aria-hidden
                 className="hidden h-20 w-40 bg-green-500"
@@ -186,7 +185,10 @@ export default function TaskModal({
                   task.date ? format(task.date, 'yyyy-MM-dd') : null
                 }
               />
-              <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+              <Popover
+                open={popoverOpen}
+                onOpenChange={(open) => setPopoverOpen(open)}
+              >
                 <PopoverTrigger asChild name="date">
                   <Button
                     name="date"
@@ -205,6 +207,7 @@ export default function TaskModal({
                     selected={new Date(task.date)}
                     onSelect={(e) => {
                       dateInputRef.current.value = format(e, 'yyyy-MM-dd');
+                      console.log('selected date');
                       if (task.date == null || task.date == '') {
                         handleUpdateTask('date', e);
                         handleBlur();
@@ -227,7 +230,7 @@ export default function TaskModal({
               </Popover>
             </div>
 
-            <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
+            <div className="w-[175px] px-3">
               <Button
                 variant="ghost"
                 onClick={null}

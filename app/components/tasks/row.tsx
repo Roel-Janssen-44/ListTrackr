@@ -187,26 +187,29 @@ export default function TaskRow({
                 <CornerDownRight className="absolute left-2 top-1/2 h-auto w-3 -translate-y-1/2" />
               </div>
             )}
-            {/* <a href="#" className="-z-10" onClick={(e) => e.preventDefault()}> */}
-            <Input
-              name="title"
-              className="no-context-menu cursor-pointer select-none border-none bg-transparent transition-all duration-75 dark:bg-transparent lg:select-text"
-              defaultValue={task.title}
-              onDoubleClick={() => console.log('double click')}
-              onBlur={(e) => {
-                setFocussed(false);
-                if (e.target.value == '') {
-                  handleDeleteTask(task.id);
-                  return;
-                }
-                if (e.target.value == task.title) return;
-                handleUpdateTask('title', e.target.value);
-                handleBlur();
-              }}
-              {...attrs}
-              onFocus={() => setFocussed(true)}
-            />
-            {/* </a> */}
+            <a href="#" className="-z-10" onClick={(e) => e.preventDefault()}>
+              <Input
+                name="title"
+                className="no-context-menu cursor-pointer select-none border-none bg-transparent transition-all duration-75 dark:bg-transparent lg:select-text"
+                defaultValue={task.title}
+                value={task.title}
+                onChange={(e) => {
+                  handleUpdateTask('title', e.target.value);
+                }}
+                onBlur={(e) => {
+                  setFocussed(false);
+                  if (e.target.value == '') {
+                    handleDeleteTask(task.id);
+                    return;
+                  }
+                  // if (e.target.value == task.title) return;
+                  // handleUpdateTask('title', e.target.value);
+                  handleBlur();
+                }}
+                {...attrs}
+                onFocus={() => setFocussed(true)}
+              />
+            </a>
             {!task.completed && (
               <button
                 type="button"

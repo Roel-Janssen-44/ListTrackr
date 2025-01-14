@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { createTask } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
 import { Input } from '@/app/components/chadcn/input';
@@ -98,6 +98,16 @@ export default function CreateTask({
     type,
   );
   const [state, dispatch] = useFormState(createTaskWithTableId, initialState);
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <>

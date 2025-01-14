@@ -87,7 +87,6 @@ export default function TaskTable({
     date: string;
     status: '' | 'planned' | 'working on it' | 'done' | 'stuck';
   }) => {
-    // Todo - check if updatedDate is today or tomorrow and add to the correct table
     setTasksToRender([
       ...tasksToRender.map((task) => {
         if (task.id == id) {
