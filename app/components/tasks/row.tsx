@@ -1,6 +1,4 @@
-'use client';
-
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, Suspense } from 'react';
 import { format } from 'date-fns';
 import { Task } from '@/app/lib/definitions';
 import { Button } from '@/app/components/chadcn/button';
@@ -71,6 +69,8 @@ export default function TaskRow({
   };
 
   const handleUpdateTask = (changedField: string, newValue: any) => {
+    console.log('handle update task');
+    console.log(changedField, newValue);
     if (changedField == 'completed') {
       updateTaskState({
         id: task.id,
@@ -89,7 +89,6 @@ export default function TaskRow({
         toast.error('Task must contain less than 128 characters');
         return;
       }
-
       updateTaskState({
         id: task.id,
         completed: task.completed,
@@ -132,15 +131,9 @@ export default function TaskRow({
   const [mobileIsOpen, setMobileIsOpen] = useState(false);
   const attrs = useLongPress(
     () => {
-      setIsOpen(true);
+      setMobileIsOpen(true);
     },
     {
-      onStart: (event) => null,
-      onFinish: (event) => {
-        setMobileIsOpen(true);
-        setIsOpen(false);
-      },
-      onCancel: (event) => null,
       threshold: 800,
     },
   );
@@ -161,7 +154,7 @@ export default function TaskRow({
             </>
           )}
           <div
-            className={`relative flex w-[50px] items-center justify-center border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10`}
+            className={`relative z-30 flex w-[50px] items-center justify-center border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10`}
           >
             <Checkbox
               ref={checkboxRef}
@@ -194,28 +187,29 @@ export default function TaskRow({
                 <CornerDownRight className="absolute left-2 top-1/2 h-auto w-3 -translate-y-1/2" />
               </div>
             )}
-            <a href="#">
-              <Input
-                name="title"
-                className="no-context-menu cursor-pointer select-none border-none bg-transparent transition-all duration-75 dark:bg-transparent"
-                defaultValue={task.title}
-                onDoubleClick={() => console.log('double click')}
-                onBlur={(e) => {
-                  setFocussed(false);
-                  if (e.target.value == '') {
-                    handleDeleteTask(task.id);
-                    return;
-                  }
-                  if (e.target.value == task.title) return;
-                  handleUpdateTask('title', e.target.value);
-                  handleBlur();
-                }}
-                {...attrs}
-                onFocus={() => setFocussed(true)}
-              />
-            </a>
+            {/* <a href="#" className="-z-10" onClick={(e) => e.preventDefault()}> */}
+            <Input
+              name="title"
+              className="no-context-menu cursor-pointer select-none border-none bg-transparent transition-all duration-75 dark:bg-transparent lg:select-text"
+              defaultValue={task.title}
+              onDoubleClick={() => console.log('double click')}
+              onBlur={(e) => {
+                setFocussed(false);
+                if (e.target.value == '') {
+                  handleDeleteTask(task.id);
+                  return;
+                }
+                if (e.target.value == task.title) return;
+                handleUpdateTask('title', e.target.value);
+                handleBlur();
+              }}
+              {...attrs}
+              onFocus={() => setFocussed(true)}
+            />
+            {/* </a> */}
             {!task.completed && (
               <button
+                type="button"
                 onClick={() => setIsOpen(true)}
                 className="invisible absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 cursor-pointer group-hover:visible lg:block"
               >
@@ -223,11 +217,6 @@ export default function TaskRow({
                   open
                 </Badge>
               </button>
-              // <DialogTrigger className="invisible absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 cursor-pointer group-hover:visible lg:block">
-              //   <Badge variant="outline" className="bg-white">
-              //     open
-              //   </Badge>
-              // </DialogTrigger>
             )}
           </div>
           <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
@@ -345,7 +334,15 @@ export default function TaskRow({
       </form>
 
       <div className="hidden lg:block">
-        <TaskModal task={task} isOpen={isOpen} setIsOpen={setIsOpen} />
+        <TaskModal
+          removeTask={removeTask}
+          task={task}
+          tableId={tableId}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          handleUpdateTask={handleUpdateTask}
+          handleDeleteTask={handleDeleteTask}
+        />
       </div>
       <div className="block lg:hidden">
         <TaskDrawer

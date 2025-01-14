@@ -22,7 +22,7 @@ export default function TaskModal({
 }) {
   return (
     <Drawer open={mobileIsOpen} onOpenChange={setMobileIsOpen}>
-      <DrawerContent className="block bg-white lg:hidden">
+      <DrawerContent className="block select-none bg-white lg:hidden">
         <DrawerHeader>
           <DrawerTitle>Are you absolutely sure?</DrawerTitle>
           <DrawerDescription>This action cannot be undone.</DrawerDescription>

@@ -180,6 +180,8 @@ export async function updateTask(
 ): Promise<{ success: boolean; message: string }> {
   const title = formData.get('title');
 
+  console.log(formData);
+
   if (typeof title == 'string' && title.length == 0) {
     try {
       const result = await db
@@ -217,8 +219,19 @@ export async function updateTask(
     completedBool = false;
   }
 
-  if (typeof title != 'string') return;
-  if (typeof priority != 'string') return;
+  console.log(title);
+  console.log(priority);
+
+  if (typeof title != 'string')
+    return {
+      success: false,
+      message: 'Failed to update task.',
+    };
+  if (typeof priority != 'string')
+    return {
+      success: false,
+      message: 'Failed to update task.',
+    };
 
   const maxLength = 128;
 
