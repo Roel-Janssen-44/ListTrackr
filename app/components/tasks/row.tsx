@@ -69,8 +69,6 @@ export default function TaskRow({
   };
 
   const handleUpdateTask = (changedField: string, newValue: any) => {
-    console.log('handle update task');
-    console.log(changedField, newValue);
     if (changedField == 'completed') {
       updateTaskState({
         id: task.id,
@@ -107,23 +105,34 @@ export default function TaskRow({
         status: task.status,
       });
     } else if (changedField == 'date') {
-      updateTaskState({
-        id: task.id,
-        completed: task.completed,
-        title: task.title,
-        priority: task.priority,
-        date: newValue,
-        status: task.status,
-      });
-    } else if (changedField == 'status') {
-      updateTaskState({
-        id: task.id,
-        completed: task.completed,
-        title: task.title,
-        priority: task.priority,
-        date: task.date,
-        status: newValue,
-      });
+      if (newValue && !task.completed) {
+        updateTaskState({
+          id: task.id,
+          completed: task.completed,
+          title: task.title,
+          priority: task.priority,
+          date: newValue,
+          status: 'planned',
+        });
+      } else if (newValue && task.completed) {
+        updateTaskState({
+          id: task.id,
+          completed: task.completed,
+          title: task.title,
+          priority: task.priority,
+          date: newValue,
+          status: 'Done',
+        });
+      } else {
+        updateTaskState({
+          id: task.id,
+          completed: task.completed,
+          title: task.title,
+          priority: task.priority,
+          date: newValue,
+          status: 'Not planned',
+        });
+      }
     }
   };
 
@@ -138,6 +147,7 @@ export default function TaskRow({
     },
   );
 
+  console.log(task);
   return (
     <>
       <form
@@ -158,17 +168,18 @@ export default function TaskRow({
           >
             <Checkbox
               ref={checkboxRef}
-              id={task.id}
+              id={'task-completion-state-' + task.id}
               name="completed"
-              defaultChecked={task.completed}
+              checked={task.completed}
+              onChange={() => null}
               onCheckedChange={(value) => {
-                handleUpdateTask('completed', value);
                 handleBlur();
+                handleUpdateTask('completed', value);
               }}
             />
             <label
               className="absolute left-0 top-1/2 h-full min-h-[46px] w-full -translate-y-1/2 cursor-pointer"
-              htmlFor={task.id}
+              htmlFor={'task-completion-state-' + task.id}
             ></label>
           </div>
           <div className="group relative min-w-[350px] flex-1 border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10">
@@ -191,7 +202,6 @@ export default function TaskRow({
               <Input
                 name="title"
                 className="no-context-menu cursor-pointer select-none border-none bg-transparent transition-all duration-75 dark:bg-transparent lg:select-text"
-                defaultValue={task.title}
                 value={task.title}
                 onChange={(e) => {
                   handleUpdateTask('title', e.target.value);
@@ -224,7 +234,7 @@ export default function TaskRow({
           </div>
           <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
             <Select
-              defaultValue={task.priority}
+              value={task.priority}
               name="priority"
               aria-labelledby="priority-error"
               onValueChange={(value) => {
@@ -235,6 +245,8 @@ export default function TaskRow({
               }}
             >
               <SelectTrigger
+                value={task.priority}
+                onChange={() => {}}
                 className={`w-[150px] ${
                   task.priority == 'low'
                     ? 'bg-red-200 dark:bg-red-200'
@@ -258,11 +270,12 @@ export default function TaskRow({
           <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
             <input
               aria-hidden
-              className="hidden h-20 w-40 bg-green-500"
+              className="hidden"
               name="date"
               type="date"
               ref={dateInputRef}
-              defaultValue={task.date ? format(task.date, 'yyyy-MM-dd') : null}
+              value={task.date ? format(task.date, 'yyyy-MM-dd') : undefined}
+              onChange={() => {}}
             />
             <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
               <PopoverTrigger asChild name="date">
@@ -282,18 +295,14 @@ export default function TaskRow({
                   mode="single"
                   selected={new Date(task.date)}
                   onSelect={(e) => {
-                    dateInputRef.current.value = format(e, 'yyyy-MM-dd');
                     if (task.date == null || task.date == '') {
+                      dateInputRef.current.value = format(e, 'yyyy-MM-dd');
                       handleUpdateTask('date', e);
                       handleBlur();
                       setPopoverOpen(false);
                       return;
-                    } else if (
-                      format(new Date(task.date), 'yyyy-MM-dd') ==
-                      format(e, 'yyyy-MM-dd')
-                    ) {
+                    } else if (!e) {
                       dateInputRef.current.value = '';
-                      return;
                     }
                     handleUpdateTask('date', e);
                     handleBlur();

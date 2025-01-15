@@ -122,7 +122,6 @@ export default function TaskModal({
               <Input
                 name="title"
                 className="no-context-menu cursor-pointer select-none bg-transparent transition-all duration-75 dark:bg-transparent lg:select-text"
-                defaultValue={task.title}
                 value={task.title}
                 onChange={(e) => {
                   handleUpdateTask('title', e.target.value);
@@ -177,62 +176,49 @@ export default function TaskModal({
             <div className="w-[175px] px-3">
               <input
                 aria-hidden
-                className="hidden h-20 w-40 bg-green-500"
+                className="hidden"
                 name="date"
                 type="date"
                 ref={dateInputRef}
                 defaultValue={
-                  task.date ? format(task.date, 'yyyy-MM-dd') : null
+                  task.date ? format(task.date, 'yyyy-MM-dd') : undefined
                 }
               />
-              <Popover
-                open={popoverOpen}
-                onOpenChange={(open) => setPopoverOpen(open)}
+              {/* <Button
+                name="date"
+                variant={'outline'}
+                className={cn(
+                  'w-full justify-start border-[1px] border-gray-200 bg-transparent text-left font-normal hover:bg-transparent dark:bg-transparent dark:hover:bg-transparent',
+                  !task.date && 'text-muted-foreground',
+                )}
               >
-                <PopoverTrigger asChild name="date">
-                  <Button
-                    name="date"
-                    variant={'outline'}
-                    className={cn(
-                      'w-full justify-start border-none bg-transparent text-left font-normal hover:bg-transparent dark:bg-transparent dark:hover:bg-transparent',
-                      !task.date && 'text-muted-foreground',
-                    )}
-                  >
-                    {task.date ? format(task.date, 'yyyy-MM-dd') : ''}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={new Date(task.date)}
-                    onSelect={(e) => {
-                      dateInputRef.current.value = format(e, 'yyyy-MM-dd');
-                      console.log('selected date');
-                      if (task.date == null || task.date == '') {
-                        handleUpdateTask('date', e);
-                        handleBlur();
-                        setPopoverOpen(false);
-                        return;
-                      } else if (
-                        format(new Date(task.date), 'yyyy-MM-dd') ==
-                        format(e, 'yyyy-MM-dd')
-                      ) {
-                        dateInputRef.current.value = '';
-                        return;
-                      }
-                      handleUpdateTask('date', e);
-                      handleBlur();
-                      setPopoverOpen(false);
-                    }}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
+                {task.date ? format(task.date, 'yyyy-MM-dd') : ''}
+              </Button> */}
+              <Calendar
+                mode="single"
+                selected={new Date(task.date)}
+                onSelect={(e) => {
+                  if (task.date == null || task.date == '') {
+                    dateInputRef.current.value = format(e, 'yyyy-MM-dd');
+                    handleUpdateTask('date', e);
+                    handleBlur();
+                    setPopoverOpen(false);
+                    return;
+                  } else if (!e) {
+                    dateInputRef.current.value = '';
+                  }
+                  handleUpdateTask('date', e);
+                  handleBlur();
+                  setPopoverOpen(false);
+                }}
+                initialFocus
+              />
             </div>
 
             <div className="w-[175px] px-3">
               <Button
                 variant="ghost"
+                value={task.status}
                 onClick={null}
                 className={`transition-color w-full rounded-md text-left opacity-100 ${
                   task.status == 'planned'

@@ -213,14 +213,11 @@ export async function updateTask(
   }
 
   let completedBool: boolean;
-  if (completed == 'on') {
+  if (completed != 'on') {
     completedBool = true;
   } else {
     completedBool = false;
   }
-
-  console.log(title);
-  console.log(priority);
 
   if (typeof title != 'string')
     return {
@@ -291,8 +288,6 @@ export async function updateTask(
       message: 'Failed to Update Task.',
     };
   }
-  // revalidatePath('/layout');
-  console.log('revalidate');
   revalidatePath('/dashbaord');
   revalidatePath('/dashboard', 'layout');
   return { success: true, message: '' };
@@ -585,15 +580,12 @@ export async function createInvoiceTemplate(invoice: InvoiceTemplate) {
     insert into invoices(id, templatename, message, discounttype, taxsetting, taxamount, invoicebase, invoiceappendix, user_id, logo_url, theme_color)
     VALUES (${id}, ${name}, ${message}, ${discountType}, ${taxSetting}, ${taxAmount}, ${invoiceBase}, ${invoiceAppendix}, ${userId}, ${logo}, ${themeColor})
     `;
-    // console.log('first insert complete');
 
     for (const fieldGroup of invoice.fieldGroups) {
       await sql`
       INSERT INTO invoicefieldgroups (id, invoice_id, name, position)
       VALUES (${fieldGroup.id}, ${id}, ${fieldGroup?.name}, ${fieldGroup?.position})
       `;
-
-      // console.log('second insert complete');
 
       for (const field of fieldGroup.fields) {
         await sql`
@@ -603,10 +595,7 @@ export async function createInvoiceTemplate(invoice: InvoiceTemplate) {
       }
     }
 
-    // console.log('third insert complete');
-
     revalidatePath('/dashboard/invoices');
-    // redirect('/dashboard/invoices', 'push');
     return { success: true, message: '' };
   } catch (error) {
     console.log('error');
@@ -716,14 +705,6 @@ export async function createInvoice(
   );
 
   const invoiceNumber = invoiceNumberFieldGroup[0].value;
-
-  console.log('logo');
-  console.log(logo);
-
-  console.log(invoice);
-  console.log(invoice.fieldGroups);
-  console.log(invoice.fieldGroups[0]);
-  console.log(invoice.fieldGroups[0].fields);
 
   try {
     await sql`
@@ -965,9 +946,6 @@ export async function updateProject(
       .where('id', '=', projectId)
       .executeTakeFirst();
 
-    // Todo - check result if successful
-    console.log('result');
-    console.log(result);
     revalidatePath('/dashboard/projects');
     return { success: true, message: '' };
   } catch (error) {
