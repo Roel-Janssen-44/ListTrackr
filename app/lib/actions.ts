@@ -180,8 +180,6 @@ export async function updateTask(
 ): Promise<{ success: boolean; message: string }> {
   const title = formData.get('title');
 
-  console.log(formData);
-
   if (typeof title == 'string' && title.length == 0) {
     try {
       const result = await db
@@ -201,6 +199,8 @@ export async function updateTask(
     }
   }
 
+  const description = formData.get('description');
+  let validatedDescription = '';
   const priority = formData.get('priority');
   const date = formData.get('date').toString();
   const completed = formData.get('completed');
@@ -213,33 +213,42 @@ export async function updateTask(
   }
 
   let completedBool: boolean;
-  if (completed != 'on') {
+  if (completed == 'true') {
     completedBool = true;
   } else {
     completedBool = false;
   }
 
-  if (typeof title != 'string')
+  if (typeof title != 'string') {
     return {
       success: false,
-      message: 'Failed to update task.',
+      message: 'Failed to update task cause of title type.',
     };
-  if (typeof priority != 'string')
+  }
+  if (typeof priority != 'string') {
     return {
       success: false,
-      message: 'Failed to update task.',
+      message: 'Failed to update task cause of priority type.',
     };
+  }
 
+  if (typeof description != 'string') {
+    validatedDescription = '';
+  } else {
+    validatedDescription = description;
+  }
+
+  const minLength = 3;
   const maxLength = 128;
 
   if (typeof title == 'string') {
-    if (title.length > 128) {
+    if (title.length > maxLength) {
       return {
         success: false,
         message: 'Failed to update task, to many characters.',
       };
     }
-    if (title.length <= 3) {
+    if (title.length <= minLength) {
       return {
         success: false,
         message: 'Failed to update task, to few characters.',
@@ -254,6 +263,7 @@ export async function updateTask(
       UPDATE tasks
       set
       title=${title},
+      description=${validatedDescription},
       completed=true,
       priority=${priority},
       status='done',
@@ -265,6 +275,7 @@ export async function updateTask(
       UPDATE tasks
       set 
       title=${title},
+      description=${validatedDescription},
       completed=false,
       priority=${priority},
       status='planned',
@@ -276,6 +287,7 @@ export async function updateTask(
         UPDATE tasks
         set
         title=${title},
+        description=${validatedDescription},
         completed=false,
         priority=${priority},
         status=null,
@@ -285,7 +297,7 @@ export async function updateTask(
   } catch (error) {
     return {
       success: false,
-      message: 'Failed to Update Task.',
+      message: 'Something went wrong while updating the task.',
     };
   }
   revalidatePath('/dashbaord');

@@ -76,6 +76,7 @@ export default function TaskTable({
     id,
     completed,
     title,
+    description,
     priority,
     date,
     status,
@@ -83,6 +84,7 @@ export default function TaskTable({
     id: string;
     completed: boolean;
     title: string;
+    description: string;
     priority: '' | 'low' | 'medium' | 'high';
     date: string;
     status: '' | 'planned' | 'working on it' | 'done' | 'stuck';
@@ -94,6 +96,7 @@ export default function TaskTable({
             ...task,
             completed: completed,
             title: title,
+            description: description,
             priority: priority,
             date: date,
             status: status,

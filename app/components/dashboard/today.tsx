@@ -14,7 +14,6 @@ export default async function TasksToday() {
 
   const tasks = [...fetchedTasks, ...fetchedPreviousTasks];
 
-  console.log(tasks);
   return (
     <TasksTable
       table={table}

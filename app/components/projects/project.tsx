@@ -52,6 +52,7 @@ export default function ProjectTasksTable({
     id,
     completed,
     title,
+    description,
     priority,
     date,
     status,
@@ -59,6 +60,7 @@ export default function ProjectTasksTable({
     id: string;
     completed: boolean;
     title: string;
+    description: string;
     priority: '' | 'low' | 'medium' | 'high';
     date: string;
     status: '' | 'planned' | 'working on it' | 'done' | 'stuck';
@@ -70,6 +72,7 @@ export default function ProjectTasksTable({
             ...task,
             completed: completed,
             title: title,
+            description: description,
             priority: priority,
             date: date,
             status: status,
