@@ -402,10 +402,10 @@ export default function TaskRow({
       <div className="hidden lg:block">
         <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
           <DialogContent className="hidden lg:block">
-            {/* <DialogHeader>
+            <DialogHeader>
               <DialogTitle>{''}</DialogTitle>
             </DialogHeader>
-            <DialogDescription>{''}</DialogDescription> */}
+            <DialogDescription>{''}</DialogDescription>
             <TaskModalContent
               removeTask={removeTask}
               task={task}
@@ -421,12 +421,10 @@ export default function TaskRow({
       <div className="hidden lg:block">
         <Drawer open={mobileIsOpen} onOpenChange={setMobileIsOpen}>
           <DrawerContent className="block select-none bg-white lg:hidden">
-            {/* <DrawerHeader>
-              <DrawerTitle>Are you absolutely sure?</DrawerTitle>
-              <DrawerDescription>
-                This action cannot be undone.
-              </DrawerDescription>
-            </DrawerHeader> */}
+            <DrawerHeader>
+              <DrawerTitle>{''}</DrawerTitle>
+              <DrawerDescription>{''}</DrawerDescription>
+            </DrawerHeader>
             <TaskModalContent
               removeTask={removeTask}
               task={task}
