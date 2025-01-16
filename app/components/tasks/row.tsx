@@ -209,7 +209,7 @@ export default function TaskRow({
               name="completed"
               type="hidden"
               ref={checkboxRef}
-              value={task.completed.toString()}
+              value={task.completed?.toString() || 'false'}
               readOnly
             />
             <Checkbox
@@ -400,7 +400,7 @@ export default function TaskRow({
       </form>
 
       <div className="hidden lg:block">
-        <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
+        {/* <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
           <DialogContent className="hidden lg:block">
             <DialogHeader>
               <DialogTitle>{''}</DialogTitle>
@@ -435,7 +435,7 @@ export default function TaskRow({
               handleDeleteTask={handleDeleteTask}
             />
           </DrawerContent>
-        </Drawer>
+        </Drawer> */}
       </div>
     </>
   );
