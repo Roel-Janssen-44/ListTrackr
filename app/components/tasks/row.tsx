@@ -358,6 +358,7 @@ export default function TaskRow({
                     } else if (!e) {
                       dateInputRef.current.value = '';
                     }
+                    dateInputRef.current.value = format(e, 'yyyy-MM-dd');
                     handleUpdateTask('date', e);
                     handleBlur();
                     setPopoverOpen(false);
@@ -608,6 +609,7 @@ const TaskModalContent = ({
               } else if (!e) {
                 dateInputRef.current.value = '';
               }
+              dateInputRef.current.value = format(e, 'yyyy-MM-dd');
               handleUpdateTask('date', e);
               handleBlur();
             }}

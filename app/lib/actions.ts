@@ -180,6 +180,7 @@ export async function updateTask(
 ): Promise<{ success: boolean; message: string }> {
   const title = formData.get('title');
 
+  console.log(formData);
   if (typeof title == 'string' && title.length == 0) {
     try {
       const result = await db
