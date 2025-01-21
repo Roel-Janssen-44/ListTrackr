@@ -37,10 +37,7 @@ export default async function CustomerPage({
         <h1 className="my-auto mr-20 w-full self-baseline text-center text-2xl font-bold">
           {customer.name}
         </h1>
-        {/* 
-        <div className="flex flex-row justify-center gap-4">
-          <DeleteProjectForm projectId={projectId} />
-        </div> */}
+
         <div className="flex flex-row justify-center gap-4">
           <Link href={`/dashboard/customers/${params.id}/edit`}>
             <Button className="flex gap-2">
@@ -50,10 +47,6 @@ export default async function CustomerPage({
           <DeleteCustomerForm customerId={customer.id} />
         </div>
       </div>
-
-      {/* <Suspense fallback={'Loading...'}>
-            <ProjectHeader project={project} customers={customers} />
-          </Suspense> */}
 
       <Suspense fallback={'Loading...'}>
         {projects.map((project) => (
@@ -71,34 +64,10 @@ export default async function CustomerPage({
             projectId={''}
             invoices={invoices}
             templates={[]}
-            // templates={templates}
             showTemplates={false}
           />
         </div>
       </Suspense>
     </div>
-    // <div className="w-full">
-    //   <div className="mb-6 flex flex-row justify-start gap-6">
-    //     <PreviousPage />
-
-    //     <h1 className="my-auto mr-20 w-full self-baseline text-center text-2xl font-bold">
-    //       {customer.name}
-    //     </h1>
-
-    //     {/* Edit customer data */}
-    //     <div className="flex flex-row justify-center gap-4">
-    //       <Link href={`/dashboard/customers/${params.id}/edit`}>
-    //         <Button className="flex gap-2">
-    //           <Pencil />
-    //         </Button>
-    //       </Link>
-    //       <DeleteCustomerForm customerId={customer.id} />
-    //     </div>
-    //   </div>
-    //   <Suspense fallback={'Loading...'}>
-    //     {/* <EditCustomerForm customer={customer} /> */}
-    //     Todo - implement dashboard with invoices and project.
-    //   </Suspense>
-    // </div>
   );
 }
