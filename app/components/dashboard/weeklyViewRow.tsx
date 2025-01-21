@@ -32,7 +32,7 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
   }
 
   return (
-    <div className="relative border-b-[1px] border-gray-200 odd:bg-gray-100 dark:border-active dark:odd:bg-secondary">
+    <div className="relative border-b-[1px] border-gray-200 odd:bg-gray-100 last-of-type:border-0 dark:border-active dark:odd:bg-secondary">
       {weeklyGoalMet == true && (
         <div
           aria-hidden
