@@ -32,7 +32,7 @@ export type Project = {
   startDate: string;
   endDate?: string;
   status: 'created' | 'waiting' | 'in progress' | 'completed';
-  customer: Customer;
+  customer?: Customer;
   tasks?: Task[];
 };
 

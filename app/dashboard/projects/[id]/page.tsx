@@ -17,7 +17,7 @@ import {
   InvoiceTemplateName,
 } from '@/app/lib/definitions';
 import { Metadata } from 'next';
-import PorjectTitle from '@/app/components/projects/title';
+import ProjectTitle from '@/app/components/projects/title';
 
 export const metadata: Metadata = {
   title: 'Project',
@@ -40,7 +40,7 @@ export default async function ProjectView({
         <PreviousPage />
 
         <h1 className="absolute left-0 top-full my-auto mt-6 w-full self-baseline text-center text-2xl font-bold sm:relative sm:mt-0">
-          <PorjectTitle project={project} />
+          <ProjectTitle project={project} />
         </h1>
 
         <div className="flex flex-row justify-center gap-4">

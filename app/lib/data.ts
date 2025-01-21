@@ -706,13 +706,12 @@ export async function fetchProject(projectId: string): Promise<Project | null> {
 
 export async function fetchProjectsFromCustomer(
   customerId: string,
-): Promise<Project | null> {
+): Promise<Project[] | null> {
   const session = await auth();
   const userId = session?.user?.id;
-  console.log('customerId');
-  console.log(customerId);
-  if (!userId) return;
-  if (!customerId) return;
+
+  if (!userId) return null;
+  if (!customerId) return null;
 
   try {
     const projectDBData = await db
@@ -729,58 +728,57 @@ export async function fetchProjectsFromCustomer(
       .where('customer_id', '=', customerId)
       .execute();
 
-    console.log('projectData', projectDBData);
-
     if (projectDBData.length === 0) {
       return null;
     }
 
-    const projectData = projectDBData[0];
+    const projects = await Promise.all(
+      projectDBData.map(async (project) => {
+        const projectTasks = await db
+          .selectFrom('tasks')
+          .selectAll()
+          .where('user_id', '=', userId as any)
+          .where('project_id', '=', project.id)
+          .execute();
 
-    return projectData;
-    const projectTasks = await db
-      .selectFrom('tasks')
-      .selectAll()
-      .where('user_id', '=', userId as any)
-      .where('project_id', '=', projectId)
-      .execute();
+        const tasks: Task[] = projectTasks.map((task) => ({
+          id: task.id,
+          title: task.title,
+          completed: task.completed,
+          priority: task.priority as '' | 'low' | 'medium' | 'high',
+          date: task.date?.toString() || '',
+          table_id: task.table_id,
+          status: task.status as
+            | ''
+            | 'planned'
+            | 'working on it'
+            | 'done'
+            | 'stuck',
+          order: task.order,
+          type: task.type,
+          user_id: task.user_id,
+        }));
 
-    const tasks: Task[] = projectTasks.map((task) => ({
-      id: task.id,
-      title: task.title,
-      completed: task.completed,
-      priority: task.priority as '' | 'low' | 'medium' | 'high',
-      date: task.date?.toString() || '',
-      table_id: task.table_id,
-      status: task.status as
-        | ''
-        | 'planned'
-        | 'working on it'
-        | 'done'
-        | 'stuck',
-      order: task.order,
-      type: task.type,
-      user_id: task.user_id,
-    }));
+        return {
+          id: project.id,
+          title: project.title,
+          number: project.projectNumber,
+          startDate: project.startdate?.toString() || '',
+          endDate: project.enddate?.toString() || '',
+          status: project.status as
+            | 'completed'
+            | 'created'
+            | 'waiting'
+            | 'in progress',
+          tasks: tasks,
+        };
+      }),
+    );
 
-    const project: Project = {
-      id: projectData.id,
-      title: projectData.title,
-      number: projectData.projectNumber,
-      startDate: projectData.startdate?.toString() || '',
-      endDate: projectData.enddate?.toString() || '',
-      status: projectData.status as
-        | 'completed'
-        | 'created'
-        | 'waiting'
-        | 'in progress',
-      tasks: tasks,
-    };
-
-    return project;
+    return projects;
   } catch (err) {
     console.error('Database Error:', err);
-    throw new Error('Failed to fetch invoice template.');
+    throw new Error('Failed to fetch projects and tasks.');
   }
 }
 
@@ -798,6 +796,37 @@ export async function fetchProjectInvoices(
       .select(['id', 'amount', 'invoice_number', 'status', 'datecreated'])
       .where('user_id', '=', userId as any)
       .where('project_id', '=', projectId)
+      .execute();
+
+    const invoices: Invoice[] = invoicesData.map((invoice) => ({
+      id: invoice.id,
+      number: invoice.invoice_number,
+      amount: Number(invoice.amount),
+      status: invoice.status as 'paid' | 'pending' | 'overdue' | 'created',
+      date: invoice.datecreated.toString(),
+    }));
+
+    return invoices;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch invoice template.');
+  }
+}
+
+export async function fetchInvoicesFromCustomer(
+  curstomerId: string,
+): Promise<Invoice[] | null> {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return;
+  if (!curstomerId) return;
+
+  try {
+    const invoicesData = await db
+      .selectFrom('invoices')
+      .select(['id', 'amount', 'invoice_number', 'status', 'datecreated'])
+      .where('user_id', '=', userId as any)
+      .where('customer_id', '=', curstomerId)
       .execute();
 
     const invoices: Invoice[] = invoicesData.map((invoice) => ({

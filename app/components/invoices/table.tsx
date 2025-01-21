@@ -27,10 +27,12 @@ export default function InvoicesTable({
   invoices,
   templates,
   projectId,
+  showTemplates = false,
 }: {
   invoices: Invoice[];
   templates: InvoiceTemplateName[];
   projectId?: string;
+  showTemplates?: boolean;
 }) {
   return (
     <>
@@ -121,44 +123,46 @@ export default function InvoicesTable({
           <h3 className="mb-4 text-gray-900">No invoices found.</h3>
         </div>
       )}
-      <div>
-        {templates.length > 0 && (
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button>Create invoice</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>Choose template</DialogTitle>
-                <DialogDescription className="mb-2">
-                  Choose a template to create an invoice
-                </DialogDescription>
-              </DialogHeader>
-              <div className="flex flex-row flex-wrap justify-between">
-                {templates?.map((template) => (
-                  <Link
-                    key={template.id}
-                    href={`/dashboard/invoices/create/${template.id}${
-                      projectId ? `?projectId=${projectId}` : ''
-                    }`}
-                    className="mb-4 flex h-36 w-36 items-center justify-center rounded-md border-2 border-primary text-center transition-all hover:bg-primary hover:text-white"
-                  >
-                    {template.name}
-                  </Link>
-                ))}
-              </div>
-              <DialogFooter>
-                <Button type="submit">Cancel</Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        )}
-        {templates.length === 0 && (
-          <div>
-            <h3 className="mb-4 text-gray-900">No templates found.</h3>
-          </div>
-        )}
-      </div>
+      {showTemplates && (
+        <div>
+          {templates.length > 0 && (
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button>Create invoice</Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Choose template</DialogTitle>
+                  <DialogDescription className="mb-2">
+                    Choose a template to create an invoice
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="flex flex-row flex-wrap justify-between">
+                  {templates?.map((template) => (
+                    <Link
+                      key={template.id}
+                      href={`/dashboard/invoices/create/${template.id}${
+                        projectId ? `?projectId=${projectId}` : ''
+                      }`}
+                      className="mb-4 flex h-36 w-36 items-center justify-center rounded-md border-2 border-primary text-center transition-all hover:bg-primary hover:text-white"
+                    >
+                      {template.name}
+                    </Link>
+                  ))}
+                </div>
+                <DialogFooter>
+                  <Button type="submit">Cancel</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          )}
+          {templates.length === 0 && (
+            <div>
+              <h3 className="mb-4 text-gray-900">No templates found.</h3>
+            </div>
+          )}
+        </div>
+      )}
     </>
   );
 }
