@@ -358,6 +358,7 @@ export function handleTaxAmountChange({
     },
   });
 }
+
 // Currency functions
 
 export function convertToCurrency(amount) {

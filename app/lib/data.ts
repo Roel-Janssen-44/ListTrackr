@@ -10,7 +10,6 @@ import {
   Invoice,
   InvoiceTemplateName,
 } from '@/app/lib/definitions';
-// import { unstable_noStore as noStore } from 'next/cache';
 import db from './db';
 
 // Fetch tables
@@ -285,6 +284,34 @@ export async function fetchCustomer(customerId: string) {
       postalCode: data.rows[0].postalcode,
       country: data.rows[0].country,
     };
+    return customer;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch all customers.');
+  }
+}
+export async function fetchCustomerWithChildren(customerId: string) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return;
+
+  try {
+    const data = await sql`
+      select name, email, phone_number,streetname, housenumber, postalcode, country from customers
+      WHERE id = ${customerId}
+    `;
+
+    const customer: Customer = {
+      id: customerId,
+      name: data.rows[0].name,
+      email: data.rows[0].email,
+      phone: data.rows[0].phone_number,
+      street: data.rows[0].streetname,
+      houseNumber: data.rows[0].housenumber,
+      postalCode: data.rows[0].postalcode,
+      country: data.rows[0].country,
+    };
+
     return customer;
   } catch (err) {
     console.error('Database Error:', err);
@@ -667,6 +694,86 @@ export async function fetchProject(projectId: string): Promise<Project | null> {
         houseNumber: '',
         country: '',
       },
+      tasks: tasks,
+    };
+
+    return project;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch invoice template.');
+  }
+}
+
+export async function fetchProjectsFromCustomer(
+  customerId: string,
+): Promise<Project | null> {
+  const session = await auth();
+  const userId = session?.user?.id;
+  console.log('customerId');
+  console.log(customerId);
+  if (!userId) return;
+  if (!customerId) return;
+
+  try {
+    const projectDBData = await db
+      .selectFrom('projects')
+      .select([
+        'id',
+        'title',
+        'startdate',
+        'enddate',
+        'status',
+        'project_number as projectNumber',
+      ])
+      .where('user_id', '=', userId as any)
+      .where('customer_id', '=', customerId)
+      .execute();
+
+    console.log('projectData', projectDBData);
+
+    if (projectDBData.length === 0) {
+      return null;
+    }
+
+    const projectData = projectDBData[0];
+
+    return projectData;
+    const projectTasks = await db
+      .selectFrom('tasks')
+      .selectAll()
+      .where('user_id', '=', userId as any)
+      .where('project_id', '=', projectId)
+      .execute();
+
+    const tasks: Task[] = projectTasks.map((task) => ({
+      id: task.id,
+      title: task.title,
+      completed: task.completed,
+      priority: task.priority as '' | 'low' | 'medium' | 'high',
+      date: task.date?.toString() || '',
+      table_id: task.table_id,
+      status: task.status as
+        | ''
+        | 'planned'
+        | 'working on it'
+        | 'done'
+        | 'stuck',
+      order: task.order,
+      type: task.type,
+      user_id: task.user_id,
+    }));
+
+    const project: Project = {
+      id: projectData.id,
+      title: projectData.title,
+      number: projectData.projectNumber,
+      startDate: projectData.startdate?.toString() || '',
+      endDate: projectData.enddate?.toString() || '',
+      status: projectData.status as
+        | 'completed'
+        | 'created'
+        | 'waiting'
+        | 'in progress',
       tasks: tasks,
     };
 

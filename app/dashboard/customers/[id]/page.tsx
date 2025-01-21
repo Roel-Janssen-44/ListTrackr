@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
-import { fetchCustomer } from '@/app/lib/data';
-import { Customer } from '@/app/lib/definitions';
+import { fetchCustomer, fetchProjectsFromCustomer } from '@/app/lib/data';
+import { Customer, Project } from '@/app/lib/definitions';
 import Link from 'next/link';
 import { Button } from '@/app/components/button';
 import { Pencil } from 'lucide-react';
@@ -20,6 +20,12 @@ export default async function CustomerPage({
   };
 }) {
   const customer: Customer = await fetchCustomer(params.id);
+  const projects: Project[] = await fetchProjectsFromCustomer(params.id);
+  // console.log('customer');
+  // console.log(customer);
+  console.log('projects');
+  console.log(projects);
+
   return (
     <div className="w-full">
       <div className="mb-6 flex flex-row justify-start gap-6">

@@ -76,14 +76,17 @@ export interface Invoices {
   discounttype: string | null;
   id: Generated<string>;
   invoice_number: string | null;
+  invoice_template_id: string | null;
   invoiceappendix: string | null;
   invoicebase: string | null;
+  logo_url: string | null;
   message: string | null;
   project_id: string | null;
   status: string | null;
   taxamount: Numeric | null;
   taxsetting: string | null;
   templatename: string | null;
+  theme_color: string | null;
   user_id: number | null;
 }
 
@@ -92,7 +95,7 @@ export interface Projects {
   enddate: Timestamp | null;
   id: Generated<string>;
   project_number: string | null;
-  startdate: Timestamp;
+  startdate: Timestamp | null;
   status: string;
   title: string;
   user_id: Generated<number>;
@@ -127,6 +130,7 @@ export interface Tasks {
   completed: boolean | null;
   date: Timestamp | null;
   daysperweek: number | null;
+  description: string | null;
   id: Generated<string>;
   order: Generated<number | null>;
   priority: Generated<string | null>;
