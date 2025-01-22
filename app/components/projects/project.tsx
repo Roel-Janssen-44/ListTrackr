@@ -17,38 +17,47 @@ export default function ProjectTasksTable({
   title?: string;
 }) {
   const [isSticky, setIsSticky] = useState(false);
-  const [headerStyles, setHeaderStyles] = useState({ width: 0, left: 0 });
+  const [headerStyles, setHeaderStyles] = useState({
+    width: 0,
+    scrolAmount: 0,
+    innerWidth: 0,
+    leftPosition: 0,
+  });
   const headerRef = useRef(null);
   const tableRef = useRef(null);
+  const innnerTableRef = useRef(null);
   const lastRowRef = useRef(null);
 
   useEffect(() => {
     const updateHeaderWidth = () => {
       if (headerRef.current) {
         const { width } = headerRef.current.getBoundingClientRect();
-        // setHeaderStyles({ width, left });
+        const { width: innerWidth, x: leftPosition } =
+          innnerTableRef.current.getBoundingClientRect();
+
         setHeaderStyles((prevSate) => ({
           ...prevSate,
           width,
+          innerWidth,
+          leftPosition,
         }));
       }
     };
 
     const handleScroll = () => {
-      if (headerRef.current && lastRowRef.current && tableRef.current) {
-        const tableOffsetTop = tableRef.current.getBoundingClientRect().top;
-        const lastRowOffsetTop = lastRowRef.current.getBoundingClientRect().top;
-        // const tableScrollLeft = tableRef.current.scrollLeft;
+      if (project.title == '123 test') {
+        if (headerRef.current && lastRowRef.current && tableRef.current) {
+          const tableOffsetTop = tableRef.current.getBoundingClientRect().top;
+          const lastRowOffsetTop =
+            lastRowRef.current.getBoundingClientRect().top;
 
-        if (tableOffsetTop > 0) {
-          setIsSticky(false);
-        } else if (lastRowOffsetTop < 0) {
-          setIsSticky(false);
-        } else {
-          setIsSticky(true);
-          updateHeaderWidth();
-
-          // headerRef.current.style.transform = `translateX(${-tableScrollLeft}px)`;
+          if (tableOffsetTop > -60) {
+            setIsSticky(false);
+          } else if (lastRowOffsetTop < 0) {
+            setIsSticky(false);
+          } else {
+            setIsSticky(true);
+          }
         }
       }
     };
@@ -133,16 +142,11 @@ export default function ProjectTasksTable({
   const handleHorizontalScroll = (e) => {
     const scrollLeft = e.target.scrollLeft;
 
-    console.log(e);
-    console.log(scrollLeft);
-
     if (headerRef.current) {
       setHeaderStyles((prevState) => ({
         ...prevState,
-        left: scrollLeft,
+        scrolAmount: scrollLeft,
       }));
-
-      // headerRef.current.style.transform = `translateX(${-scrollLeft}px)`;
     }
   };
 
@@ -160,6 +164,7 @@ export default function ProjectTasksTable({
 
         <ScrollArea
           onScrollCapture={handleHorizontalScroll}
+          ref={innnerTableRef}
           // className="pb-3"
         >
           <div className="relative w-full overflow-x-auto rounded-lg bg-white scrollbar scrollbar-track-slate-300 scrollbar-thumb-active scrollbar-track-rounded scrollbar-thumb-rounded scrollbar-h-3 dark:bg-secondary">
@@ -167,7 +172,7 @@ export default function ProjectTasksTable({
               <>
                 <div
                   ref={headerRef}
-                  className="relative table w-full bg-green-500 px-[50px] text-left text-sm font-normal"
+                  className="relative table w-full px-[50px] text-left text-sm font-normal"
                 >
                   <div className="flex w-full flex-row flex-nowrap items-center ">
                     <div className="inline-block min-w-[350px] flex-1 px-4 py-3 pb-2 font-medium sm:pl-6">
@@ -188,23 +193,31 @@ export default function ProjectTasksTable({
                 {isSticky && (
                   <div
                     style={{
-                      width: headerStyles.width,
-                      left: headerStyles.left,
+                      left: headerStyles.leftPosition,
+                      width: headerStyles.innerWidth,
                     }}
-                    className="fixed left-0 top-0 z-10 table overflow-hidden bg-red-500 px-[50px] text-left text-sm font-normal"
+                    className="fixed left-0 top-0 z-40 overflow-hidden bg-white"
                   >
-                    <div className="flex w-full flex-row flex-nowrap items-center ">
-                      <div className="inline-block min-w-[350px] flex-1 px-4 py-3 pb-2 font-medium sm:pl-6">
-                        Title
-                      </div>
-                      <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
-                        Priority
-                      </div>
-                      <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
-                        Date
-                      </div>
-                      <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
-                        Status
+                    <div
+                      style={{
+                        width: headerStyles.width,
+                        right: headerStyles.scrolAmount,
+                      }}
+                      className="relative top-0 z-10 table overflow-hidden bg-white px-[50px] text-left text-sm font-normal"
+                    >
+                      <div className="flex w-full flex-row flex-nowrap items-center ">
+                        <div className="inline-block min-w-[350px] flex-1 px-4 py-3 pb-2 font-medium sm:pl-6">
+                          Title
+                        </div>
+                        <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
+                          Priority
+                        </div>
+                        <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
+                          Date
+                        </div>
+                        <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
+                          Status
+                        </div>
                       </div>
                     </div>
                   </div>
