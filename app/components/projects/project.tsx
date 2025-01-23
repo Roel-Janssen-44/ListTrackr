@@ -5,7 +5,10 @@ import { Project, ProjectTasks } from '@/app/lib/definitions';
 import { useEffect, useRef, useState } from 'react';
 import CreateTask from '@/app/components/createRow';
 import TableRow from '@/app/components/tasks/row';
+
 import { ScrollArea, ScrollBar } from '@/app/components/chadcn/scrollArea';
+import { debounce } from '@/app/lib/utils';
+let ticking = false;
 
 export default function ProjectTasksTable({
   project,
@@ -19,7 +22,6 @@ export default function ProjectTasksTable({
   const [isSticky, setIsSticky] = useState(false);
   const [headerStyles, setHeaderStyles] = useState({
     width: 0,
-    scrolAmount: 0,
     innerWidth: 0,
     leftPosition: 0,
   });
@@ -27,6 +29,7 @@ export default function ProjectTasksTable({
   const tableRef = useRef(null);
   const innnerTableRef = useRef(null);
   const lastRowRef = useRef(null);
+  const headerRowToMoveRef = useRef(null);
 
   useEffect(() => {
     const updateHeaderWidth = () => {
@@ -45,19 +48,16 @@ export default function ProjectTasksTable({
     };
 
     const handleScroll = () => {
-      if (project.title == '123 test') {
-        if (headerRef.current && lastRowRef.current && tableRef.current) {
-          const tableOffsetTop = tableRef.current.getBoundingClientRect().top;
-          const lastRowOffsetTop =
-            lastRowRef.current.getBoundingClientRect().top;
+      if (headerRef.current && lastRowRef.current && tableRef.current) {
+        const tableOffsetTop = tableRef.current.getBoundingClientRect().top;
+        const lastRowOffsetTop = lastRowRef.current.getBoundingClientRect().top;
 
-          if (tableOffsetTop > -60) {
-            setIsSticky(false);
-          } else if (lastRowOffsetTop < 0) {
-            setIsSticky(false);
-          } else {
-            setIsSticky(true);
-          }
+        if (tableOffsetTop > -60) {
+          setIsSticky(false);
+        } else if (lastRowOffsetTop < 0) {
+          setIsSticky(false);
+        } else {
+          setIsSticky(true);
         }
       }
     };
@@ -139,15 +139,23 @@ export default function ProjectTasksTable({
     ]);
   };
 
+  const debouncedHandleScroll = debounce((scrollLeft) => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        if (headerRef.current) {
+          if (headerRowToMoveRef.current) {
+            headerRowToMoveRef.current.style.transform = `translateX(${-scrollLeft}px)`;
+          }
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, 5);
+
   const handleHorizontalScroll = (e) => {
     const scrollLeft = e.target.scrollLeft;
-
-    if (headerRef.current) {
-      setHeaderStyles((prevState) => ({
-        ...prevState,
-        scrolAmount: scrollLeft,
-      }));
-    }
+    debouncedHandleScroll(scrollLeft);
   };
 
   return (
@@ -190,47 +198,47 @@ export default function ProjectTasksTable({
                   </div>
                 </div>
 
-                {isSticky && (
+                <div
+                  style={{
+                    left: headerStyles.leftPosition,
+                    width: headerStyles.innerWidth,
+                  }}
+                  className={`${
+                    isSticky ? 'visible top-0' : 'invisible -top-10'
+                  } fixed left-0 z-40 overflow-hidden bg-white transition-all`}
+                >
                   <div
+                    ref={headerRowToMoveRef}
                     style={{
-                      left: headerStyles.leftPosition,
-                      width: headerStyles.innerWidth,
+                      width: headerStyles.width,
                     }}
-                    className="fixed left-0 top-0 z-40 overflow-hidden bg-white"
+                    className="relative z-10 table h-full w-full overflow-hidden bg-white px-[50px] text-left text-sm font-normal "
                   >
-                    <div
-                      style={{
-                        width: headerStyles.width,
-                        right: headerStyles.scrolAmount,
-                      }}
-                      className="relative top-0 z-10 table overflow-hidden bg-white px-[50px] text-left text-sm font-normal"
-                    >
-                      <div className="flex w-full flex-row flex-nowrap items-center ">
-                        <div className="inline-block min-w-[350px] flex-1 px-4 py-3 pb-2 font-medium sm:pl-6">
-                          Title
-                        </div>
-                        <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
-                          Priority
-                        </div>
-                        <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
-                          Date
-                        </div>
-                        <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
-                          Status
-                        </div>
+                    <div className="flex w-full flex-row flex-nowrap items-center ">
+                      <div className="inline-block min-w-[350px] flex-1 px-4 py-3 pb-2 font-medium sm:pl-6">
+                        Title
+                      </div>
+                      <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
+                        Priority
+                      </div>
+                      <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
+                        Date
+                      </div>
+                      <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
+                        Status
                       </div>
                     </div>
                   </div>
-                )}
+                </div>
               </>
             )}
 
             <div className="relative table w-full max-w-full">
               {tasksToRender.length != 0 &&
-                tasksToRender.map((task: Task, index) => (
+                tasksToRender.map((task: Task, index: number) => (
                   <div
                     key={task.id + 'row'}
-                    ref={index === tasksToRender.length - 1 ? lastRowRef : null} // Attach ref to the last row
+                    ref={index === tasksToRender.length - 1 ? lastRowRef : null}
                   >
                     <TableRow
                       removeTask={removeTaskFromState}
