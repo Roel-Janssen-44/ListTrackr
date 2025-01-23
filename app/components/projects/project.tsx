@@ -31,13 +31,14 @@ export default function ProjectTasksTable({
   const lastRowRef = useRef(null);
   const headerRowToMoveRef = useRef(null);
 
+  const [tasksToRender, setTasksToRender] = useState<Task[]>(project.tasks);
+
   useEffect(() => {
     const updateHeaderWidth = () => {
-      if (headerRef.current) {
+      if (headerRef.current && innnerTableRef.current) {
         const { width } = headerRef.current.getBoundingClientRect();
         const { width: innerWidth, x: leftPosition } =
           innnerTableRef.current.getBoundingClientRect();
-
         setHeaderStyles((prevSate) => ({
           ...prevSate,
           width,
@@ -48,7 +49,7 @@ export default function ProjectTasksTable({
     };
 
     const handleScroll = () => {
-      if (headerRef.current && lastRowRef.current && tableRef.current) {
+      if (lastRowRef.current && tableRef.current) {
         const tableOffsetTop = tableRef.current.getBoundingClientRect().top;
         const lastRowOffsetTop = lastRowRef.current.getBoundingClientRect().top;
 
@@ -69,9 +70,7 @@ export default function ProjectTasksTable({
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', updateHeaderWidth);
     };
-  }, []);
-
-  const [tasksToRender, setTasksToRender] = useState<Task[]>(project.tasks);
+  }, [tasksToRender]);
 
   if (!project) return null;
 

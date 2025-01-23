@@ -28,6 +28,7 @@ export default async function Page() {
       <div className="hidden md:block">
         <DashboardMessage />
       </div>
+
       <Accordion
         type="multiple"
         defaultValue={['Weekly view', 'My tasks', 'My projects']}
@@ -43,6 +44,7 @@ export default async function Page() {
             <Suspense fallback={<WeeklyViewLoader />}>
               <WeeklyView />
             </Suspense>
+
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <Suspense fallback={<TableLoader />}>
                 <TasksToday />

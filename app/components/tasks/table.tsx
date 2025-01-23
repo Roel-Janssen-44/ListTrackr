@@ -39,46 +39,6 @@ export default function TaskTable({
   const lastRowRef = useRef(null);
   const headerRowToMoveRef = useRef(null);
 
-  useEffect(() => {
-    const updateHeaderWidth = () => {
-      if (headerRef.current) {
-        const { width } = headerRef.current.getBoundingClientRect();
-        const { width: innerWidth, x: leftPosition } =
-          innnerTableRef.current.getBoundingClientRect();
-
-        setHeaderStyles((prevSate) => ({
-          ...prevSate,
-          width,
-          innerWidth,
-          leftPosition,
-        }));
-      }
-    };
-
-    const handleScroll = () => {
-      if (headerRef.current && lastRowRef.current && tableRef.current) {
-        const tableOffsetTop = tableRef.current.getBoundingClientRect().top;
-        const lastRowOffsetTop = lastRowRef.current.getBoundingClientRect().top;
-
-        if (tableOffsetTop > -60) {
-          setIsSticky(false);
-        } else if (lastRowOffsetTop < 0) {
-          setIsSticky(false);
-        } else {
-          setIsSticky(true);
-        }
-      }
-    };
-
-    updateHeaderWidth();
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', updateHeaderWidth);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', updateHeaderWidth);
-    };
-  }, []);
-
   const initialState = { message: null, errors: {} };
   const deleteTableWithId = deleteTable.bind(null, table.id);
   const [state, dispatch] = useFormState(deleteTableWithId, initialState);
@@ -160,6 +120,45 @@ export default function TaskTable({
     ]);
   };
 
+  useEffect(() => {
+    const updateHeaderWidth = () => {
+      if (headerRef.current && innnerTableRef.current) {
+        const { width } = headerRef.current.getBoundingClientRect();
+        const { width: innerWidth, x: leftPosition } =
+          innnerTableRef.current.getBoundingClientRect();
+        setHeaderStyles((prevSate) => ({
+          ...prevSate,
+          width,
+          innerWidth,
+          leftPosition,
+        }));
+      }
+    };
+
+    const handleScroll = () => {
+      if (lastRowRef.current && tableRef.current) {
+        const tableOffsetTop = tableRef.current.getBoundingClientRect().top;
+        const lastRowOffsetTop = lastRowRef.current.getBoundingClientRect().top;
+
+        if (tableOffsetTop > -60) {
+          setIsSticky(false);
+        } else if (lastRowOffsetTop < 0) {
+          setIsSticky(false);
+        } else {
+          setIsSticky(true);
+        }
+      }
+    };
+
+    updateHeaderWidth();
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', updateHeaderWidth);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', updateHeaderWidth);
+    };
+  }, [tasksToRender]);
+
   const debouncedHandleScroll = debounce((scrollLeft) => {
     if (!ticking) {
       requestAnimationFrame(() => {
@@ -184,7 +183,7 @@ export default function TaskTable({
       ref={tableRef}
       className="relative my-6 rounded-lg bg-white p-3 text-tertiary dark:bg-primary dark:text-white"
     >
-      <h2 className="my-2 flex flex-row justify-between text-lg">
+      <h2 className="relative my-2 flex flex-row justify-between text-lg">
         <Input
           className={`${exo.className} w-[300px] border-none bg-transparent text-xl font-bold dark:bg-transparent `}
           defaultValue={table.title}
