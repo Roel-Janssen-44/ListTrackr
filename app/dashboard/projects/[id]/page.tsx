@@ -38,33 +38,20 @@ export default async function ProjectView({
     <div className="w-full">
       <div className="relative mb-24 flex flex-row justify-between gap-6 sm:mb-0 sm:justify-start">
         <PreviousPage />
-
         <h1 className="absolute left-0 top-full my-auto mt-6 w-full self-baseline text-center text-2xl font-bold sm:relative sm:mt-0">
           <ProjectTitle project={project} />
         </h1>
-
         <div className="flex flex-row justify-center gap-4">
           <DeleteProjectForm projectId={projectId} />
         </div>
       </div>
-
-      <Suspense fallback={'Loading...'}>
-        <ProjectHeader project={project} customers={customers} />
-      </Suspense>
-
-      <Suspense fallback={'Loading...'}>
-        <ProjectTasksTable project={project} showTitle title="Tasks" />
-      </Suspense>
-
-      <Suspense fallback={'Loading...'}>
-        <div className="mt-10">
-          <ProjectInvoices
-            projectId={projectId}
-            invoices={invoices}
-            templates={templates}
-          />
-        </div>
-      </Suspense>
+      <ProjectHeader project={project} customers={customers} />
+      <ProjectTasksTable project={project} showTitle title="Tasks" />
+      <ProjectInvoices
+        projectId={projectId}
+        invoices={invoices}
+        templates={templates}
+      />
     </div>
   );
 }

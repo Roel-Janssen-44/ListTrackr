@@ -4,7 +4,6 @@ import { Button } from '@/app/components/button';
 import { Project } from '@/app/lib/definitions';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { TableLoader } from '@/app/components/tasks/table';
 
 export default function ProjectsTable({ projects }: { projects: Project[] }) {
   return (
@@ -68,5 +67,35 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
 }
 
 export const ProjectTableLoader = () => {
-  return <TableLoader />;
+  return (
+    <div className="relative my-6 rounded-lg bg-white py-3 text-tertiary dark:bg-primary dark:text-white">
+      <h2 className="my-2 flex flex-row justify-between text-lg">
+        <div className="ml-4 h-7 w-[175px] animate-pulse rounded bg-gray-300 dark:bg-gray-700"></div>
+      </h2>
+      <div className="w-full overflow-x-hidden rounded-lg bg-white">
+        <div className="relative table w-full max-w-full">
+          {[...Array(10)].map((_, index) => (
+            <div
+              key={index}
+              className={`flex items-center ${
+                index + 1 == 10 ? '' : 'border-b-[1px]'
+              } border-gray-200 py-2 dark:border-active`}
+            >
+              <div className="w-[350px] px-4">
+                <div className="h-7 w-full animate-pulse rounded bg-gray-300 dark:bg-gray-700"></div>
+              </div>
+              {[...Array(3)].map((_, i) => (
+                <div
+                  key={i}
+                  className="w-[175px] px-3 text-center dark:border-active"
+                >
+                  <div className="h-7 w-full animate-pulse rounded bg-gray-300 dark:bg-gray-700"></div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 };

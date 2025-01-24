@@ -11,6 +11,7 @@ import {
   InvoiceTemplateName,
 } from '@/app/lib/definitions';
 import db from './db';
+import { delay } from '@/app/lib/utils';
 
 // Fetch tables
 export async function fetchTables() {
@@ -27,7 +28,6 @@ export async function fetchTables() {
     return data.rows;
   } catch (error) {
     console.error('Database Error:', error);
-    // throw new Error('Failed to fetch tasks.');
   }
 }
 // Fetch goal tables
@@ -46,7 +46,6 @@ export async function fetchGoalTables() {
     return data.rows;
   } catch (error) {
     console.error('Database Error:', error);
-    // throw new Error('Failed to fetch tasks.');
   }
 }
 

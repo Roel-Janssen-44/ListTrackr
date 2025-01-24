@@ -208,3 +208,20 @@ export default function ProjectHeader({
     </form>
   );
 }
+
+export function ProjectHeaderLoader() {
+  return (
+    <div className="relative my-6 flex flex-row flex-wrap gap-y-6 rounded-lg lg:flex-nowrap">
+      {Array(4)
+        .fill(null)
+        .map((_, index) => (
+          <div key={index} className="w-1/2 pr-3 lg:w-1/4">
+            <div className="flex flex-col items-center justify-center rounded-lg bg-white p-6 pb-2 text-center font-medium">
+              <span className="h-5 w-32 animate-pulse rounded bg-gray-300"></span>
+              <div className="mt-3 h-10 w-[150px] animate-pulse rounded bg-gray-200"></div>
+            </div>
+          </div>
+        ))}
+    </div>
+  );
+}

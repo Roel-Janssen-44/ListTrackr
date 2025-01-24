@@ -2,6 +2,7 @@ import { fetchGoalTables, fetchGoals } from '@/app/lib/data';
 import { Table, Goal } from '@/app/lib/definitions';
 import GoalTable from './table';
 import CreateTable from '@components/createTable';
+import { TableLoader, CreateTaskLoader } from '@/app/components/tasks/table';
 
 export default async function GoalTables({
   showCreateNewTable,
@@ -51,5 +52,14 @@ export default async function GoalTables({
       ))}
       {showCreateNewTable && <CreateTable type="goal" />}
     </>
+  );
+}
+
+export function GoalTablesLoader() {
+  return (
+    <div className="flex flex-col">
+      <TableLoader />
+      <CreateTaskLoader />
+    </div>
   );
 }

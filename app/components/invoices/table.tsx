@@ -166,3 +166,33 @@ export default function InvoicesTable({
     </>
   );
 }
+
+export function InvoicesTableLoader() {
+  return (
+    <div className="flex flex-col flex-wrap gap-2">
+      <div className="relative w-full rounded-lg bg-white p-3 pb-0 dark:bg-primary">
+        <div className="mb-0 w-full overflow-x-auto rounded-lg bg-white pb-0 scrollbar dark:bg-secondary">
+          <div className="relative table w-full max-w-full">
+            {Array.from({ length: 5 }).map((_, index) => (
+              <div
+                key={index}
+                className={`relative flex animate-pulse flex-row gap-6 ${
+                  index == 0 ? '' : 'border-t-[1px]'
+                } border-gray-200 py-2`}
+              >
+                {['w-[350px]', 'w-[175px]', 'w-[175px]', 'w-[175px]'].map(
+                  (width, i) => (
+                    <div
+                      key={i}
+                      className={`h-8 ${width} rounded-md bg-gray-300 px-3 py-1`}
+                    />
+                  ),
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

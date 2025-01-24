@@ -3,6 +3,10 @@ import { twMerge } from 'tailwind-merge';
 import { InvoiceTemplate, Field, FieldGroup } from '@/app/lib/definitions';
 import { v4 as uuid } from 'uuid';
 
+export function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export const formatCurrency = (amount: number) => {
   return amount.toLocaleString('nl-NL', {
     style: 'currency',

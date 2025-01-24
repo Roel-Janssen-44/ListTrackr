@@ -1,6 +1,6 @@
 import { fetchTables, fetchTasks } from '@/app/lib/data';
 import { Task, Table } from '@/app/lib/definitions';
-import TasksTable from './table';
+import TasksTable, { TableLoader, CreateTaskLoader } from './table';
 import CreateForm from '@components/createTable';
 
 export default async function TaskTables({
@@ -41,5 +41,15 @@ export default async function TaskTables({
       ))}
       {showCreateNewTable && <CreateForm type="task" />}
     </>
+  );
+}
+
+export function TablesLoader() {
+  return (
+    <div className="flex flex-col">
+      <TableLoader />
+      <TableLoader />
+      <CreateTaskLoader />
+    </div>
   );
 }
