@@ -257,7 +257,7 @@ export default function ProjectTasksTable({
               />
             </div>
           </div>
-          <ScrollBar orientation="horizontal" />
+          <ScrollBar className="hidden lg:block" orientation="horizontal" />
         </ScrollArea>
       </div>
     </div>

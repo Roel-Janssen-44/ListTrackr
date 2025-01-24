@@ -312,7 +312,7 @@ export default function TaskTable({
             )}
           </div>
         </div>
-        <ScrollBar orientation="horizontal" />
+        <ScrollBar className="hidden lg:block" orientation="horizontal" />
       </ScrollArea>
     </div>
   );
