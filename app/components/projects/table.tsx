@@ -19,7 +19,7 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
                 <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
                   Status
                 </div>
-                <div className="inline-block w-[175px] px-3 py-3 pb-2 pl-6 font-medium">
+                <div className="inline-block w-[175px] px-3 py-3 pb-2 pl-3 font-medium">
                   Customer
                 </div>
                 <div className="inline-block w-[175px] px-3 py-3 pb-2 font-medium">
@@ -38,10 +38,24 @@ export default function ProjectsTable({ projects }: { projects: Project[] }) {
                     <div className="w-[250px] border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10 sm:w-[250px] md:w-[350px]">
                       {project.title}
                     </div>
-                    <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
+                    <div
+                      className={`border-red-800-200 mx-2 w-[159px] rounded-md border-r-[1px] p-1 px-3 dark:border-white dark:border-opacity-10
+                        ${
+                          project.status == 'completed'
+                            ? 'bg-green-400'
+                            : project.status == 'created'
+                            ? 'bg-gray-200'
+                            : project.status == 'in progress'
+                            ? 'bg-orange-400'
+                            : project.status == 'waiting'
+                            ? 'bg-red-400'
+                            : 'border-none bg-transparent text-transparent dark:bg-transparent'
+                        }
+                      `}
+                    >
                       {project.status}
                     </div>
-                    <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
+                    <div className="flex h-[calc(100%-11px)] w-[175px] items-center border-l-[1px] border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10">
                       {project.customer.name || 'Me'}
                     </div>
 
