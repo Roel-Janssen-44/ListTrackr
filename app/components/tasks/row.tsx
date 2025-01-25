@@ -404,9 +404,8 @@ export default function TaskRow({
         <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
           <DialogContent className="hidden lg:block">
             <DialogHeader>
-              <DialogTitle>{''}</DialogTitle>
+              <DialogTitle>{task.title}</DialogTitle>
             </DialogHeader>
-            <DialogDescription>{''}</DialogDescription>
             <TaskModalContent
               removeTask={removeTask}
               task={task}
@@ -423,8 +422,7 @@ export default function TaskRow({
         <Drawer open={mobileIsOpen} onOpenChange={setMobileIsOpen}>
           <DrawerContent className="block select-none bg-white lg:hidden">
             <DrawerHeader>
-              <DrawerTitle>{''}</DrawerTitle>
-              <DrawerDescription>{''}</DrawerDescription>
+              <DrawerTitle>{task.title}</DrawerTitle>
             </DrawerHeader>
             <TaskModalContent
               removeTask={removeTask}
@@ -483,10 +481,13 @@ const TaskModalContent = ({
     }
   }, [stateModal]);
 
-  console.log(task);
-
   return (
-    <form key={task.id + 'modal'} ref={formRefModal} action={dispatchModal}>
+    <form
+      className="max-h-[80vh] overflow-y-auto pb-3"
+      key={task.id + 'modal'}
+      ref={formRefModal}
+      action={dispatchModal}
+    >
       <div className="group flex w-full flex-col gap-4">
         <div className="group relative min-w-[350px] flex-1 px-3 py-1">
           {(task.table_title || task.project_title) && (
@@ -582,7 +583,7 @@ const TaskModalContent = ({
             </SelectContent>
           </Select>
         </div>
-        <div className="w-[175px] px-3">
+        <div className="h-[350px] w-[375px] px-3">
           <input
             aria-hidden
             className="hidden"
