@@ -358,8 +358,13 @@ export default function TaskRow({
                     } else if (!e) {
                       dateInputRef.current.value = '';
                     }
-                    dateInputRef.current.value = format(e, 'yyyy-MM-dd');
-                    handleUpdateTask('date', e);
+                    if (e) {
+                      dateInputRef.current.value = format(e, 'yyyy-MM-dd');
+                      handleUpdateTask('date', e);
+                    } else {
+                      dateInputRef.current.value = '';
+                      handleUpdateTask('date', '');
+                    }
                     handleBlur();
                     setPopoverOpen(false);
                   }}
@@ -610,7 +615,13 @@ const TaskModalContent = ({
               } else if (!e) {
                 dateInputRef.current.value = '';
               }
-              dateInputRef.current.value = format(e, 'yyyy-MM-dd');
+              if (e) {
+                dateInputRef.current.value = format(e, 'yyyy-MM-dd');
+                handleUpdateTask('date', e);
+              } else {
+                dateInputRef.current.value = '';
+                handleUpdateTask('date', '');
+              }
               handleUpdateTask('date', e);
               handleBlur();
             }}

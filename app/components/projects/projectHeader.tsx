@@ -185,7 +185,11 @@ export default function ProjectHeader({
                   mode="single"
                   selected={new Date(project.startDate)}
                   onSelect={(e) => {
-                    dateInputRef.current.value = format(e, 'yyyy-MM-dd');
+                    if (e) {
+                      dateInputRef.current.value = format(e, 'yyyy-MM-dd');
+                    } else {
+                      dateInputRef.current.value = '';
+                    }
                     if (project.startDate == null || project.startDate == '') {
                       handleBlur();
                       return;
