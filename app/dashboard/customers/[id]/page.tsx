@@ -49,7 +49,7 @@ export default async function CustomerPage({
       </div>
 
       <Suspense fallback={'Loading...'}>
-        {projects.map((project) => (
+        {projects?.map((project) => (
           <ProjectTasksTable
             project={project}
             showTitle
