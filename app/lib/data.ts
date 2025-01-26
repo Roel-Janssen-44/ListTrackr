@@ -268,6 +268,7 @@ export async function fetchCustomer(customerId: string) {
   const userId = session?.user?.id;
   if (!userId) return;
 
+  await delay(5000);
   try {
     const data = await sql`
       select name, email, phone_number,streetname, housenumber, postalcode, country from customers
@@ -711,7 +712,6 @@ export async function fetchProjectsFromCustomer(
 
   if (!userId) return null;
   if (!customerId) return null;
-
   try {
     const projectDBData = await db
       .selectFrom('projects')

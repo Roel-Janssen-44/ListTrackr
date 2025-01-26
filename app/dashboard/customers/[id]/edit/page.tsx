@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import { fetchCustomer } from '@/app/lib/data';
 import { Customer } from '@/app/lib/definitions';
 import EditCustomerForm from '@/app/components/customers/editForm';
@@ -22,9 +21,7 @@ export default async function EditCustomerPage({
       <div className="mb-6 flex flex-row justify-start gap-6">
         <PreviousPage />
       </div>
-      <Suspense fallback={'Loading...'}>
-        <EditCustomerForm customer={customer} />
-      </Suspense>
+      <EditCustomerForm customer={customer} />
     </div>
   );
 }
