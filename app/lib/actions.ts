@@ -58,6 +58,28 @@ export async function authenticate(
   }
 }
 
+export async function editUser(formData: FormData) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return;
+
+  const title = formData.get('username');
+
+  try {
+    await sql`
+      UPDATE users
+      SET name = ${title.toString()}
+      WHERE id = ${userId};
+    `;
+  } catch (error) {
+    return {
+      message: 'Database Error: Failed to Create Table.',
+    };
+  }
+
+  revalidatePath('/dashboard');
+}
+
 export async function createTable(
   tableType: string,
   prevState: TableState,
@@ -180,7 +202,6 @@ export async function updateTask(
 ): Promise<{ success: boolean; message: string }> {
   const title = formData.get('title');
 
-  console.log(formData);
   if (typeof title == 'string' && title.length == 0) {
     try {
       const result = await db

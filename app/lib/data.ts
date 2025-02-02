@@ -13,6 +13,22 @@ import {
 import db from './db';
 import { delay } from '@/app/lib/utils';
 
+// Fetch username
+export async function getUser() {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return;
+  try {
+    const data = await sql`
+      SELECT name FROM users 
+      WHERE id = ${userId} 
+    `;
+
+    return data.rows[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+  }
+}
 // Fetch tables
 export async function fetchTables() {
   const session = await auth();
