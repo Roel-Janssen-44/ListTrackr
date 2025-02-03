@@ -12,6 +12,7 @@ import { Input } from '@/app/components/chadcn/input';
 import { useFormState } from 'react-dom';
 import { toast } from 'sonner';
 import { Badge } from '@/app/components/chadcn/badge';
+import RichTextEditor from '@/app/components/rte/richTextEditor';
 import {
   Select,
   SelectContent,
@@ -44,6 +45,7 @@ import {
   DrawerTrigger,
 } from '@/app/components/chadcn/drawer';
 import { Textarea } from '@/app/components/chadcn/textarea';
+import { createReactEditorJS } from 'react-editor-js';
 
 export default function TaskRow({
   tableId,
@@ -486,6 +488,8 @@ const TaskModalContent = ({
     }
   }, [stateModal]);
 
+  const ReactEditorJS = createReactEditorJS();
+
   return (
     <form
       className="max-h-[80vh] overflow-y-auto pb-3"
@@ -533,6 +537,9 @@ const TaskModalContent = ({
           <label htmlFor="" className="font-bold">
             Description:
           </label>
+
+          <RichTextEditor />
+
           <Textarea
             className="mt-1"
             name="description"
