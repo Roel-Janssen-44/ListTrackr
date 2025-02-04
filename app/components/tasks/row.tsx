@@ -12,7 +12,6 @@ import { Input } from '@/app/components/chadcn/input';
 import { useFormState } from 'react-dom';
 import { toast } from 'sonner';
 import { Badge } from '@/app/components/chadcn/badge';
-import RichTextEditor from '@/app/components/rte/richTextEditor';
 import {
   Select,
   SelectContent,
@@ -46,6 +45,7 @@ import {
 } from '@/app/components/chadcn/drawer';
 import { Textarea } from '@/app/components/chadcn/textarea';
 import { createReactEditorJS } from 'react-editor-js';
+// import RichTextEditor from '@/app/components/rte/richTextEditor';
 
 export default function TaskRow({
   tableId,
@@ -538,7 +538,8 @@ const TaskModalContent = ({
             Description:
           </label>
 
-          <RichTextEditor />
+          {/* Todo - add rich text editor */}
+          {/* <RichTextEditor /> */}
 
           <Textarea
             className="mt-1"
