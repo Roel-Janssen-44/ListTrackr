@@ -356,7 +356,7 @@ export const TableLoader = ({ fullWidth = true }: { fullWidth?: boolean }) => {
 export const CreateTaskLoader = () => {
   return (
     <div className="relative my-6 rounded-lg bg-white py-3 text-tertiary dark:bg-primary dark:text-white">
-      <div className="my-2 ml-4 h-7 w-40 animate-pulse rounded bg-gray-300 dark:bg-gray-700"></div>
+      <div className="min-w-40 my-2 ml-4 h-7 flex-1 animate-pulse rounded bg-gray-300 dark:bg-gray-700"></div>
       <div className="mb-2 ml-4 h-7 w-96 animate-pulse rounded bg-gray-300 dark:bg-gray-700"></div>
       <div className="ml-4 h-7 w-40 animate-pulse rounded bg-gray-300 dark:bg-gray-700"></div>
     </div>

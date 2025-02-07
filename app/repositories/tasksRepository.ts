@@ -29,12 +29,12 @@ export default class TaskRepository extends BaseRepository<Task> {
         return null;
       }
 
-      // @ts-expect-error
-      const task = mapDBTaskToApp(result[0]);
+      //   @ts-expect-error
+      //   const task = mapDBTaskToApp(result[0]);
 
-      console.log('Retrieved task:', task);
+      //   console.log('Retrieved task:', task);
 
-      return task;
+      return result[0] as Task;
     } catch (error) {
       console.error('Error fetching task:', error);
       throw new Error('Could not retrieve task.');
@@ -69,15 +69,15 @@ export default class TaskRepository extends BaseRepository<Task> {
   }
 }
 
-export function mapDBTaskToApp(task: Tasks): Task {
-  return {
-    id: task.id.toString(),
-    title: task.title,
-    description: task.description ?? undefined,
-    completed: task.completed ?? false,
-    status: (task.status as Task['status']) ?? '',
-    priority: (task.priority as unknown as Task['priority']) ?? '',
-    date: task.date ? task.date.toString() : undefined,
-    table_id: task.table_id ?? '',
-  };
-}
+// export function mapDBTaskToApp(task: Tasks): Task {
+//   return {
+//     id: task.id.toString(),
+//     title: task.title,
+//     description: task.description ?? undefined,
+//     completed: task.completed ?? false,
+//     status: (task.status as Task['status']) ?? '',
+//     priority: (task.priority as unknown as Task['priority']) ?? '',
+//     date: task.date ? task.date.toString() : undefined,
+//     table_id: task.table_id ?? '',
+//   };
+// }
