@@ -1,7 +1,7 @@
 import TemplateRowNames from './rowNames';
 import TemplateRows from './rows';
 
-import { InvoiceTemplate } from '@/app/lib/definitions';
+import { InvoiceTemplate } from '@/app/lib/types';
 import { getCurrentFieldGroup } from '@/app/lib/utils';
 
 export default function TemplateBody({

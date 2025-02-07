@@ -1,4 +1,4 @@
-import { Field, InvoiceTemplate } from '@/app/lib/definitions';
+import { Field, InvoiceTemplate } from '@/app/lib/types';
 import NonEditableItem from '@/app/components/nonEditableItem';
 
 export default function InvoiceCompanyData({

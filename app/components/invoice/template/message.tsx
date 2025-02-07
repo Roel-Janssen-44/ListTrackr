@@ -1,5 +1,5 @@
 import { Textarea } from '@/app/components/chadcn/textarea';
-import { InvoiceTemplate } from '@/app/lib/definitions';
+import { InvoiceTemplate } from '@/app/lib/types';
 
 export default function TemplateMessage({
   setInvoice,

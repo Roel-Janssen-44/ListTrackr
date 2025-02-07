@@ -2,7 +2,7 @@ import InvoiceHeader from '@/app/components/invoice/invoice/header';
 import TemplateHeader from '@/app/components/invoice/template/header';
 import PreviewHeader from '@/app/components/invoice/preview/header';
 
-import { InvoiceTemplate } from '@/app/lib/definitions';
+import { InvoiceTemplate } from '@/app/lib/types';
 
 export default function Header({
   invoice,

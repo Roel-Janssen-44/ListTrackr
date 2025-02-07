@@ -1,7 +1,7 @@
 import InvoiceTotal from './total';
 import InvoiceMessage from './message';
 
-import { InvoiceTemplate } from '@/app/lib/definitions';
+import { InvoiceTemplate } from '@/app/lib/types';
 import { getCurrentFieldGroup } from '@/app/lib/utils';
 export default function InvoiceFooter({
   invoice,

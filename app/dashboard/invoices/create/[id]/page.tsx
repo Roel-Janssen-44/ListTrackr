@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import CreateInvoice from '@/app/components/invoices/createForm';
 import { fetchInvoiceTemplate } from '@/app/lib/data';
-import { InvoiceTemplate } from '@/app/lib/definitions';
+import { InvoiceTemplate } from '@/app/lib/types';
 import { v4 as uuid } from 'uuid';
 import { format } from 'date-fns';
 import PreviousPage from '@/app/components/previousPage';

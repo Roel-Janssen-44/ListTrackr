@@ -7,12 +7,6 @@ export default function TestComponent(props) {
   return (
     <div>
       <p>Test</p>
-      <TaskRow
-        task={props.task}
-        tableId="task-table"
-        removeTask={() => null}
-        updateTaskState={() => null}
-      />
     </div>
   );
 }

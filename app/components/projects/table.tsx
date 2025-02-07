@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/app/components/button';
-import { Project } from '@/app/lib/definitions';
+import { Project } from '@/app/lib/types';
 import Link from 'next/link';
 import { format } from 'date-fns';
 

@@ -5,7 +5,7 @@ import { updateCustomer } from '@/app/lib/actions';
 import { Input } from '@/app/components/chadcn/input';
 
 import { Button } from '@/app/components/button';
-import { Customer } from '@/app/lib/definitions';
+import { Customer } from '@/app/lib/types';
 import { useRouter } from 'next/navigation';
 
 export default function CustomerCreationForm({

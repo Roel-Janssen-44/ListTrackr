@@ -4,7 +4,7 @@ import {
   calculateInvoice,
 } from '@/app/lib/utils';
 
-import { InvoiceTemplate, Field } from '@/app/lib/definitions';
+import { InvoiceTemplate, Field } from '@/app/lib/types';
 
 export default function InvoiceTotal({
   invoice,

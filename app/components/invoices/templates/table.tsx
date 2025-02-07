@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Button } from '@/app/components/button';
-import { InvoiceTemplateName } from '@/app/lib/definitions';
+import { InvoiceTemplateName } from '@/app/lib/types';
 import Link from 'next/link';
 import { Pencil } from 'lucide-react';
 

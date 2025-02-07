@@ -1,7 +1,7 @@
 'use client';
 
 import { Input } from '@/app/components/chadcn/input';
-import { Project } from '@/app/lib/definitions';
+import { Project } from '@/app/lib/types';
 import { exo } from '@/app/components/fonts';
 import { updateProjectTitle } from '@/app/lib/actions';
 

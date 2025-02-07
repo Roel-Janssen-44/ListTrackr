@@ -1,5 +1,5 @@
 import { convertToCurrency } from '@/app/lib/utils';
-import { Field, InvoiceTemplate } from '@/app/lib/definitions';
+import { Field, InvoiceTemplate } from '@/app/lib/types';
 
 export default function PreviewRows({
   fields = [],

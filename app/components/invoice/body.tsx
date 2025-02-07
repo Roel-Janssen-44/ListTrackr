@@ -1,7 +1,7 @@
 import InvoiceBody from '@/app/components/invoice/invoice/body';
 import TemplateBody from '@/app/components/invoice/template/body';
 import PreviewBody from '@/app/components/invoice/preview/body';
-import { InvoiceTemplate } from '@/app/lib/definitions';
+import { InvoiceTemplate } from '@/app/lib/types';
 
 export default function Body({
   invoice,

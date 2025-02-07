@@ -6,7 +6,7 @@ import { Button } from '@/app/components/button';
 import Invoice from '@/app/components/invoice/invoice';
 import Link from 'next/link';
 import { v4 as uuid } from 'uuid';
-import { InvoiceTemplate } from '@/app/lib/definitions';
+import { InvoiceTemplate } from '@/app/lib/types';
 import { useRouter } from 'next/navigation';
 import { createInvoiceTemplate } from '@/app/lib/actions';
 

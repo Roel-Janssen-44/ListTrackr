@@ -1,5 +1,5 @@
 import { fetchCustomer } from '@/app/lib/data';
-import { Customer } from '@/app/lib/definitions';
+import { Customer } from '@/app/lib/types';
 import EditCustomerForm from '@/app/components/customers/editForm';
 import PreviousPage from '@/app/components/previousPage';
 import { Metadata } from 'next';

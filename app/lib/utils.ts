@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { InvoiceTemplate, Field, FieldGroup } from '@/app/lib/definitions';
+import { InvoiceTemplate, Field, FieldGroup } from '@/app/lib/types';
 import { v4 as uuid } from 'uuid';
 
 export function delay(ms: number) {

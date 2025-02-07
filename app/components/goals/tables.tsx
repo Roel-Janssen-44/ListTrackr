@@ -1,5 +1,5 @@
 import { fetchGoalTables, fetchGoals } from '@/app/lib/data';
-import { Table, Goal } from '@/app/lib/definitions';
+import { Table, Goal } from '@/app/lib/types';
 import GoalTable from './table';
 import CreateTable from '@components/createTable';
 import { TableLoader, CreateTaskLoader } from '@/app/components/tasks/table';

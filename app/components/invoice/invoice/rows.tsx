@@ -4,7 +4,7 @@
 //   changeRowOrder,
 import { Trash } from 'lucide-react';
 // } from "@features/invoices/invoicesSlice";
-import { InvoiceTemplate, Field } from '@/app/lib/definitions';
+import { InvoiceTemplate, Field } from '@/app/lib/types';
 import { Button } from '@/app/components/button';
 import { Input } from '@/app/components/chadcn/input';
 

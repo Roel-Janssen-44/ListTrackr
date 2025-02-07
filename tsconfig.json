@@ -21,8 +21,11 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@components/*": ["app/components/*"],
-      "@lib/*": ["app/lib/*"]
+      "@types*": ["./app/lib/types.ts"],
+      "@chadcn/*": ["./app/components/chadcn/*"],
+      "@components/*": ["./app/components/*"],
+      "@lib/*": ["./app/lib/*"],
+      "@utils*": ["./app/lib/utils.ts*"]
     }
   },
   "include": [

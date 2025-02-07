@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/app/components/button';
-import { Invoice, InvoiceTemplateName } from '@/app/lib/definitions';
+import { Invoice, InvoiceTemplateName } from '@/app/lib/types';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import {

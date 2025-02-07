@@ -1,6 +1,6 @@
 'use client';
 
-import { Project, Customer } from '@/app/lib/definitions';
+import { Project, Customer } from '@/app/lib/types';
 import { format } from 'date-fns';
 
 import { Button } from '@/app/components/chadcn/button';

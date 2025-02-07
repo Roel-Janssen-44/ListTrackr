@@ -1,4 +1,4 @@
-import { Field, InvoiceTemplate } from '@/app/lib/definitions';
+import { Field, InvoiceTemplate } from '@/app/lib/types';
 
 export default function PreviewInvoiceNumber({
   fields = [],

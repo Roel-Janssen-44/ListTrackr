@@ -1,6 +1,6 @@
 import { exo } from '@/app/components/fonts';
 import { fetchCustomers } from '@/app/lib/data';
-import { Customer } from '@/app/lib/definitions';
+import { Customer } from '@/app/lib/types';
 import Link from 'next/link';
 import CustomerCreationForm from '@/app/components/customers/createForm';
 import { Metadata } from 'next';

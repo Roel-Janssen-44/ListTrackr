@@ -4,7 +4,7 @@ import {
   fetchProjectsFromCustomer,
   fetchInvoicesFromCustomer,
 } from '@/app/lib/data';
-import { Customer, Invoice, Project } from '@/app/lib/definitions';
+import { Customer, Invoice, Project } from '@/app/lib/types';
 import Link from 'next/link';
 import { Button } from '@/app/components/button';
 import { Pencil } from 'lucide-react';

@@ -1,5 +1,5 @@
 import { fetchTables, fetchTasks } from '@/app/lib/data';
-import { Task, Table } from '@/app/lib/definitions';
+import { Task, Table } from '@/app/lib/types';
 import TasksTable, { TableLoader, CreateTaskLoader } from './table';
 import CreateForm from '@components/createTable';
 

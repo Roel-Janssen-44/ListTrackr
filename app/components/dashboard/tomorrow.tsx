@@ -1,5 +1,5 @@
 import { fetchTasksTomorrow } from '@/app/lib/data';
-import { Task, Table } from '@/app/lib/definitions';
+import { Task, Table } from '@/app/lib/types';
 import TasksTable from '@components/tasks/table';
 
 export default async function TasksTomorrow() {

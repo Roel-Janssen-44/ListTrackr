@@ -1,7 +1,7 @@
 'use strict';
 
 import { Input } from '@/app/components/chadcn/input';
-import { InvoiceTemplate } from '@lib/definitions';
+import { InvoiceTemplate } from '@/app/lib/types';
 import {
   Select,
   SelectContent,

@@ -1,7 +1,7 @@
 'use client';
 
-import { Task } from '@/app/lib/definitions';
-import { Project, ProjectTasks } from '@/app/lib/definitions';
+import { Task } from '@/app/lib/types';
+import { Project, ProjectTasks } from '@/app/lib/types';
 import { useEffect, useRef, useState } from 'react';
 import CreateTask from '@/app/components/createRow';
 import TableRow from '@/app/components/tasks/row';

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Task, Table } from '@/app/lib/definitions';
+import { Task, Table } from '@/app/lib/types';
 import { Input } from '@/app/components/chadcn/input';
 import CreateTask from '@/app/components/createRow';
 import TableRow from '@/app/components/tasks/row';

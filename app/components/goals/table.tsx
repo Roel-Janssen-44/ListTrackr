@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { Goal, Table } from '@/app/lib/definitions';
+import { Goal, Table } from '@/app/lib/types';
 import { Input } from '@/app/components/chadcn/input';
 
 import CreateTask from '@/app/components/createRow';

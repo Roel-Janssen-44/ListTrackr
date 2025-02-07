@@ -1,7 +1,7 @@
 'use server';
 
 import { fetchGoals, fetchCompletedTaskDatesThisWeek } from '@/app/lib/data';
-import { Goal } from '@/app/lib/definitions';
+import { Goal } from '@/app/lib/types';
 import { format, startOfWeek, addDays } from 'date-fns';
 import WeeklyViewRow from './weeklyViewRow';
 

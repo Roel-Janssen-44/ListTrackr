@@ -1,4 +1,4 @@
-import { InvoiceTemplate } from '@/app/lib/definitions';
+import { InvoiceTemplate } from '@/app/lib/types';
 
 import PreviewRowNames from './rowNames';
 import PreviewRows from './rows';

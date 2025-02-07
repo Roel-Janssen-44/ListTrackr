@@ -15,7 +15,7 @@ import {
   Customer,
   Invoice,
   InvoiceTemplateName,
-} from '@/app/lib/definitions';
+} from '@/app/lib/types';
 import { Metadata } from 'next';
 import ProjectTitle from '@/app/components/projects/title';
 

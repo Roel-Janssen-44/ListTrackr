@@ -4,7 +4,7 @@ import PreviewInvoiceNumber from './invoiceNumber';
 import PreviewClientData from './clientData';
 
 import { getCurrentFieldGroup } from '@/app/lib/utils';
-import { InvoiceTemplate } from '@/app/lib/definitions';
+import { InvoiceTemplate } from '@/app/lib/types';
 
 export default function PreviewHeader({
   invoice,

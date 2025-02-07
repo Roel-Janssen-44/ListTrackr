@@ -4,7 +4,7 @@ import ProjectsTable, {
   ProjectTableLoader,
 } from '@/app/components/projects/table';
 import { fetchProjects } from '@/app/lib/data';
-import { Project } from '@/app/lib/definitions';
+import { Project } from '@/app/lib/types';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

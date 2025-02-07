@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { createProject } from '@/app/lib/actions';
-import { Project } from '@/app/lib/definitions';
+import { Project } from '@/app/lib/types';
 import { Input } from '@/app/components/chadcn/input';
 import {
   Select,

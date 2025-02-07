@@ -1,6 +1,6 @@
 import { Input } from '@/app/components/chadcn/input';
 
-import { Field, InvoiceTemplate } from '@/app/lib/definitions';
+import { Field, InvoiceTemplate } from '@/app/lib/types';
 import NonEditableItem from '@/app/components/nonEditableItem';
 import { editFieldValueInFieldGroup } from '@/app/lib/utils';
 

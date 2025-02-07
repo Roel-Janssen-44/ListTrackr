@@ -8,7 +8,7 @@ import {
   editFieldInFieldGroup,
   editFieldValueInFieldGroup,
 } from '@/app/lib/utils';
-import { InvoiceTemplate } from '@/app/lib/definitions';
+import { InvoiceTemplate } from '@/app/lib/types';
 
 export default function TemplateInvoiceNumber({
   setInvoice,

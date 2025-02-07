@@ -1,5 +1,5 @@
 import NonEditableItem from '@/app/components/nonEditableItem';
-import { Field, InvoiceTemplate } from '@/app/lib/definitions';
+import { Field, InvoiceTemplate } from '@/app/lib/types';
 
 export default function InvoiceRowNames({
   invoice,

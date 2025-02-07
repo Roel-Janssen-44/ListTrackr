@@ -9,7 +9,7 @@ import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
 import { v4 as uuid } from 'uuid';
 import { format, startOfWeek, addDays } from 'date-fns';
-import { Customer, InvoiceTemplate } from '@/app/lib/definitions';
+import { Customer, InvoiceTemplate } from '@/app/lib/types';
 import { getCurrentFieldGroup } from '@/app/lib/utils';
 import { calculateSubTotal, calculateInvoice } from '@/app/lib/utils';
 

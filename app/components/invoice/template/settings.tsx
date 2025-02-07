@@ -2,7 +2,7 @@
 
 import { ChromePicker } from 'react-color';
 import { useState, useRef } from 'react';
-import { InvoiceTemplate } from '@/app/lib/definitions';
+import { InvoiceTemplate } from '@/app/lib/types';
 import { Input } from '@/app/components/chadcn/input';
 import {
   Select,

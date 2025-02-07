@@ -1,7 +1,7 @@
 'use client';
 
 import { startOfWeek } from 'date-fns';
-import { Goal } from '@/app/lib/definitions';
+import { Goal } from '@/app/lib/types';
 import { updateWeeklyTask } from '@/app/lib/actions';
 
 import { CornerDownRight } from 'lucide-react';

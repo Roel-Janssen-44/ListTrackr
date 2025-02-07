@@ -4,7 +4,7 @@ import InvoiceLogo from './logo';
 import InvoiceCompanyData from './companydata';
 import InvoiceInvoiceNumber from './invoiceNumber';
 import InvoiceClientData from './clientData';
-import { InvoiceTemplate } from '@/app/lib/definitions';
+import { InvoiceTemplate } from '@/app/lib/types';
 
 import { getCurrentFieldGroup } from '@/app/lib/utils';
 

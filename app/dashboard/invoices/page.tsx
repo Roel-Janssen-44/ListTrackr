@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import InvoiceTemplateTable from '@/app/components/invoices/templates/table';
 import InvoiceTable from '@/app/components/invoices/table';
 import { fetchInvoiceTemplates, fetchInvoices } from '@/app/lib/data';
-import { Invoice, InvoiceTemplateName } from '@/app/lib/definitions';
+import { Invoice, InvoiceTemplateName } from '@/app/lib/types';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

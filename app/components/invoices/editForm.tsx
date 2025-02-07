@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { updateInvoice } from '@/app/lib/actions';
 import { Button } from '@/app/components/button';
-import { InvoiceTemplate } from '@/app/lib/definitions';
+import { InvoiceTemplate } from '@/app/lib/types';
 import Invoice from '@/app/components/invoice/invoice';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';

@@ -1,7 +1,7 @@
 'use client';
 
 import { format } from 'date-fns';
-import { Goal } from '@/app/lib/definitions';
+import { Goal } from '@/app/lib/types';
 
 import { Button } from '@/app/components/chadcn/button';
 import { TrashIcon } from '@heroicons/react/24/outline';

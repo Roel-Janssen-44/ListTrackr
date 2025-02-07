@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState, Suspense } from 'react';
 import { format } from 'date-fns';
-import { Task } from '@/app/lib/definitions';
+import { Task } from '@/app/lib/types';
 import { Button } from '@/app/components/chadcn/button';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { updateTask, deleteTask } from '@/app/lib/actions';

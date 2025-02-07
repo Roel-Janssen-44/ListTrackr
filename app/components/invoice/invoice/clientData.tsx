@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { Trash } from 'lucide-react';
-import { Customer, Field } from '@/app/lib/definitions';
+import { Customer, Field } from '@/app/lib/types';
 import { Input } from '@/app/components/chadcn/input';
 import { Button } from '@/app/components/button';
-import { InvoiceTemplate } from '@/app/lib/definitions';
+import { InvoiceTemplate } from '@/app/lib/types';
 import {
   addFieldToFieldGroup,
   removeFieldFromFieldGroup,

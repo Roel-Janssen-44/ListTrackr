@@ -9,7 +9,7 @@ import {
   Task,
   Invoice,
   InvoiceTemplateName,
-} from '@/app/lib/definitions';
+} from '@/app/lib/types';
 import db from './db';
 import { delay } from '@/app/lib/utils';
 
