@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState, Suspense } from 'react';
-import { format } from 'date-fns';
+import { format, set } from 'date-fns';
 import { Task } from '@/app/lib/types';
 import { Button } from '@/app/components/chadcn/button';
 import { TrashIcon } from '@heroicons/react/24/outline';
@@ -46,6 +46,15 @@ import {
 import { Textarea } from '@/app/components/chadcn/textarea';
 import { createReactEditorJS } from 'react-editor-js';
 // import RichTextEditor from '@/app/components/rte/richTextEditor';
+// import ConfettiExplosion, { ConfettiProps } from './confetti';
+import ConfettiExplosion, { ConfettiProps } from 'react-confetti-explosion';
+
+const smallProps: ConfettiProps = {
+  force: 0.4,
+  duration: 2200,
+  particleCount: 30,
+  width: 400,
+};
 
 export default function TaskRow({
   tableId,
@@ -183,6 +192,8 @@ export default function TaskRow({
     },
   );
 
+  const [showExplosion, setShowExplosion] = useState(false);
+
   return (
     <>
       <form
@@ -214,6 +225,7 @@ export default function TaskRow({
               value={task.completed?.toString() || 'false'}
               readOnly
             />
+            {showExplosion && <ConfettiExplosion {...smallProps} />}
             <Checkbox
               ref={checkboxRef}
               id={'task-completion-state-' + task.id}
@@ -222,8 +234,10 @@ export default function TaskRow({
               onCheckedChange={(value) => {
                 if (value) {
                   checkboxRef.current.value = true;
+                  setShowExplosion(true);
                 } else {
                   checkboxRef.current.value = false;
+                  setShowExplosion(false);
                 }
                 setTimeout(() => {
                   handleBlur();
