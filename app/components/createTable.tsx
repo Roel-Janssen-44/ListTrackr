@@ -1,14 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useActionState } from 'react';
 import { Button } from '@/app/components/button';
 import { createTable } from '@/app/lib/actions';
-import { useFormState } from 'react-dom';
 
 export default function CreateTable({ type }: { type: 'goal' | 'task' }) {
   const initialState = { message: null, errors: {} };
   const createTableWithType = createTable.bind(null, type);
-  const [state, dispatch] = useFormState(createTableWithType, initialState);
+  const [state, dispatch] = useActionState(createTableWithType, initialState);
 
   const [title, setTitle] = useState<string | undefined>(undefined);
 

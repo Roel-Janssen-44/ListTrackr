@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useActionState } from 'react';
 
 import { Goal, Table } from '@/app/lib/types';
 import { Input } from '@/app/components/chadcn/input';
@@ -12,7 +12,6 @@ import { updateTableName } from '@/app/lib/actions';
 import { Button } from '@/app/components/chadcn/button';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { deleteTable } from '@/app/lib/actions';
-import { useFormState } from 'react-dom';
 import { exo } from '@/app/components/fonts';
 import { TableLoader } from '@/app/components/tasks/table';
 
@@ -27,7 +26,7 @@ export default function TaskTableRow({
 }) {
   const initialState = { message: null, errors: {} };
   const deleteTableWithId = deleteTable.bind(null, table.id);
-  const [state, dispatch] = useFormState(deleteTableWithId, initialState);
+  const [state, dispatch] = useActionState(deleteTableWithId, initialState);
 
   const [goalsToRender, setGoalsToRender] = useState<Goal[]>(goals);
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useActionState } from 'react';
 import { Task, Table } from '@/app/lib/types';
 import { Input } from '@/app/components/chadcn/input';
 import CreateTask from '@/app/components/createRow';
@@ -9,7 +9,6 @@ import { updateTableName } from '@/app/lib/actions';
 import { Button } from '@/app/components/chadcn/button';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { deleteTable } from '@/app/lib/actions';
-import { useFormState } from 'react-dom';
 import { exo } from '@/app/components/fonts';
 
 import { ScrollArea, ScrollBar } from '@/app/components/chadcn/scrollArea';
@@ -41,7 +40,7 @@ export default function TaskTable({
 
   const initialState = { message: null, errors: {} };
   const deleteTableWithId = deleteTable.bind(null, table.id);
-  const [state, dispatch] = useFormState(deleteTableWithId, initialState);
+  const [state, dispatch] = useActionState(deleteTableWithId, initialState);
 
   const [tasksToRender, setTasksToRender] = useState<Task[]>([]);
 

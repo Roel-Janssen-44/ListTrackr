@@ -245,6 +245,12 @@ export async function createSubTask(
   }
 
   try {
+    console.log(
+      `
+      INSERT INTO tasks (id, title, parent_id, type, user_id, date, status)
+      VALUES (${generatedId}, ${title}, ${parent_id}, ${type}, ${userId}, ${setDate}, ${status})
+    `,
+    );
     await sql`
       INSERT INTO tasks (id, title, parent_id, type, user_id, date, status)
       VALUES (${generatedId}, ${title}, ${parent_id}, ${type}, ${userId}, ${setDate}, ${status})

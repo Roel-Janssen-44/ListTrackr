@@ -18,13 +18,14 @@ export const metadata: Metadata = {
   title: 'Customer',
 };
 
-export default async function CustomerPage({
-  params,
-}: {
-  params: {
-    id: string;
-  };
-}) {
+export default async function CustomerPage(
+  props: {
+    params: Promise<{
+      id: string;
+    }>;
+  }
+) {
+  const params = await props.params;
   const customer: Customer = await fetchCustomer(params.id);
   const projects: Project[] = await fetchProjectsFromCustomer(params.id);
   const invoices: Invoice[] = await fetchInvoicesFromCustomer(params.id);

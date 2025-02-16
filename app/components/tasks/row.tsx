@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, Suspense } from 'react';
+import { useRef, useEffect, useState, Suspense, useActionState } from 'react';
 import { format, set } from 'date-fns';
 import { Task } from '@/app/lib/types';
 import { Button } from '@/app/components/chadcn/button';
@@ -9,7 +9,6 @@ import { Checkbox } from '@components/chadcn/checkbox';
 import { Calendar } from '@/app/components/chadcn/calendar';
 import { cn } from '@lib/utils';
 import { Input } from '@/app/components/chadcn/input';
-import { useFormState } from 'react-dom';
 import { toast } from 'sonner';
 import { Badge } from '@/app/components/chadcn/badge';
 import {
@@ -96,7 +95,7 @@ export default function TaskRow({
   };
 
   const updateTaskWithId = updateTask.bind(null, tableId, task.id);
-  const [state, dispatch] = useFormState(updateTaskWithId, initialState);
+  const [state, dispatch] = useActionState(updateTaskWithId, initialState);
 
   useEffect(() => {
     if (!state.success) {
@@ -208,8 +207,13 @@ export default function TaskRow({
 
   return (
     <>
-      <Accordion type="single" collapsible className="w-full">
-        <AccordionItem value="item-1">
+      <Accordion
+        type="single"
+        collapsible
+        defaultValue={`${task.subTasks?.[0] ? 'item' : ''}`}
+        className="w-full p-0"
+      >
+        <AccordionItem value="item" className="p-0">
           <form
             key={task.id}
             ref={formRef}
@@ -445,7 +449,7 @@ export default function TaskRow({
               </div>
             </div>
           </form>
-          <AccordionContent className="ml-8">
+          <AccordionContent className="ml-12">
             {task.subTasks?.map((subtask) => (
               <SubtaskRow key={subtask.id} task={subtask} />
             ))}
@@ -528,7 +532,7 @@ const TaskModalContent = ({
   };
 
   const updateTaskWithIdModal = updateTask.bind(null, tableId, task.id);
-  const [stateModal, dispatchModal] = useFormState(
+  const [stateModal, dispatchModal] = useActionState(
     updateTaskWithIdModal,
     initialState,
   );

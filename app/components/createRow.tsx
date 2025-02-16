@@ -1,8 +1,7 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useActionState } from 'react';
 import { createTask } from '@/app/lib/actions';
-import { useFormState } from 'react-dom';
 import { Input } from '@/app/components/chadcn/input';
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'sonner';
@@ -96,7 +95,7 @@ export default function CreateTask({
     table_id,
     type,
   );
-  const [state, dispatch] = useFormState(createTaskWithTableId, initialState);
+  const [state, dispatch] = useActionState(createTaskWithTableId, initialState);
 
   const [isMounted, setIsMounted] = useState(false);
 

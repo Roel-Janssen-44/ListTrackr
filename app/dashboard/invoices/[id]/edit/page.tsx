@@ -9,11 +9,12 @@ export const metadata: Metadata = {
   title: 'Edit invoice',
 };
 
-export default async function InvoiceEdit({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function InvoiceEdit(
+  props: {
+    params: Promise<{ id: string }>;
+  }
+) {
+  const params = await props.params;
   const invoiceId = params.id;
   const invoice = await fetchInvoice(invoiceId);
   return (

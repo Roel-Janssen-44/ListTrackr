@@ -12,6 +12,7 @@ import {
 } from '@/app/lib/types';
 import db from './db';
 import { delay } from '@/app/lib/utils';
+import { Tasks } from './db_types';
 
 // Fetch username
 export async function getUser() {
@@ -79,7 +80,59 @@ export async function fetchTasks() {
       ORDER BY "order" ASC
     `;
 
-    return data.rows;
+    const tasks = data.rows as Tasks[];
+
+    console.log('tasks');
+    console.log(tasks);
+
+    const parentTasks: Tasks[] = tasks.filter((task) => !task.parent_id);
+    const childTasks: Tasks[] = tasks.filter((task) => task.parent_id);
+
+    console.log('parentTasks');
+    console.log(parentTasks);
+
+    const convertedParentTasks: Task[] = parentTasks.map((parentTask) => {
+      return {
+        id: parentTask.id.toString(),
+        title: parentTask.title,
+        description: parentTask.description ?? undefined,
+        completed: parentTask.completed ?? false,
+        status: (parentTask.status as Task['status']) ?? '',
+        priority: (parentTask.priority as unknown as Task['priority']) ?? '',
+        // @ts-expect-error
+        date: parentTask.date ? parentTask.date.toISOString() : undefined,
+        table_id: parentTask.table_id ?? '',
+        subTasks: [],
+      };
+    });
+
+    console.log('convertedParentTasks');
+    console.log(convertedParentTasks);
+
+    childTasks.forEach((chilTask) => {
+      const parentTask = convertedParentTasks.find(
+        (parentTask) =>
+          parentTask.id.toString() === chilTask.parent_id.toString(),
+      );
+      if (parentTask) {
+        console.log('parentTask');
+        console.log(parentTask.title);
+        parentTask.subTasks.push({
+          id: chilTask.id.toString(),
+          title: chilTask.title,
+          description: chilTask.description ?? undefined,
+          completed: chilTask.completed ?? false,
+          status: (chilTask.status as Task['status']) ?? '',
+          priority: (chilTask.priority as unknown as Task['priority']) ?? '',
+          // @ts-expect-error
+          date: chilTask.date ? chilTask.date.toISOString() : undefined,
+          table_id: chilTask.table_id ?? '',
+          subTasks: [],
+        });
+      }
+    });
+
+    return convertedParentTasks;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch tasks.');

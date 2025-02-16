@@ -23,11 +23,12 @@ export const metadata: Metadata = {
   title: 'Project',
 };
 
-export default async function ProjectView({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function ProjectView(
+  props: {
+    params: Promise<{ id: string }>;
+  }
+) {
+  const params = await props.params;
   const projectId = params.id;
   const project: Project = await fetchProject(projectId);
   const customers: Customer[] = await fetchCustomers();

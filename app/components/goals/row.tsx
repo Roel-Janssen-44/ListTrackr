@@ -16,9 +16,8 @@ import {
 } from '@/app/components/chadcn/select';
 
 import { Checkbox } from '@components/chadcn/checkbox';
-import { useRef } from 'react';
+import { useRef, useActionState } from 'react';
 import { Input } from '@/app/components/chadcn/input';
-import { useFormState } from 'react-dom';
 
 export default function GoalTableRow({
   tableId,
@@ -39,7 +38,7 @@ export default function GoalTableRow({
     }
   };
   const updateGoalWithId = updateGoal.bind(null, tableId, goal.id);
-  const [state, dispatch] = useFormState(updateGoalWithId, initialState);
+  const [state, dispatch] = useActionState(updateGoalWithId, initialState);
 
   const handleDeleteGoal = (id: string) => {
     removeGoal(id);

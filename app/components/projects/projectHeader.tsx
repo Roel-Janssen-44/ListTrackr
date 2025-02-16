@@ -22,9 +22,8 @@ import {
 } from '@/app/components/chadcn/popover';
 import { cn } from '@lib/utils';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useActionState } from 'react';
 import { Input } from '@/app/components/chadcn/input';
-import { useFormState } from 'react-dom';
 
 const initialState = {
   message: null,
@@ -43,7 +42,7 @@ export default function ProjectHeader({
   const formRef = useRef(null);
 
   const updateProjectWithId = updateProject.bind(null, project.id);
-  const [state, dispatch] = useFormState(updateProjectWithId, initialState);
+  const [state, dispatch] = useActionState(updateProjectWithId, initialState);
 
   const handleBlur = () => {
     if (formRef.current) {

@@ -8,13 +8,14 @@ export const metadata: Metadata = {
   title: 'Edit customer',
 };
 
-export default async function EditCustomerPage({
-  params,
-}: {
-  params: {
-    id: string;
-  };
-}) {
+export default async function EditCustomerPage(
+  props: {
+    params: Promise<{
+      id: string;
+    }>;
+  }
+) {
+  const params = await props.params;
   const customer: Customer = await fetchCustomer(params.id);
   return (
     <div className="w-full">

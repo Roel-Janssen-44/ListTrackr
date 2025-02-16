@@ -11,13 +11,14 @@ export const metadata: Metadata = {
   title: 'Create invoice',
 };
 
-export default async function InvoiceTemplateCreation({
-  params,
-  searchParams,
-}: {
-  params: { id: string };
-  searchParams?: { projectId: string };
-}) {
+export default async function InvoiceTemplateCreation(
+  props: {
+    params: Promise<{ id: string }>;
+    searchParams?: Promise<{ projectId: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
   const invoiceTemplate: InvoiceTemplate = await fetchInvoiceTemplate(
     params.id,
   );

@@ -7,14 +7,13 @@ import { updateWeeklyTask } from '@/app/lib/actions';
 import { CornerDownRight } from 'lucide-react';
 
 import { Checkbox } from '@components/chadcn/checkbox';
-import { useRef } from 'react';
-import { useFormState } from 'react-dom';
+import { useRef, useActionState } from 'react';
 
 export default function WeeklyViewRow({ task }: { task: Goal }) {
   const initialState = { message: null, errors: {} };
 
   const updateWeeklyTaskWithId = updateWeeklyTask.bind(null, task.id);
-  const [state, dispatch] = useFormState(updateWeeklyTaskWithId, initialState);
+  const [state, dispatch] = useActionState(updateWeeklyTaskWithId, initialState);
 
   const mondayRef = useRef(null);
   const tuesdayRef = useRef(null);
