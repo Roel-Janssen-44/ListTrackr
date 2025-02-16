@@ -77,6 +77,29 @@ export default function TaskTable({
     ]);
   };
 
+  const addSubTaskToState = (
+    newId: string,
+    completed: boolean,
+    taskTitle: string,
+    status: '' | 'planned' | 'working on it' | 'done' | 'stuck',
+    date: string,
+  ) => {
+    setTasksToRender((prevTasks) => [...prevTasks]);
+    console.log('addSubTaskToState');
+    // setTasksToRender((prevTasks) => [
+    //   ...prevTasks,
+    //   {
+    //     id: newId,
+    //     title: taskTitle,
+    //     completed: false,
+    //     status: status,
+    //     priority: '',
+    //     date: date,
+    //     table_id: table.id,
+    //   },
+    // ]);
+  };
+
   const removeTaskFromState = (id: string) => {
     setTasksToRender([
       ...tasksToRender.filter((task) => {
@@ -275,6 +298,7 @@ export default function TaskTable({
                   ref={index === tasksToRender.length - 1 ? lastRowRef : null} // Attach ref to the last row
                 >
                   <TableRow
+                    addSubTaskToState={addSubTaskToState}
                     removeTask={removeTaskFromState}
                     updateTaskState={updateTaskFromState}
                     task={task}

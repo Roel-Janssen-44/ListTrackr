@@ -194,6 +194,71 @@ export async function createTask(
   revalidatePath('/layout');
 }
 
+export async function createSubTask(
+  parent_id: string,
+  type: string,
+  prevState: TaskState,
+  formData: FormData,
+) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return;
+
+  const generatedId = formData.get('generatedId');
+  const title = formData.get('title');
+  const date = formData.get('date').toString();
+  let status = '';
+  let setDate: string | null;
+  if (date == 'today') {
+    const currentDate = new Date();
+    setDate = currentDate.toDateString();
+    status = 'planned';
+  } else if (date == 'tomorrow') {
+    const currentDate = new Date();
+    const tomorrow = new Date(currentDate);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    setDate = tomorrow.toDateString();
+    status = 'planned';
+  } else {
+    setDate = null;
+  }
+
+  if (typeof generatedId !== 'string') {
+    return {
+      errors: { Id: ['Id is required'] },
+      message: 'Missing Fields. Failed to Create Task.',
+    };
+  }
+
+  if (typeof title !== 'string' || title.trim() === '') {
+    return {
+      errors: { title: ['Title is required'] },
+      message: 'Missing Fields. Failed to Create Task.',
+    };
+  }
+
+  if (title.length < 3 || title.length > 100) {
+    return {
+      errors: { title: ['Title must be between 3 and 100 characters'] },
+      message: 'Validation Error. Failed to Create Task.',
+    };
+  }
+
+  try {
+    await sql`
+      INSERT INTO tasks (id, title, parent_id, type, user_id, date, status)
+      VALUES (${generatedId}, ${title}, ${parent_id}, ${type}, ${userId}, ${setDate}, ${status})
+    `;
+    console.log('created subtask');
+  } catch (error) {
+    return {
+      message: 'Database Error: Failed to Create Task.',
+    };
+  }
+  revalidatePath('/dashboard');
+  revalidatePath('/layout');
+}
+
 export async function updateTask(
   tableId: string,
   taskId: string,

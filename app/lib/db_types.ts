@@ -133,6 +133,7 @@ export interface Tasks {
   description: string | null;
   id: Generated<string>;
   order: Generated<number | null>;
+  parent_id: string | null;
   priority: Generated<string | null>;
   project_id: string | null;
   repeat: boolean | null;

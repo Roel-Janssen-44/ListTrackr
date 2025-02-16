@@ -46,8 +46,16 @@ import {
 import { Textarea } from '@/app/components/chadcn/textarea';
 import { createReactEditorJS } from 'react-editor-js';
 // import RichTextEditor from '@/app/components/rte/richTextEditor';
-// import ConfettiExplosion, { ConfettiProps } from './confetti';
 import ConfettiExplosion, { ConfettiProps } from 'react-confetti-explosion';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@components/chadcn/accordion';
+import SubtaskRow from './subtaskRow';
+import CreateSubtask from './createSubTask';
+import { ScrollArea, ScrollBar } from '@/app/components/chadcn/scrollArea';
 
 const smallProps: ConfettiProps = {
   force: 0.4,
@@ -61,11 +69,15 @@ export default function TaskRow({
   task,
   removeTask,
   updateTaskState,
+  addSubTaskToState,
+  showExpandable = true,
 }: {
   tableId: string;
   task: Task;
   removeTask: Function;
   updateTaskState: Function;
+  addSubTaskToState?: Function;
+  showExpandable?: boolean;
 }) {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [focussed, setFocussed] = useState(false);
@@ -196,230 +208,255 @@ export default function TaskRow({
 
   return (
     <>
-      <form
-        key={task.id}
-        ref={formRef}
-        action={dispatch}
-        className={`relative flex flex-row border-t-[1px] border-gray-200 odd:bg-gray-50 dark:border-white dark:border-opacity-10 dark:odd:bg-primary`}
-      >
-        <input
-          value={task.description}
-          name="description"
-          readOnly
-          type="hidden"
-        />
-        <div className="group flex w-full flex-row flex-nowrap items-center text-sm transition-colors hover:bg-gray-100 dark:hover:bg-active">
-          {task.completed && (
-            <>
-              <div className="absolute left-0 top-0 z-20 h-full w-full bg-black bg-opacity-20"></div>
-              <div className="absolute left-[1%] top-1/2 z-20 h-[1px] w-[91%] -translate-y-1/2 rounded bg-black "></div>
-            </>
-          )}
-          <div
-            className={`relative z-30 flex w-[50px] items-center justify-center border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10`}
+      <Accordion type="single" collapsible className="w-full">
+        <AccordionItem value="item-1">
+          <form
+            key={task.id}
+            ref={formRef}
+            action={dispatch}
+            className={`relative flex flex-row border-t-[1px] border-gray-200 odd:bg-gray-50 dark:border-white dark:border-opacity-10 dark:odd:bg-primary`}
           >
             <input
-              name="completed"
-              type="hidden"
-              ref={checkboxRef}
-              value={task.completed?.toString() || 'false'}
+              value={task.description}
+              name="description"
               readOnly
+              type="hidden"
             />
-            {showExplosion && <ConfettiExplosion {...smallProps} />}
-            <Checkbox
-              ref={checkboxRef}
-              id={'task-completion-state-' + task.id}
-              checked={task.completed}
-              onChange={() => null}
-              onCheckedChange={(value) => {
-                if (value) {
-                  checkboxRef.current.value = true;
-                  setShowExplosion(true);
-                } else {
-                  checkboxRef.current.value = false;
-                  setShowExplosion(false);
-                }
-                setTimeout(() => {
-                  handleBlur();
-                }, 0);
-                handleUpdateTask('completed', value);
-              }}
-            />
-            <label
-              className="absolute left-0 top-1/2 h-full min-h-[46px] w-full -translate-y-1/2 cursor-pointer"
-              htmlFor={'task-completion-state-' + task.id}
-            ></label>
-          </div>
-          <div className="group relative min-w-[350px] flex-1 border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10">
-            {(task.table_title || task.project_title) && (
+            <div className="group flex w-full flex-row flex-nowrap items-center text-sm transition-colors hover:bg-gray-100 dark:hover:bg-active">
+              {task.completed && (
+                <>
+                  <div className="absolute left-0 top-0 z-20 h-full w-full bg-black bg-opacity-20"></div>
+                  <div className="absolute left-[1%] top-1/2 z-20 h-[1px] w-[91%] -translate-y-1/2 rounded bg-black "></div>
+                </>
+              )}
               <div
-                className={`pointer-events-none -z-10	 ${
-                  focussed ? 'invisible' : 'visible'
-                }`}
+                className={`relative z-30 flex w-[50px] items-center justify-center border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10`}
               >
-                <p className="absolute left-1 top-0.5 z-0 flex flex-row text-xs">
-                  {task.table_title}
-                </p>
-                <p className="absolute left-1 top-0.5 z-0 flex flex-row text-xs">
-                  {task.project_title}
-                </p>
-                <CornerDownRight className="absolute left-2 top-1/2 h-auto w-3 -translate-y-1/2" />
-              </div>
-            )}
-            <a href="#" className="-z-10" onClick={(e) => e.preventDefault()}>
-              <Input
-                name="title"
-                className="no-context-menu cursor-pointer select-none border-none bg-transparent transition-all duration-75 dark:bg-transparent lg:select-text"
-                value={task.title}
-                onChange={(e) => {
-                  handleUpdateTask('title', e.target.value);
-                }}
-                onBlur={(e) => {
-                  setFocussed(false);
-                  if (e.target.value == '') {
-                    handleDeleteTask(task.id);
-                    return;
-                  }
-                  handleBlur();
-                }}
-                {...attrs}
-                onFocus={() => setFocussed(true)}
-              />
-            </a>
-            {!task.completed && (
-              <button
-                type="button"
-                onClick={() => setIsOpen(true)}
-                className="invisible absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 cursor-pointer group-hover:visible lg:block"
-              >
-                <Badge variant="outline" className="bg-white">
-                  open
-                </Badge>
-              </button>
-            )}
-          </div>
-          <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
-            <input
-              value={task.priority}
-              name="priority"
-              title="priority"
-              ref={priorityInputRef}
-              readOnly
-              type="hidden"
-            />
-            <Select
-              aria-labelledby="priority-error"
-              onValueChange={(value) => {
-                priorityInputRef.current.value = value;
-                handleUpdateTask('priority', value);
-                handleBlur();
-              }}
-              value={task.priority}
-            >
-              <SelectTrigger
-                className={`w-[150px] ${
-                  task.priority == 'low'
-                    ? 'bg-red-200 dark:bg-red-200'
-                    : task.priority == 'medium'
-                    ? 'bg-red-400 dark:bg-red-400'
-                    : task.priority == 'high'
-                    ? 'bg-red-600 dark:bg-red-600'
-                    : 'border-none bg-transparent text-transparent dark:bg-transparent'
-                }`}
-              >
-                <SelectValue placeholder="" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="null">None</SelectItem>
-                <SelectItem value="low">Low</SelectItem>
-                <SelectItem value="medium">Medium</SelectItem>
-                <SelectItem value="high">High</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
-            <input
-              aria-hidden
-              className="hidden"
-              name="date"
-              type="date"
-              ref={dateInputRef}
-              value={task.date ? format(task.date, 'yyyy-MM-dd') : undefined}
-              readOnly
-            />
-            <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-              <PopoverTrigger asChild name="date">
-                <Button
-                  name="date"
-                  variant={'outline'}
-                  className={cn(
-                    'w-full justify-start border-none bg-transparent text-left font-normal hover:bg-transparent dark:bg-transparent dark:hover:bg-transparent',
-                    !task.date && 'text-muted-foreground',
-                  )}
-                >
-                  {task.date ? format(task.date, 'yyyy-MM-dd') : ''}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  selected={new Date(task.date)}
-                  onSelect={(e) => {
-                    if (task.date == null || task.date == '') {
-                      dateInputRef.current.value = format(e, 'yyyy-MM-dd');
-                      handleUpdateTask('date', e);
-                      handleBlur();
-                      setPopoverOpen(false);
-                      return;
-                    } else if (!e) {
-                      dateInputRef.current.value = '';
-                    }
-                    if (e) {
-                      dateInputRef.current.value = format(e, 'yyyy-MM-dd');
-                      handleUpdateTask('date', e);
-                    } else {
-                      dateInputRef.current.value = '';
-                      handleUpdateTask('date', '');
-                    }
-                    handleBlur();
-                    setPopoverOpen(false);
-                  }}
-                  initialFocus
+                <input
+                  name="completed"
+                  type="hidden"
+                  ref={checkboxRef}
+                  value={task.completed?.toString() || 'false'}
+                  readOnly
                 />
-              </PopoverContent>
-            </Popover>
-          </div>
-
-          <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
-            <Button
-              variant="ghost"
-              onClick={null}
-              className={`transition-color w-full rounded-md text-left opacity-100 ${
-                task.status == 'planned'
-                  ? 'bg-blue-200 hover:bg-blue-300'
-                  : task.status == 'done'
-                  ? 'bg-green-200 hover:bg-green-300'
-                  : 'bg-red-200 hover:bg-red-300'
-              }
-          `}
-            >
-              {task.status || 'Not planned'}
-            </Button>
-          </div>
-          <div className="z-30 flex h-full items-center bg-transparent px-3">
-            <Button
-              onClick={() => handleDeleteTask(task.id)}
-              size="icon"
-              variant="outline"
-              className="border-transparent bg-red-600 text-white hover:bg-red-400 hover:text-white dark:border-transparent dark:bg-red-600 dark:hover:bg-red-400"
-            >
-              <div className="flex flex-row justify-center">
-                <TrashIcon className="h-5 w-5" />
+                {showExplosion && <ConfettiExplosion {...smallProps} />}
+                <Checkbox
+                  ref={checkboxRef}
+                  id={'task-completion-state-' + task.id}
+                  checked={task.completed}
+                  onChange={() => null}
+                  onCheckedChange={(value) => {
+                    if (value) {
+                      checkboxRef.current.value = true;
+                      setShowExplosion(true);
+                    } else {
+                      checkboxRef.current.value = false;
+                      setShowExplosion(false);
+                    }
+                    setTimeout(() => {
+                      handleBlur();
+                    }, 0);
+                    handleUpdateTask('completed', value);
+                  }}
+                />
+                <label
+                  className="absolute left-0 top-1/2 h-full min-h-[46px] w-full -translate-y-1/2 cursor-pointer"
+                  htmlFor={'task-completion-state-' + task.id}
+                ></label>
               </div>
-            </Button>
-          </div>
-        </div>
-      </form>
+
+              {showExpandable && (
+                <AccordionTrigger className="flex h-10 w-10 -rotate-90 items-center justify-center hover:no-underline [&[data-state=open]>svg]:rotate-90" />
+              )}
+
+              <div className="group relative min-w-[350px] flex-1 border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10">
+                {(task.table_title || task.project_title) && (
+                  <div
+                    className={`pointer-events-none -z-10	 ${
+                      focussed ? 'invisible' : 'visible'
+                    }`}
+                  >
+                    <p className="absolute left-1 top-0.5 z-0 flex flex-row text-xs">
+                      {task.table_title}
+                    </p>
+                    <p className="absolute left-1 top-0.5 z-0 flex flex-row text-xs">
+                      {task.project_title}
+                    </p>
+                    <CornerDownRight className="absolute left-2 top-1/2 h-auto w-3 -translate-y-1/2" />
+                  </div>
+                )}
+                <a
+                  href="#"
+                  className="-z-10"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <Input
+                    name="title"
+                    className="no-context-menu cursor-pointer select-none border-none bg-transparent transition-all duration-75 dark:bg-transparent lg:select-text"
+                    value={task.title}
+                    onChange={(e) => {
+                      handleUpdateTask('title', e.target.value);
+                    }}
+                    onBlur={(e) => {
+                      setFocussed(false);
+                      if (e.target.value == '') {
+                        handleDeleteTask(task.id);
+                        return;
+                      }
+                      handleBlur();
+                    }}
+                    {...attrs}
+                    onFocus={() => setFocussed(true)}
+                  />
+                </a>
+                {!task.completed && (
+                  <button
+                    type="button"
+                    onClick={() => setIsOpen(true)}
+                    className="invisible absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 cursor-pointer group-hover:visible lg:block"
+                  >
+                    <Badge variant="outline" className="bg-white">
+                      open
+                    </Badge>
+                  </button>
+                )}
+              </div>
+              <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
+                <input
+                  value={task.priority}
+                  name="priority"
+                  title="priority"
+                  ref={priorityInputRef}
+                  readOnly
+                  type="hidden"
+                />
+                <Select
+                  aria-labelledby="priority-error"
+                  onValueChange={(value) => {
+                    priorityInputRef.current.value = value;
+                    handleUpdateTask('priority', value);
+                    handleBlur();
+                  }}
+                  value={task.priority}
+                >
+                  <SelectTrigger
+                    className={`w-[150px] ${
+                      task.priority == 'low'
+                        ? 'bg-red-200 dark:bg-red-200'
+                        : task.priority == 'medium'
+                        ? 'bg-red-400 dark:bg-red-400'
+                        : task.priority == 'high'
+                        ? 'bg-red-600 dark:bg-red-600'
+                        : 'border-none bg-transparent text-transparent dark:bg-transparent'
+                    }`}
+                  >
+                    <SelectValue placeholder="" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="null">None</SelectItem>
+                    <SelectItem value="low">Low</SelectItem>
+                    <SelectItem value="medium">Medium</SelectItem>
+                    <SelectItem value="high">High</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
+                <input
+                  aria-hidden
+                  className="hidden"
+                  name="date"
+                  type="date"
+                  ref={dateInputRef}
+                  value={
+                    task.date ? format(task.date, 'yyyy-MM-dd') : undefined
+                  }
+                  readOnly
+                />
+                <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+                  <PopoverTrigger asChild name="date">
+                    <Button
+                      name="date"
+                      variant={'outline'}
+                      className={cn(
+                        'w-full justify-start border-none bg-transparent text-left font-normal hover:bg-transparent dark:bg-transparent dark:hover:bg-transparent',
+                        !task.date && 'text-muted-foreground',
+                      )}
+                    >
+                      {task.date ? format(task.date, 'yyyy-MM-dd') : ''}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      mode="single"
+                      selected={new Date(task.date)}
+                      onSelect={(e) => {
+                        if (task.date == null || task.date == '') {
+                          dateInputRef.current.value = format(e, 'yyyy-MM-dd');
+                          handleUpdateTask('date', e);
+                          handleBlur();
+                          setPopoverOpen(false);
+                          return;
+                        } else if (!e) {
+                          dateInputRef.current.value = '';
+                        }
+                        if (e) {
+                          dateInputRef.current.value = format(e, 'yyyy-MM-dd');
+                          handleUpdateTask('date', e);
+                        } else {
+                          dateInputRef.current.value = '';
+                          handleUpdateTask('date', '');
+                        }
+                        handleBlur();
+                        setPopoverOpen(false);
+                      }}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+
+              <div className="w-[175px] border-r-[1px] border-gray-200 px-3 dark:border-white dark:border-opacity-10">
+                <Button
+                  variant="ghost"
+                  onClick={null}
+                  className={`transition-color w-full rounded-md text-left opacity-100 ${
+                    task.status == 'planned'
+                      ? 'bg-blue-200 hover:bg-blue-300'
+                      : task.status == 'done'
+                      ? 'bg-green-200 hover:bg-green-300'
+                      : 'bg-red-200 hover:bg-red-300'
+                  }
+          `}
+                >
+                  {task.status || 'Not planned'}
+                </Button>
+              </div>
+              <div className="z-30 flex h-full items-center bg-transparent px-3">
+                <Button
+                  onClick={() => handleDeleteTask(task.id)}
+                  size="icon"
+                  variant="outline"
+                  className="border-transparent bg-red-600 text-white hover:bg-red-400 hover:text-white dark:border-transparent dark:bg-red-600 dark:hover:bg-red-400"
+                >
+                  <div className="flex flex-row justify-center">
+                    <TrashIcon className="h-5 w-5" />
+                  </div>
+                </Button>
+              </div>
+            </div>
+          </form>
+          <AccordionContent className="ml-8">
+            {task.subTasks?.map((subtask) => (
+              <SubtaskRow key={subtask.id} task={subtask} />
+            ))}
+            <CreateSubtask
+              addSubTaskToState={addSubTaskToState}
+              parentTaskId={task.id}
+              date=""
+            />
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
 
       <div className="hidden lg:block">
         <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
@@ -505,185 +542,188 @@ const TaskModalContent = ({
   const ReactEditorJS = createReactEditorJS();
 
   return (
-    <form
-      className="max-h-[80vh] overflow-y-auto pb-3"
-      key={task.id + 'modal'}
-      ref={formRefModal}
-      action={dispatchModal}
-    >
-      <div className="group flex w-full flex-col gap-4">
-        <div className="group relative min-w-[350px] flex-1 px-3 py-1">
-          {(task.table_title || task.project_title) && (
-            <>
-              {task.table_title && (
-                <p className="absolute -bottom-2 left-12 z-0 flex translate-y-1/2 flex-row text-sm">
-                  {task.table_title}
-                </p>
-              )}
-              {task.project_title && (
-                <p className="absolute -bottom-2 left-12 z-0 flex translate-y-1/2 flex-row text-sm">
-                  {task.project_title}
-                </p>
-              )}
-              <CornerDownRight className="absolute bottom-0 left-8 h-auto w-3 translate-y-full" />
-            </>
-          )}
-          <label htmlFor="" className="font-bold">
-            Title:
-          </label>
-          <Input
-            name="title"
-            className="no-context-menu mt-1 cursor-pointer select-none bg-transparent transition-all duration-75 dark:bg-transparent lg:select-text"
-            value={task.title}
-            onChange={(e) => {
-              handleUpdateTask('title', e.target.value);
-            }}
-            onBlur={(e) => {
-              if (e.target.value == '') {
-                handleDeleteTask(task.id);
-                return;
-              }
-              handleBlur();
-            }}
-          />
-        </div>
-        <div className="relative mt-3 min-w-[350px] flex-1 px-3 py-1">
-          <label htmlFor="" className="font-bold">
-            Description:
-          </label>
+    // Todo - improve scrollbar
+    <ScrollArea className="max-h-[80vh] overflow-y-auto">
+      <form
+        className=" pb-3"
+        key={task.id + 'modal'}
+        ref={formRefModal}
+        action={dispatchModal}
+      >
+        <div className="group flex w-full flex-col gap-4">
+          <div className="group relative min-w-[350px] flex-1 px-3 py-1">
+            {(task.table_title || task.project_title) && (
+              <>
+                {task.table_title && (
+                  <p className="absolute -bottom-2 left-12 z-0 flex translate-y-1/2 flex-row text-sm">
+                    {task.table_title}
+                  </p>
+                )}
+                {task.project_title && (
+                  <p className="absolute -bottom-2 left-12 z-0 flex translate-y-1/2 flex-row text-sm">
+                    {task.project_title}
+                  </p>
+                )}
+                <CornerDownRight className="absolute bottom-0 left-8 h-auto w-3 translate-y-full" />
+              </>
+            )}
+            <label htmlFor="" className="font-bold">
+              Title:
+            </label>
+            <Input
+              name="title"
+              className="no-context-menu mt-1 cursor-pointer select-none bg-transparent transition-all duration-75 dark:bg-transparent lg:select-text"
+              value={task.title}
+              onChange={(e) => {
+                handleUpdateTask('title', e.target.value);
+              }}
+              onBlur={(e) => {
+                if (e.target.value == '') {
+                  handleDeleteTask(task.id);
+                  return;
+                }
+                handleBlur();
+              }}
+            />
+          </div>
+          <div className="relative mt-3 min-w-[350px] flex-1 px-3 py-1">
+            <label htmlFor="" className="font-bold">
+              Description:
+            </label>
 
-          {/* Todo - add rich text editor */}
-          {/* <RichTextEditor /> */}
+            {/* Todo - add rich text editor */}
+            {/* <RichTextEditor /> */}
 
-          <Textarea
-            className="mt-1"
-            name="description"
-            placeholder="This task is..."
-            value={task.description}
-            onChange={(e) => {
-              handleUpdateTask('description', e.target.value);
-            }}
-            onBlur={(e) => {
-              handleBlur();
-            }}
-          />
-        </div>
-        <div className="w-[175px] px-3">
-          <label htmlFor="" className="font-bold">
-            Priority:
-          </label>
-          <input
-            value={task.priority}
-            name="priority"
-            title="priority"
-            ref={priorityInputRef}
-            readOnly
-            type="hidden"
-          />
-          <Select
-            aria-labelledby="priority-error"
-            onValueChange={(value) => {
-              priorityInputRef.current.value = value;
-              handleUpdateTask('priority', value);
-              handleBlur();
-            }}
-            value={task.priority}
-          >
-            <SelectTrigger
-              className={`mt-1 w-[150px] ${
-                task.priority == 'low'
-                  ? 'bg-red-200 dark:bg-red-200'
-                  : task.priority == 'medium'
-                  ? 'bg-red-400 dark:bg-red-400'
-                  : task.priority == 'high'
-                  ? 'bg-red-600 dark:bg-red-600'
-                  : ''
-              }`}
+            <Textarea
+              className="mt-1"
+              name="description"
+              placeholder="This task is..."
+              value={task.description}
+              onChange={(e) => {
+                handleUpdateTask('description', e.target.value);
+              }}
+              onBlur={(e) => {
+                handleBlur();
+              }}
+            />
+          </div>
+          <div className="w-[175px] px-3">
+            <label htmlFor="" className="font-bold">
+              Priority:
+            </label>
+            <input
+              value={task.priority}
+              name="priority"
+              title="priority"
+              ref={priorityInputRef}
+              readOnly
+              type="hidden"
+            />
+            <Select
+              aria-labelledby="priority-error"
+              onValueChange={(value) => {
+                priorityInputRef.current.value = value;
+                handleUpdateTask('priority', value);
+                handleBlur();
+              }}
+              value={task.priority}
             >
-              <SelectValue placeholder="" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="null">None</SelectItem>
-              <SelectItem value="low">Low</SelectItem>
-              <SelectItem value="medium">Medium</SelectItem>
-              <SelectItem value="high">High</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="h-[350px] w-[375px] px-3">
-          <input
-            aria-hidden
-            className="hidden"
-            name="date"
-            type="date"
-            ref={dateInputRef}
-            defaultValue={
-              task.date ? format(task.date, 'yyyy-MM-dd') : undefined
-            }
-          />
-          <label htmlFor="" className="font-bold">
-            Date:
-          </label>
-          <Calendar
-            mode="single"
-            className="mt-1"
-            selected={new Date(task.date)}
-            onSelect={(e) => {
-              if (task.date == null || task.date == '') {
-                dateInputRef.current.value = format(e, 'yyyy-MM-dd');
+              <SelectTrigger
+                className={`mt-1 w-[150px] ${
+                  task.priority == 'low'
+                    ? 'bg-red-200 dark:bg-red-200'
+                    : task.priority == 'medium'
+                    ? 'bg-red-400 dark:bg-red-400'
+                    : task.priority == 'high'
+                    ? 'bg-red-600 dark:bg-red-600'
+                    : ''
+                }`}
+              >
+                <SelectValue placeholder="" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="null">None</SelectItem>
+                <SelectItem value="low">Low</SelectItem>
+                <SelectItem value="medium">Medium</SelectItem>
+                <SelectItem value="high">High</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="h-[350px] w-[375px] px-3">
+            <input
+              aria-hidden
+              className="hidden"
+              name="date"
+              type="date"
+              ref={dateInputRef}
+              defaultValue={
+                task.date ? format(task.date, 'yyyy-MM-dd') : undefined
+              }
+            />
+            <label htmlFor="" className="font-bold">
+              Date:
+            </label>
+            <Calendar
+              mode="single"
+              className="mt-1"
+              selected={new Date(task.date)}
+              onSelect={(e) => {
+                if (task.date == null || task.date == '') {
+                  dateInputRef.current.value = format(e, 'yyyy-MM-dd');
+                  handleUpdateTask('date', e);
+                  handleBlur();
+                  return;
+                } else if (!e) {
+                  dateInputRef.current.value = '';
+                }
+                if (e) {
+                  dateInputRef.current.value = format(e, 'yyyy-MM-dd');
+                  handleUpdateTask('date', e);
+                } else {
+                  dateInputRef.current.value = '';
+                  handleUpdateTask('date', '');
+                }
                 handleUpdateTask('date', e);
                 handleBlur();
-                return;
-              } else if (!e) {
-                dateInputRef.current.value = '';
-              }
-              if (e) {
-                dateInputRef.current.value = format(e, 'yyyy-MM-dd');
-                handleUpdateTask('date', e);
-              } else {
-                dateInputRef.current.value = '';
-                handleUpdateTask('date', '');
-              }
-              handleUpdateTask('date', e);
-              handleBlur();
-            }}
-            initialFocus
-          />
-        </div>
+              }}
+              initialFocus
+            />
+          </div>
 
-        <div className="w-[175px] px-3">
-          <label htmlFor="" className="font-bold">
-            Status:
-          </label>
-          <Button
-            variant="ghost"
-            value={task.status}
-            onClick={null}
-            className={`transition-color mt-1 w-full rounded-md text-left opacity-100 ${
-              task.status == 'planned'
-                ? 'bg-blue-200 hover:bg-blue-300'
-                : task.status == 'done'
-                ? 'bg-green-200 hover:bg-green-300'
-                : 'bg-red-200 hover:bg-red-300'
-            }
-                    `}
-          >
-            {task.status || 'Not planned'}
-          </Button>
+          <div className="w-[175px] px-3">
+            <label htmlFor="" className="font-bold">
+              Status:
+            </label>
+            <Button
+              variant="ghost"
+              value={task.status}
+              onClick={null}
+              className={`transition-color mt-1 w-full rounded-md text-left opacity-100 ${
+                task.status == 'planned'
+                  ? 'bg-blue-200 hover:bg-blue-300'
+                  : task.status == 'done'
+                  ? 'bg-green-200 hover:bg-green-300'
+                  : 'bg-red-200 hover:bg-red-300'
+              }`}
+            >
+              {task.status || 'Not planned'}
+            </Button>
+          </div>
+          <div className="z-30 flex h-full items-center bg-transparent px-3">
+            <Button
+              onClick={() => handleDeleteTask(task.id)}
+              size="icon"
+              variant="outline"
+              className="border-transparent bg-red-600 text-white hover:bg-red-400 hover:text-white dark:border-transparent dark:bg-red-600 dark:hover:bg-red-400"
+            >
+              <div className="flex flex-row justify-center">
+                <TrashIcon className="h-5 w-5" />
+              </div>
+            </Button>
+          </div>
         </div>
-        <div className="z-30 flex h-full items-center bg-transparent px-3">
-          <Button
-            onClick={() => handleDeleteTask(task.id)}
-            size="icon"
-            variant="outline"
-            className="border-transparent bg-red-600 text-white hover:bg-red-400 hover:text-white dark:border-transparent dark:bg-red-600 dark:hover:bg-red-400"
-          >
-            <div className="flex flex-row justify-center">
-              <TrashIcon className="h-5 w-5" />
-            </div>
-          </Button>
-        </div>
-      </div>
-    </form>
+        <ScrollBar orientation="vertical" />
+      </form>
+    </ScrollArea>
   );
 };

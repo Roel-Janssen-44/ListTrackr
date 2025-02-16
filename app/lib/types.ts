@@ -6,6 +6,7 @@ export type Task = {
   status: '' | 'planned' | 'working on it' | 'done' | 'stuck';
   priority: '' | 'low' | 'medium' | 'high';
   date?: string;
+  subTasks?: Task[];
   table_id: string;
   table_title?: string;
   project_title?: string;

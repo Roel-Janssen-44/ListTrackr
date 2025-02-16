@@ -1,26 +1,22 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
-import { createTask } from '@/app/lib/actions';
+import { createSubTask } from '@/app/lib/actions';
 import { useFormState } from 'react-dom';
 import { Input } from '@/app/components/chadcn/input';
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'sonner';
 
-export default function CreateTask({
-  project_id,
-  table_id,
+export default function CreateSubtask({
+  parentTaskId,
+  addSubTaskToState,
   parent_id,
-  type,
   date,
-  addTask,
 }: {
-  project_id: string;
-  table_id: string;
+  parentTaskId: string;
+  addSubTaskToState: Function;
   parent_id?: string;
-  type: 'goal' | 'task';
   date: string;
-  addTask: Function;
 }) {
   const initialState = { message: null, errors: {} };
 
@@ -47,9 +43,15 @@ export default function CreateTask({
       const today = currentDate.setDate(currentDate.getDate());
       const tomorrow = currentDate.setDate(currentDate.getDate() + 1);
       if (date === 'today') {
-        addTask(generatedId, false, inputRef.current.value, 'planned', today);
+        addSubTaskToState(
+          generatedId,
+          false,
+          inputRef.current.value,
+          'planned',
+          today,
+        );
       } else if (date === 'tomorrow') {
-        addTask(
+        addSubTaskToState(
           generatedId,
           false,
           inputRef.current.value,
@@ -57,7 +59,7 @@ export default function CreateTask({
           tomorrow,
         );
       } else {
-        addTask(generatedId, false, inputRef.current.value, '', '');
+        addSubTaskToState(generatedId, false, inputRef.current.value, '', '');
       }
 
       formRef.current.requestSubmit();
@@ -90,12 +92,7 @@ export default function CreateTask({
     }
   };
 
-  const createTaskWithTableId = createTask.bind(
-    null,
-    project_id,
-    table_id,
-    type,
-  );
+  const createTaskWithTableId = createSubTask.bind(null, parent_id, 'task');
   const [state, dispatch] = useFormState(createTaskWithTableId, initialState);
 
   const [isMounted, setIsMounted] = useState(false);
@@ -107,7 +104,6 @@ export default function CreateTask({
   if (!isMounted) {
     return null;
   }
-
   return (
     <>
       <form ref={formRef} action={dispatch}>

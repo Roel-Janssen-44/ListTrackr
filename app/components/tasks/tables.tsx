@@ -10,6 +10,8 @@ export default async function TaskTables({
 }) {
   const fetchedTables = await fetchTables();
   const fetchedTasks = await fetchTasks();
+  console.log('fetchedTasks');
+  console.log(fetchedTasks);
   let tables: Table[] = fetchedTables?.map((table) => {
     return {
       id: table.id,
