@@ -273,7 +273,7 @@ export default function TaskRow({
                 <AccordionTrigger className="flex h-10 w-10 -rotate-90 items-center justify-center hover:no-underline [&[data-state=open]>svg]:rotate-90" />
               )}
 
-              <div className="group relative min-w-[350px] flex-1 border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10">
+              <div className="group relative min-w-[350px] flex-1 border-r-[1px] border-gray-200 px-3 pl-0 py-1 dark:border-white dark:border-opacity-10">
                 {(task.table_title || task.project_title) && (
                   <div
                     className={`pointer-events-none -z-10	 ${
