@@ -234,7 +234,7 @@ export default function TaskRow({
                 </>
               )}
               <div
-                className={`relative z-30 flex w-[50px] items-center justify-center border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10`}
+                className={`relative z-30 flex w-[50px] items-center justify-center border-r-[1px] border-gray-200 px-3 pl-0 py-1 dark:border-white dark:border-opacity-10`}
               >
                 <input
                   name="completed"
