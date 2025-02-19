@@ -1,10 +1,24 @@
 import TableRow from '@/app/components/tasks/row';
 import CreateTask from '@/app/components/createRow';
+import { Task } from '@/app/lib/types';
 
-export default function SubtaskRow({ task }) {
-  const removeTaskFromState = (taskId) => {
-    // remove task from state
-  };
+export default function SubtaskRow({
+  task,
+  removeTask,
+  removeSubTaskFromState,
+}: {
+  task: Task;
+  removeTask: Function;
+  removeSubTaskFromState: Function;
+}) {
+  //   const removeTaskFromState = (taskId: string) => {
+  //     // remove task from state
+  //     updateTaskState((prevState) => ({
+  //       ...prevState,
+  //       subtasks: prevState.subtasks.filter((task) => task.id !== taskId),
+  //     }));
+  //   };
+
   const updateTaskFromState = (taskId, task) => {
     // update task in state
   };
@@ -14,11 +28,11 @@ export default function SubtaskRow({ task }) {
       {/* <p>Subtask</p> */}
       <TableRow
         showExpandable={false}
-        removeTask={removeTaskFromState}
         updateTaskState={updateTaskFromState}
         task={task}
         tableId={task?.table_id}
         key={task.id}
+        removeTask={removeSubTaskFromState}
       />
       {/* <CreateTask
                       addTask={addTaskToState}

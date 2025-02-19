@@ -70,6 +70,7 @@ export default function TaskRow({
   updateTaskState,
   addSubTaskToState,
   showExpandable = true,
+  removeSubTaskFromState,
 }: {
   tableId: string;
   task: Task;
@@ -77,6 +78,7 @@ export default function TaskRow({
   updateTaskState: Function;
   addSubTaskToState?: Function;
   showExpandable?: boolean;
+  removeSubTaskFromState?: Function;
 }) {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [focussed, setFocussed] = useState(false);
@@ -104,7 +106,13 @@ export default function TaskRow({
   }, [state]);
 
   const handleDeleteTask = (id: string) => {
-    removeTask(id);
+    console.log('task to delete');
+    console.log(task);
+    if (task.parent_id) {
+      removeTask(task.parent_id, id);
+    } else {
+      removeTask(id);
+    }
     deleteTask(id);
   };
 
@@ -234,7 +242,7 @@ export default function TaskRow({
                 </>
               )}
               <div
-                className={`relative z-30 flex w-[50px] items-center justify-center border-r-[1px] border-gray-200 px-3 pl-0 py-1 dark:border-white dark:border-opacity-10`}
+                className={`relative z-30 flex w-[50px] items-center justify-center border-r-[1px] border-gray-200 px-3 py-1 pl-0 dark:border-white dark:border-opacity-10`}
               >
                 <input
                   name="completed"
@@ -273,7 +281,7 @@ export default function TaskRow({
                 <AccordionTrigger className="flex h-10 w-10 -rotate-90 items-center justify-center hover:no-underline [&[data-state=open]>svg]:rotate-90" />
               )}
 
-              <div className="group relative min-w-[350px] flex-1 border-r-[1px] border-gray-200 px-3 pl-0 py-1 dark:border-white dark:border-opacity-10">
+              <div className="group relative min-w-[350px] flex-1 border-r-[1px] border-gray-200 px-3 py-1 dark:border-white dark:border-opacity-10">
                 {(task.table_title || task.project_title) && (
                   <div
                     className={`pointer-events-none -z-10	 ${
@@ -451,7 +459,12 @@ export default function TaskRow({
           </form>
           <AccordionContent className="ml-12">
             {task.subTasks?.map((subtask) => (
-              <SubtaskRow key={subtask.id} task={subtask} />
+              <SubtaskRow
+                key={subtask.id}
+                task={subtask}
+                removeSubTaskFromState={removeSubTaskFromState}
+                removeTask={removeTask}
+              />
             ))}
             <CreateSubtask
               addSubTaskToState={addSubTaskToState}

@@ -10,6 +10,7 @@ export type Task = {
   table_id: string;
   table_title?: string;
   project_title?: string;
+  parent_id?: string;
 };
 
 export type Goal = Task & {

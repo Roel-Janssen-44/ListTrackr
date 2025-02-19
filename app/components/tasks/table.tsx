@@ -76,27 +76,77 @@ export default function TaskTable({
     ]);
   };
 
+  // const addSubTaskToState = (
+  //   newId: string,
+  //   completed: boolean,
+  //   taskTitle: string,
+  //   status: '' | 'planned' | 'working on it' | 'done' | 'stuck',
+  //   date: string,
+  // ) => {
+  //   setTasksToRender((prevTasks) => [...prevTasks]);
+  //   console.log('addSubTaskToState');
+  //   setTasksToRender((prevTasks) => [
+  //     ...prevTasks,
+  //     // {
+  //     //   id: newId,
+  //     // title: taskTitle,
+  //     // completed: false,
+  //     // status: status,
+  //     // priority: '',
+  //     // date: date,
+  //     // table_id: table.id,
+  //     //   subTasks: []
+  //     // },
+  //   ]);
+  // };
   const addSubTaskToState = (
+    taskId: string,
     newId: string,
-    completed: boolean,
     taskTitle: string,
     status: '' | 'planned' | 'working on it' | 'done' | 'stuck',
     date: string,
   ) => {
-    setTasksToRender((prevTasks) => [...prevTasks]);
+    setTasksToRender((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === taskId
+          ? {
+              ...task,
+              subTasks: [
+                ...(task.subTasks || []),
+                {
+                  id: newId,
+                  title: taskTitle,
+                  completed: false,
+                  status: status,
+                  priority: '',
+                  date: date,
+                  table_id: '',
+                },
+              ],
+            }
+          : task,
+      ),
+    );
+
     console.log('addSubTaskToState');
-    // setTasksToRender((prevTasks) => [
-    //   ...prevTasks,
-    //   {
-    //     id: newId,
-    //     title: taskTitle,
-    //     completed: false,
-    //     status: status,
-    //     priority: '',
-    //     date: date,
-    //     table_id: table.id,
-    //   },
-    // ]);
+  };
+
+  const removeSubTaskFromState = (taskId: string, subTaskId: string) => {
+    setTasksToRender((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === taskId
+          ? {
+              ...task,
+              subTasks: task.subTasks?.filter(
+                (subTask) => subTask.id !== subTaskId,
+              ),
+            }
+          : task,
+      ),
+    );
+    console.log('removeSubTaskFromState');
+    console.log('taskId, subTaskId');
+    console.log(taskId, subTaskId);
   };
 
   const removeTaskFromState = (id: string) => {
@@ -105,6 +155,8 @@ export default function TaskTable({
         return task.id != id;
       }),
     ]);
+    console.log('removeTaskFromState');
+    console.log('id', id);
   };
 
   const updateTaskFromState = ({
@@ -300,6 +352,7 @@ export default function TaskTable({
                     addSubTaskToState={addSubTaskToState}
                     removeTask={removeTaskFromState}
                     updateTaskState={updateTaskFromState}
+                    removeSubTaskFromState={removeSubTaskFromState}
                     task={task}
                     tableId={table.id}
                     key={task.id}

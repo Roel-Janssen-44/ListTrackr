@@ -82,14 +82,14 @@ export async function fetchTasks() {
 
     const tasks = data.rows as Tasks[];
 
-    console.log('tasks');
-    console.log(tasks);
+    // console.log('tasks');
+    // console.log(tasks);
 
     const parentTasks: Tasks[] = tasks.filter((task) => !task.parent_id);
     const childTasks: Tasks[] = tasks.filter((task) => task.parent_id);
 
-    console.log('parentTasks');
-    console.log(parentTasks);
+    // console.log('parentTasks');
+    // console.log(parentTasks);
 
     const convertedParentTasks: Task[] = parentTasks.map((parentTask) => {
       return {
@@ -106,8 +106,8 @@ export async function fetchTasks() {
       };
     });
 
-    console.log('convertedParentTasks');
-    console.log(convertedParentTasks);
+    // console.log('convertedParentTasks');
+    // console.log(convertedParentTasks);
 
     childTasks.forEach((chilTask) => {
       const parentTask = convertedParentTasks.find(
@@ -115,8 +115,8 @@ export async function fetchTasks() {
           parentTask.id.toString() === chilTask.parent_id.toString(),
       );
       if (parentTask) {
-        console.log('parentTask');
-        console.log(parentTask.title);
+        // console.log('parentTask');
+        // console.log(parentTask.title);
         parentTask.subTasks.push({
           id: chilTask.id.toString(),
           title: chilTask.title,
@@ -128,6 +128,7 @@ export async function fetchTasks() {
           date: chilTask.date ? chilTask.date.toISOString() : undefined,
           table_id: chilTask.table_id ?? '',
           subTasks: [],
+          parent_id: chilTask.parent_id.toString(),
         });
       }
     });

@@ -34,10 +34,12 @@ export default function CreateSubtask({
         toast.error('Task title must be more than 3 characters');
         return;
       }
+
       if (inputRef.current.value.length > 128) {
         toast.error('Task title must be less than 128 characters');
         return;
       }
+
       const currentDate = new Date();
       const today = currentDate.setDate(currentDate.getDate());
       const tomorrow = currentDate.setDate(currentDate.getDate() + 1);
@@ -91,7 +93,6 @@ export default function CreateSubtask({
     }
   };
 
-  console.log('parentTaskId', parentTaskId);
   const createTaskWithTableId = createSubTask.bind(null, parentTaskId, 'task');
   const [state, dispatch] = useActionState(createTaskWithTableId, initialState);
 
