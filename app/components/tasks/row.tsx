@@ -202,9 +202,24 @@ export default function TaskRow({
 
   const [isOpen, setIsOpen] = useState(false);
   const [mobileIsOpen, setMobileIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(
+    window.matchMedia('(max-width: 1279px)').matches,
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.matchMedia('(max-width: 1023px)').matches);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const attrs = useLongPress(
     () => {
-      setMobileIsOpen(true);
+      if (isMobile) {
+        setMobileIsOpen(true);
+      }
     },
     {
       threshold: 800,
