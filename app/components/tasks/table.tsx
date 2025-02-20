@@ -76,6 +76,11 @@ export default function TaskTable({
     ]);
   };
 
+  useEffect(() => {
+    console.log('tasksToRender');
+    console.log(tasksToRender);
+  }, [tasksToRender]);
+
   // const addSubTaskToState = (
   //   newId: string,
   //   completed: boolean,
@@ -99,6 +104,7 @@ export default function TaskTable({
   //     // },
   //   ]);
   // };
+
   const addSubTaskToState = (
     taskId: string,
     newId: string,
@@ -106,6 +112,12 @@ export default function TaskTable({
     status: '' | 'planned' | 'working on it' | 'done' | 'stuck',
     date: string,
   ) => {
+    console.log('taskId');
+    console.log(taskId);
+    console.log('newId');
+    console.log(newId);
+    console.log('taskTitle');
+    console.log(taskTitle);
     setTasksToRender((prevTasks) =>
       prevTasks.map((task) =>
         task.id === taskId
@@ -121,6 +133,7 @@ export default function TaskTable({
                   priority: '',
                   date: date,
                   table_id: '',
+                  parent_id: taskId,
                 },
               ],
             }

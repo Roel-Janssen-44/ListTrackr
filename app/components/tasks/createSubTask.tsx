@@ -9,12 +9,10 @@ import { toast } from 'sonner';
 export default function CreateSubtask({
   parentTaskId,
   addSubTaskToState,
-  parent_id,
   date,
 }: {
   parentTaskId: string;
   addSubTaskToState: Function;
-  parent_id?: string;
   date: string;
 }) {
   const initialState = { message: null, errors: {} };
@@ -45,22 +43,31 @@ export default function CreateSubtask({
       const tomorrow = currentDate.setDate(currentDate.getDate() + 1);
       if (date === 'today') {
         addSubTaskToState(
+          parentTaskId,
           generatedId,
-          false,
           inputRef.current.value,
+          false,
           'planned',
           today,
         );
       } else if (date === 'tomorrow') {
         addSubTaskToState(
+          parentTaskId,
           generatedId,
-          false,
           inputRef.current.value,
+          false,
           'planned',
           tomorrow,
         );
       } else {
-        addSubTaskToState(generatedId, false, inputRef.current.value, '', '');
+        addSubTaskToState(
+          parentTaskId,
+          generatedId,
+          inputRef.current.value,
+          false,
+          '',
+          '',
+        );
       }
 
       formRef.current.requestSubmit();
