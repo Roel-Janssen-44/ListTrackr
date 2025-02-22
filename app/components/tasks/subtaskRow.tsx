@@ -6,10 +6,12 @@ export default function SubtaskRow({
   task,
   removeTask,
   removeSubTaskFromState,
+  updateSubtaskState,
 }: {
   task: Task;
   removeTask: Function;
   removeSubTaskFromState: Function;
+  updateSubtaskState: Function;
 }) {
   //   const removeTaskFromState = (taskId: string) => {
   //     // remove task from state
@@ -29,6 +31,7 @@ export default function SubtaskRow({
       <TableRow
         showExpandable={false}
         updateTaskState={updateTaskFromState}
+        updateSubtaskState={updateSubtaskState}
         task={task}
         tableId={task?.table_id}
         key={task.id}

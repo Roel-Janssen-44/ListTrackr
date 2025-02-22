@@ -207,6 +207,39 @@ export default function TaskTable({
     ]);
   };
 
+  const updateSubtaskState = ({
+    task,
+    changedField,
+    newValue,
+  }: {
+    task: Task;
+    changedField: string;
+    newValue: string;
+  }) => {
+    console.log(
+      'updateSubtaskState in table component',
+      task,
+      changedField,
+      newValue,
+    );
+
+    setTasksToRender((prevTasks) =>
+      prevTasks.map((parentTask) => {
+        if (parentTask.id === task.parent_id && parentTask.subTasks) {
+          return {
+            ...parentTask,
+            subTasks: parentTask.subTasks.map((subTask) =>
+              subTask.id === task.id
+                ? { ...subTask, [changedField]: newValue }
+                : subTask,
+            ),
+          };
+        }
+        return parentTask;
+      }),
+    );
+  };
+
   useEffect(() => {
     const updateHeaderWidth = () => {
       if (headerRef.current && innnerTableRef.current) {
@@ -365,6 +398,7 @@ export default function TaskTable({
                     addSubTaskToState={addSubTaskToState}
                     removeTask={removeTaskFromState}
                     updateTaskState={updateTaskFromState}
+                    updateSubtaskState={updateSubtaskState}
                     removeSubTaskFromState={removeSubTaskFromState}
                     task={task}
                     tableId={table.id}

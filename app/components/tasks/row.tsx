@@ -1,5 +1,7 @@
-import { useRef, useEffect, useState, Suspense, useActionState } from 'react';
-import { format, set } from 'date-fns';
+'use client';
+
+import { useRef, useEffect, useState, useActionState } from 'react';
+import { format } from 'date-fns';
 import { Task } from '@/app/lib/types';
 import { Button } from '@/app/components/chadcn/button';
 import { TrashIcon } from '@heroicons/react/24/outline';
@@ -34,17 +36,12 @@ import {
 } from '@/app/components/chadcn/dialog';
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from '@/app/components/chadcn/drawer';
 import { Textarea } from '@/app/components/chadcn/textarea';
 import { createReactEditorJS } from 'react-editor-js';
-// import RichTextEditor from '@/app/components/rte/richTextEditor';
 import ConfettiExplosion, { ConfettiProps } from 'react-confetti-explosion';
 import {
   Accordion,
@@ -68,6 +65,7 @@ export default function TaskRow({
   task,
   removeTask,
   updateTaskState,
+  updateSubtaskState,
   addSubTaskToState,
   showExpandable = true,
   removeSubTaskFromState,
@@ -78,6 +76,7 @@ export default function TaskRow({
   updateTaskState: Function;
   addSubTaskToState?: Function;
   showExpandable?: boolean;
+  updateSubtaskState?: Function;
   removeSubTaskFromState?: Function;
 }) {
   const [popoverOpen, setPopoverOpen] = useState(false);
@@ -117,85 +116,91 @@ export default function TaskRow({
   };
 
   const handleUpdateTask = (changedField: string, newValue: any) => {
-    if (changedField == 'completed') {
-      updateTaskState({
-        id: task.id,
-        completed: newValue,
-        title: task.title,
-        description: task.description,
-        priority: task.priority,
-        date: task.date,
-        status: task.status,
-      });
-    } else if (changedField == 'title') {
-      if (newValue.length <= 3) {
-        toast.error('Task must contain more than 3 characters');
-        return;
+    if (task.parent_id) {
+      if (updateSubtaskState && task.parent_id) {
+        updateSubtaskState({ task, changedField, newValue });
       }
-      if (newValue.length > 128) {
-        toast.error('Task must contain less than 128 characters');
-        return;
-      }
-      updateTaskState({
-        id: task.id,
-        completed: task.completed,
-        title: newValue,
-        description: task.description,
-        priority: task.priority,
-        date: task.date,
-        status: task.status,
-      });
-    } else if (changedField == 'priority') {
-      updateTaskState({
-        id: task.id,
-        completed: task.completed,
-        title: task.title,
-        description: task.description,
-        priority: newValue,
-        date: task.date,
-        status: task.status,
-      });
-    } else if (changedField == 'description') {
-      updateTaskState({
-        id: task.id,
-        completed: task.completed,
-        title: task.title,
-        description: newValue,
-        priority: task.priority,
-        date: task.date,
-        status: task.status,
-      });
-    } else if (changedField == 'date') {
-      if (newValue && !task.completed) {
+    } else {
+      if (changedField == 'completed') {
+        updateTaskState({
+          id: task.id,
+          completed: newValue,
+          title: task.title,
+          description: task.description,
+          priority: task.priority,
+          date: task.date,
+          status: task.status,
+        });
+      } else if (changedField == 'title') {
+        if (newValue.length <= 3) {
+          toast.error('Task must contain more than 3 characters');
+          return;
+        }
+        if (newValue.length > 128) {
+          toast.error('Task must contain less than 128 characters');
+          return;
+        }
+        updateTaskState({
+          id: task.id,
+          completed: task.completed,
+          title: newValue,
+          description: task.description,
+          priority: task.priority,
+          date: task.date,
+          status: task.status,
+        });
+      } else if (changedField == 'priority') {
         updateTaskState({
           id: task.id,
           completed: task.completed,
           title: task.title,
           description: task.description,
-          priority: task.priority,
-          date: newValue,
-          status: 'planned',
+          priority: newValue,
+          date: task.date,
+          status: task.status,
         });
-      } else if (newValue && task.completed) {
+      } else if (changedField == 'description') {
         updateTaskState({
           id: task.id,
           completed: task.completed,
           title: task.title,
-          description: task.description,
+          description: newValue,
           priority: task.priority,
-          date: newValue,
-          status: 'Done',
+          date: task.date,
+          status: task.status,
         });
-      } else {
-        updateTaskState({
-          id: task.id,
-          completed: task.completed,
-          title: task.title,
-          description: task.description,
-          priority: task.priority,
-          date: newValue,
-          status: 'Not planned',
-        });
+      } else if (changedField == 'date') {
+        if (newValue && !task.completed) {
+          updateTaskState({
+            id: task.id,
+            completed: task.completed,
+            title: task.title,
+            description: task.description,
+            priority: task.priority,
+            date: newValue,
+            status: 'planned',
+          });
+        } else if (newValue && task.completed) {
+          updateTaskState({
+            id: task.id,
+            completed: task.completed,
+            title: task.title,
+            description: task.description,
+            priority: task.priority,
+            date: newValue,
+            status: 'Done',
+          });
+        } else {
+          updateTaskState({
+            id: task.id,
+            completed: task.completed,
+            title: task.title,
+            description: task.description,
+            priority: task.priority,
+            date: newValue,
+            status: 'Not planned',
+          });
+        }
       }
     }
   };
@@ -203,16 +208,16 @@ export default function TaskRow({
   const [isOpen, setIsOpen] = useState(false);
   const [mobileIsOpen, setMobileIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(
-    window.matchMedia('(max-width: 1279px)').matches,
+    window?.matchMedia('(max-width: 1279px)').matches,
   );
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.matchMedia('(max-width: 1023px)').matches);
+      setIsMobile(window?.matchMedia('(max-width: 1023px)').matches);
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window?.addEventListener('resize', handleResize);
+    return () => window?.removeEventListener('resize', handleResize);
   }, []);
 
   const attrs = useLongPress(
@@ -361,6 +366,7 @@ export default function TaskRow({
                   aria-labelledby="priority-error"
                   onValueChange={(value) => {
                     priorityInputRef.current.value = value;
+
                     handleUpdateTask('priority', value);
                     handleBlur();
                   }}
@@ -478,6 +484,7 @@ export default function TaskRow({
                 key={subtask.id}
                 task={subtask}
                 removeSubTaskFromState={removeSubTaskFromState}
+                updateSubtaskState={updateSubtaskState}
                 removeTask={removeTask}
               />
             ))}
