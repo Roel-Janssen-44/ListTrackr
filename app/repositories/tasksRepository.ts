@@ -30,7 +30,6 @@ export default class TaskRepository extends BaseRepository<Task> {
         .execute();
 
       if (result.length === 0) {
-        console.log(`Task with ID ${id} not found.`);
         return null;
       }
 

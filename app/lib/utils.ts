@@ -498,8 +498,6 @@ export function calculateInvoice({
     subtotalExcl = subtotal;
     subtotalIncl = subtotal * taxMultiplier;
   } else if (taxType == 'incl') {
-    console.log('taxMultiplier');
-    console.log(taxMultiplier);
     subtotalExcl = subtotal / taxMultiplier;
     subtotalIncl = subtotal;
   }

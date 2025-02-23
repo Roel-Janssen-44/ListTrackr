@@ -76,35 +76,6 @@ export default function TaskTable({
     ]);
   };
 
-  useEffect(() => {
-    console.log('tasksToRender');
-    console.log(tasksToRender);
-  }, [tasksToRender]);
-
-  // const addSubTaskToState = (
-  //   newId: string,
-  //   completed: boolean,
-  //   taskTitle: string,
-  //   status: '' | 'planned' | 'working on it' | 'done' | 'stuck',
-  //   date: string,
-  // ) => {
-  //   setTasksToRender((prevTasks) => [...prevTasks]);
-  //   console.log('addSubTaskToState');
-  //   setTasksToRender((prevTasks) => [
-  //     ...prevTasks,
-  //     // {
-  //     //   id: newId,
-  //     // title: taskTitle,
-  //     // completed: false,
-  //     // status: status,
-  //     // priority: '',
-  //     // date: date,
-  //     // table_id: table.id,
-  //     //   subTasks: []
-  //     // },
-  //   ]);
-  // };
-
   const addSubTaskToState = (
     taskId: string,
     newId: string,
@@ -112,12 +83,6 @@ export default function TaskTable({
     status: '' | 'planned' | 'working on it' | 'done' | 'stuck',
     date: string,
   ) => {
-    console.log('taskId');
-    console.log(taskId);
-    console.log('newId');
-    console.log(newId);
-    console.log('taskTitle');
-    console.log(taskTitle);
     setTasksToRender((prevTasks) =>
       prevTasks.map((task) =>
         task.id === taskId
@@ -140,8 +105,6 @@ export default function TaskTable({
           : task,
       ),
     );
-
-    console.log('addSubTaskToState');
   };
 
   const removeSubTaskFromState = (taskId: string, subTaskId: string) => {
@@ -157,9 +120,6 @@ export default function TaskTable({
           : task,
       ),
     );
-    console.log('removeSubTaskFromState');
-    console.log('taskId, subTaskId');
-    console.log(taskId, subTaskId);
   };
 
   const removeTaskFromState = (id: string) => {
@@ -168,8 +128,6 @@ export default function TaskTable({
         return task.id != id;
       }),
     ]);
-    console.log('removeTaskFromState');
-    console.log('id', id);
   };
 
   const updateTaskFromState = ({
@@ -216,13 +174,6 @@ export default function TaskTable({
     changedField: string;
     newValue: string;
   }) => {
-    console.log(
-      'updateSubtaskState in table component',
-      task,
-      changedField,
-      newValue,
-    );
-
     setTasksToRender((prevTasks) =>
       prevTasks.map((parentTask) => {
         if (parentTask.id === task.parent_id && parentTask.subTasks) {
