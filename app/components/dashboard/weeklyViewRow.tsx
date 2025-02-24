@@ -13,7 +13,10 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
   const initialState = { message: null, errors: {} };
 
   const updateWeeklyTaskWithId = updateWeeklyTask.bind(null, task.id);
-  const [state, dispatch] = useActionState(updateWeeklyTaskWithId, initialState);
+  const [state, dispatch] = useActionState(
+    updateWeeklyTaskWithId,
+    initialState,
+  );
 
   const mondayRef = useRef(null);
   const tuesdayRef = useRef(null);
@@ -81,8 +84,6 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
                 (dateObj) => dateObj.day == '1',
               )}
               onCheckedChange={(e) => {
-                console.log('log monday change');
-                console.log(e);
                 if (mondayRef.current) {
                   mondayRef.current.requestSubmit();
                 }
@@ -116,8 +117,6 @@ export default function WeeklyViewRow({ task }: { task: Goal }) {
                 (dateObj) => dateObj.day == '2',
               )}
               onCheckedChange={(e) => {
-                console.log('log tuesday change');
-                console.log(e);
                 if (tuesdayRef.current) {
                   tuesdayRef.current.requestSubmit();
                 }
