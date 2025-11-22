@@ -9,10 +9,14 @@
     "baseUrl": "app",
     "paths": {
       "@*": ["./*"],
-      "@components/*": ["components/*"],
-      "@lib": ["lib/index.ts"],
-      "@lib/*": ["lib/*"],
-      "@/utils/*": ["utils/*"]
+      // "@components/*": ["components/*"],
+      // "@lib": ["lib/index.ts"],
+      "@/lib/*": ["lib/*"],
+      "@/utils/*": ["utils/*"],
+      "@/mutations": ["server/mutations/index.ts"],
+      "@/mutations/*": ["server/mutations/*"],
+      "@/queries": ["server/queries/index.ts"],
+      "@/queries/*": ["server/queries/*"]
     }
   },
   "include": [

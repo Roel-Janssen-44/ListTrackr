@@ -12,10 +12,10 @@ export default async function Home() {
 
   console.log("todos");
   console.log(todos);
+
   return (
     <div>
       <Hero />
-
       <Tasks initialTasks={todos || []} />
     </div>
   );
