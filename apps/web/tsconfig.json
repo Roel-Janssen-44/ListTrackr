@@ -5,7 +5,15 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "baseUrl": "app",
+    "paths": {
+      "@*": ["./*"],
+      "@components/*": ["components/*"],
+      "@lib": ["lib/index.ts"],
+      "@lib/*": ["lib/*"],
+      "@/utils/*": ["utils/*"]
+    }
   },
   "include": [
     "**/*.ts",
@@ -14,7 +22,5 @@
     "next.config.js",
     ".next/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
