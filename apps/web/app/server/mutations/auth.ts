@@ -15,10 +15,11 @@ export const signIn = async (formData: FormData) => {
   });
 
   if (error) {
-    return redirect("/sms-login?message=Could not authenticate user");
+    console.log(error);
+    return redirect("/login?message=Could not authenticate user");
   }
 
-  return redirect("/sms-login?message=Check your email for the OTP");
+  return redirect("/login?message=Check your email for the OTP");
 };
 
 export const verifyOTP = async (formData: FormData) => {
@@ -36,7 +37,7 @@ export const verifyOTP = async (formData: FormData) => {
 
   if (error) {
     console.error(error);
-    return redirect("/sms-login?message=Could not authenticate user");
+    return redirect("/login?message=Could not authenticate user");
   }
 
   return redirect("/");

@@ -33,7 +33,7 @@ export default function SMSLogin({
         </svg>
         Back
       </Link>
-      <h1 className="text-4xl font-bold">Sign in using phone number</h1>
+      <h1 className="text-4xl font-bold">Sign in using email number</h1>
       <p className="text-foreground">
         {searchParams.message || "Sign in to your account"}
       </p>
@@ -52,14 +52,15 @@ export default function SMSLogin({
         }}
         className="flex flex-col gap-2"
       >
-        <label htmlFor="phone" className="flex flex-col gap-1">
-          <span className="text-foreground">Phone</span>
+        <label htmlFor="email" className="flex flex-col gap-1">
+          <span className="text-foreground">Email</span>
           <input
-            type="tel"
-            name="phone"
-            id="phone"
+            type="email"
+            name="email"
+            id="email"
             className="mb-2 rounded-md border bg-inherit px-4 py-2"
-            placeholder="+91 1234567890"
+            placeholder="you@example.com"
+            defaultValue={"test@gmail.com"}
           />
         </label>
         <label
