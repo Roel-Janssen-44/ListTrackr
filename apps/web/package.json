@@ -12,11 +12,11 @@
   },
   "dependencies": {
     "@repo/ui": "workspace:*",
-    "@supabase/ssr": "^0.7.0",
-    "@supabase/supabase-js": "^2.84.0",
     "@tailwindcss/postcss": "^4.1.17",
+    "appwrite": "^21.4.0",
     "framer-motion": "^12.23.24",
     "next": "^16.0.1",
+    "node-appwrite": "^20.3.0",
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.7.1",

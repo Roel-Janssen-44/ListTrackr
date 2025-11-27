@@ -9,8 +9,7 @@
     "baseUrl": "app",
     "paths": {
       "@*": ["./*"],
-      // "@components/*": ["components/*"],
-      // "@lib": ["lib/index.ts"],
+      "@/hooks/*": ["hooks/*"],
       "@/lib/*": ["lib/*"],
       "@/utils/*": ["utils/*"],
       "@/mutations": ["server/mutations/index.ts"],
