@@ -1,8 +1,13 @@
 export function RequestOTP() {
   return (
     <form className="flex flex-col gap-4" action={requestOTP}>
-      <input name="email" type="email" placeholder="Email" required />
-      <input name="name" type="text" placeholder="Name" required />
+      <input
+        name="email"
+        type="email"
+        defaultValue={"roeljanssen2002@gmail.com"}
+        placeholder="Email"
+        required
+      />
       <button type="submit" className="cursor-pointer bg-green-400 px-4 py-2">
         Send OTP
       </button>
@@ -18,19 +23,16 @@ async function requestOTP(formData) {
   "use server";
 
   const email = formData.get("email");
-  const name = formData.get("name");
 
   const { account } = await createAdminClient();
 
-  // Create user (no password)
-  await account.create(ID.unique(), email, null, name);
-
-  // Create OTP session
   const token = await account.createEmailToken({
-    userId: email, // Appwrite uses the email as identifier for tokens
+    userId: ID.unique(),
     email,
   });
 
-  // Redirect to OTP input page
-  redirect(`/verify?email=${encodeURIComponent(email)}`);
+  redirect(`/verify?userId=${token.userId}`);
+
+  //   // Redirect to OTP input page
+  //   redirect(`/verify?email=${encodeURIComponent(email)}`);
 }
