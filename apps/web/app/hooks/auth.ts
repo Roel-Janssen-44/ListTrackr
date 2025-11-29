@@ -24,13 +24,13 @@ export function useAuth() {
       password,
     });
     setCurrent(session);
-    router.push("/");
+    // router.push("/");
   };
 
   const logout = async (): Promise<void> => {
     await account.deleteSession("current");
     setCurrent(null);
-    router.push("/");
+    // router.push("/");
   };
 
   const getCurrentUser = async () => {

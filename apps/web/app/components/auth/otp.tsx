@@ -8,7 +8,7 @@ import Link from "next/link";
 export function OTP() {
   const { current, loading, login, logout, register } = useAuth();
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("roeljanssen2002@gmail.com");
   const [userId, setUserId] = useState("");
   const [otp, setOtp] = useState("");
   const [stage, setStage] = useState("request"); // request | verify
