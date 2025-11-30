@@ -1,6 +1,6 @@
 "use server";
 
-import { createAdminClient } from "@/lib/server/appwrite";
+import { createSessionClient, createAdminClient } from "@/server/appwrite";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { ID } from "node-appwrite";
@@ -40,4 +40,16 @@ async function verifyOTP(formData: any) {
   redirect("/dashboard");
 }
 
-export { verifyOTP, requestOTP };
+async function signOut() {
+  "use server";
+
+  const { account } = await createSessionClient();
+
+  const cookiesStore = await cookies();
+  cookiesStore.delete("my-custom-session");
+  await account.deleteSession({ sessionId: "current" });
+
+  redirect("/login");
+}
+
+export { verifyOTP, requestOTP, signOut };

@@ -1,6 +1,6 @@
 "use server";
 
-import { createAdminClient } from "@/lib/server/appwrite";
+import { createAdminClient } from "@/server/appwrite";
 
 async function getTasks() {
   const { databases } = await createAdminClient();

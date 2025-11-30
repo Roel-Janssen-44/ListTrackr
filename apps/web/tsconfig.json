@@ -15,7 +15,9 @@
       "@/mutations": ["server/mutations/index.ts"],
       "@/mutations/*": ["server/mutations/*"],
       "@/queries": ["server/queries/index.ts"],
-      "@/queries/*": ["server/queries/*"]
+      "@/queries/*": ["server/queries/*"],
+      "@/components": ["server/components/index.ts"],
+      "@/components/*": ["server/components/*"]
     }
   },
   "include": [

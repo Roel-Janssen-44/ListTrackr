@@ -1,4 +1,4 @@
-import { getLoggedInUser } from "@/lib/server/appwrite";
+import { getLoggedInUser } from "@/queries/auth";
 import { redirect } from "next/navigation";
 
 export default async function AppLayout({

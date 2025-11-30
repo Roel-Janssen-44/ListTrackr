@@ -1,18 +1,5 @@
-import { createSessionClient, getLoggedInUser } from "@/lib/server/appwrite";
-import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
-
-async function signOut() {
-  "use server";
-
-  const { account } = await createSessionClient();
-
-  const cookiesStore = await cookies();
-  cookiesStore.delete("my-custom-session");
-  await account.deleteSession({ sessionId: "current" });
-
-  redirect("/login");
-}
+import { getLoggedInUser } from "@/queries/auth";
+import { signOut } from "@/mutations";
 
 export default async function HomePage() {
   const user = await getLoggedInUser();
