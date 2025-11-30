@@ -3,6 +3,20 @@
 import { createAdminClient } from "@/lib/server/appwrite";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { ID } from "node-appwrite";
+
+async function requestOTP(formData: any) {
+  const email = formData.get("email");
+
+  const { account } = await createAdminClient();
+
+  const token = await account.createEmailToken({
+    userId: ID.unique(),
+    email,
+  });
+
+  redirect(`/verify?userId=${token.userId}`);
+}
 
 async function verifyOTP(formData: any) {
   const userId = formData.get("userId");
@@ -10,7 +24,6 @@ async function verifyOTP(formData: any) {
 
   const { account } = await createAdminClient();
 
-  // Finalize OTP login
   const session = await account.createSession({
     userId: userId,
     secret: otp,
@@ -27,4 +40,4 @@ async function verifyOTP(formData: any) {
   redirect("/dashboard");
 }
 
-export { verifyOTP };
+export { verifyOTP, requestOTP };

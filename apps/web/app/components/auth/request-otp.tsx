@@ -1,3 +1,5 @@
+import { requestOTP } from "@server/mutations";
+
 export function RequestOTP() {
   return (
     <form className="flex flex-col gap-4" action={requestOTP}>
@@ -13,26 +15,4 @@ export function RequestOTP() {
       </button>
     </form>
   );
-}
-
-import { createAdminClient } from "@/lib/server/appwrite";
-import { ID } from "node-appwrite";
-import { redirect } from "next/navigation";
-
-async function requestOTP(formData) {
-  "use server";
-
-  const email = formData.get("email");
-
-  const { account } = await createAdminClient();
-
-  const token = await account.createEmailToken({
-    userId: ID.unique(),
-    email,
-  });
-
-  redirect(`/verify?userId=${token.userId}`);
-
-  //   // Redirect to OTP input page
-  //   redirect(`/verify?email=${encodeURIComponent(email)}`);
 }
