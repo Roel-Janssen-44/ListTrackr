@@ -56,7 +56,7 @@ export function TaskList({ serverTasks }: { serverTasks: any[] }) {
   }, [ready]);
 
   return (
-    <div className="flex w-full flex-row justify-between px-8">
+    <div className="flex w-full flex-row justify-between">
       <div>
         <h2>Server tasks:</h2>
         <ul>

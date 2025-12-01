@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createSessionClient } from "@/lib/server/appwrite";
+import { createSessionClient } from "@/server/appwrite";
 
 // Create JWT token for client SDK of appwrite of the logged-in user
 export async function GET() {
