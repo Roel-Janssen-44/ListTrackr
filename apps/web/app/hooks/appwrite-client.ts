@@ -38,3 +38,41 @@ export function useAppwriteClient(): UseAppwriteClientReturn | null {
     ready: true,
   };
 }
+
+// "use client";
+
+// import { useState, useEffect } from "react";
+// import { Client, Databases, Account } from "appwrite";
+
+// export function useAppwriteClient() {
+//   const [client, setClient] = useState<Client | null>(null);
+
+//   useEffect(() => {
+//     async function init() {
+//       const c = new Client()
+//         .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
+//         .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID!);
+
+//       const account = new Account(c);
+
+//       try {
+//         await account.get();
+//       } catch {
+//         // await account.createAnonymousSession();
+//         console.warn("No active session found.");
+//       }
+
+//       setClient(c);
+//     }
+
+//     init();
+//   }, []);
+
+//   if (!client) return null;
+
+//   return {
+//     client,
+//     databases: new Databases(client),
+//     ready: true,
+//   };
+// }

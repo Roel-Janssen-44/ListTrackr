@@ -2,6 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useAppwriteClient } from "@/hooks/appwrite-client";
+import { Realtime } from "appwrite";
+
+const databaseId = "692f35d50020eb18445f";
+const collectionId = "692f35df00138a2df0b2";
 
 export function TaskList({ serverTasks }: { serverTasks: any[] }) {
   const [clientTasks, setClientTasks] = useState<any[]>([]);
@@ -14,22 +18,27 @@ export function TaskList({ serverTasks }: { serverTasks: any[] }) {
 
     if (!databases || !client) return;
 
-    async function fetchTasks() {
-      try {
-        if (!databases) return;
-        const res = await databases.listDocuments("listtrackr", "tasks");
-        setClientTasks(res.documents);
-      } catch (err) {
-        console.error("Failed to fetch tasks:", err);
-      }
-    }
+    // async function fetchTasks() {
+    //   try {
+    //     if (!databases) return;
+    //     const res = await databases.listDocuments("listtrackr", "tasks");
+    //     setClientTasks(res.documents);
+    //   } catch (err) {
+    //     console.error("Failed to fetch tasks:", err);
+    //   }
+    // }
 
-    fetchTasks();
+    // fetchTasks();
 
+    console.log("client");
+    console.log(client);
     // realtime subscription
-    const unsubscribe = client.subscribe(
-      "databases.listtrackr.collections.tasks.documents",
+    const realtime = new Realtime(client);
+    realtime.subscribe(
+      `databases.${databaseId}.collections.${collectionId}.documents.*`,
       (event) => {
+        console.log("Realtime event:", event);
+
         if (event.events.some((e) => e.includes(".create"))) {
           setClientTasks((prev) => [...prev, event.payload]);
         }
@@ -37,7 +46,6 @@ export function TaskList({ serverTasks }: { serverTasks: any[] }) {
         if (event.events.some((e) => e.includes(".update"))) {
           setClientTasks((prev) =>
             prev.map((doc) =>
-              // @ts-expect-error
               doc.$id === event.payload.$id ? event.payload : doc,
             ),
           );
@@ -45,14 +53,13 @@ export function TaskList({ serverTasks }: { serverTasks: any[] }) {
 
         if (event.events.some((e) => e.includes(".delete"))) {
           setClientTasks((prev) =>
-            // @ts-expect-error
             prev.filter((doc) => doc.$id !== event.payload.$id),
           );
         }
       },
     );
 
-    return () => unsubscribe();
+    // return () => unsubscribe();
   }, [ready]);
 
   return (

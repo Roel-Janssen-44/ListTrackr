@@ -1,3 +1,5 @@
+"use client";
+
 import { requestOTP } from "@server/mutations";
 
 export function RequestOTP() {
