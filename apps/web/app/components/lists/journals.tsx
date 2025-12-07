@@ -12,11 +12,23 @@ export function JournalList() {
     async function setup() {
       const db = await getDB();
 
+      if (!db?.entries) {
+        setJournals([]);
+        return;
+      }
+
       const query = db.entries.find().sort({ updatedAt: "desc" });
+
+      if (!query || typeof query.exec !== "function") {
+        console.error("Query or exec function is missing");
+        setJournals([]);
+        return;
+      }
 
       setJournals(await query.exec());
 
       subscription = query.$.subscribe(async () => {
+        if (!query || typeof query.exec !== "function") return;
         const updated = await query.exec();
         setJournals(updated);
       });
@@ -36,9 +48,10 @@ export function JournalList() {
       {journals.map((journal, index) => (
         <div key={index}>
           {/* @ts-expect-error */}
-          <h5>{journal._data.name}</h5>
+          <h5>{journal._data.title}</h5>
         </div>
       ))}
+      {journals.length === 0 && <p>No journals found.</p>}
     </div>
   );
 }

@@ -1,8 +1,4 @@
-import {
-  CheckUserLoggedIn,
-  VerrifyClientLogin,
-} from "@components/auth/client-verify";
-import { JournalList } from "@components/lists";
+import { VerrifyClientLogin } from "@components/auth/verify";
 
 export default function VerifyClientLoginPage() {
   return (
@@ -10,9 +6,6 @@ export default function VerifyClientLoginPage() {
       <div>
         <h1 className="mb-8 text-2xl font-bold">verify client login page</h1>
         <VerrifyClientLogin />
-        <CheckUserLoggedIn />
-
-        <JournalList />
       </div>
     </div>
   );

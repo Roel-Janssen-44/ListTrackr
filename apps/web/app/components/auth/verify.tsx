@@ -19,7 +19,6 @@ export function VerrifyClientLogin() {
     const secret = otp;
 
     try {
-      // await account.deleteSession("current");
       const result = await account.createSession({
         userId,
         secret,
