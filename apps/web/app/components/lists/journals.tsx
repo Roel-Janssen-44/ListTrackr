@@ -29,7 +29,7 @@ export function JournalList() {
     };
   }, []);
 
-  //   return <pre>{JSON.stringify(journals, null, 2)}</pre>;
+  // return <pre>{JSON.stringify(journals, null, 2)}</pre>;
 
   return (
     <div>

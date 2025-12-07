@@ -7,7 +7,7 @@ import { useSearchParams } from "next/navigation";
 export function VerrifyClientLogin() {
   const searchParams = useSearchParams();
 
-  const userId = searchParams.get("userId");
+  const userId = searchParams.get("userId") || "";
 
   if (!userId) return "null";
 
@@ -18,11 +18,8 @@ export function VerrifyClientLogin() {
     const otp = (form.elements.namedItem("otp") as HTMLInputElement).value;
     const secret = otp;
 
-    if (!userId) {
-      return;
-    }
-
     try {
+      // await account.deleteSession("current");
       const result = await account.createSession({
         userId,
         secret,
