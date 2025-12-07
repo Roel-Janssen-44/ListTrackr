@@ -67,7 +67,7 @@ export const getDB = async () => {
     });
 
     // Set up replication
-    setupReplication(db);
+    await setupReplication(db);
 
     return db;
   } catch (error) {
@@ -76,34 +76,24 @@ export const getDB = async () => {
   }
 };
 
-const setupReplication = async (db) => {
-  let replicationState = null;
-  console.log("client");
-  console.log(client);
+const setupReplication = async (db: any) => {
   try {
-    // Start replication
-    replicationState = replicateAppwrite({
+    const replicationState = replicateAppwrite({
       replicationIdentifier: "journals-replication",
       client,
       databaseId: appwriteConfig.databaseId,
       collectionId: appwriteConfig.collectionId,
       deletedField: "deleted",
       collection: db.entries,
-      pull: {
-        batchSize: 25, // Can be updated
-      },
-      push: {
-        batchSize: 25, // Can be updated
-      },
+      pull: { batchSize: 25 },
+      push: { batchSize: 25 },
     });
 
-    // Handle replication events
-    replicationState.error$.subscribe((error) => {
+    replicationState.error$.subscribe((error: any) => {
       console.error("Replication error:", error);
     });
 
-    replicationState.active$.subscribe((active) => {
-      console.log("Replication active:", active);
+    replicationState.active$.subscribe((active: any) => {
       console.log("ReplicationState:", replicationState);
     });
 
@@ -118,12 +108,12 @@ export const getJournals = async () => {
   return db.entries.find().sort({ updatedAt: "desc" }).exec();
 };
 
-export const getJournal = async (id) => {
+export const getJournal = async (id: any) => {
   const db = await getDB();
   return db.entries.findOne({ selector: { id } }).exec();
 };
 
-export const createJournal = async (journalData) => {
+export const createJournal = async (journalData: any) => {
   const db = await getDB();
   const timestamp = Date.now();
   return db.entries.insert({
@@ -134,7 +124,7 @@ export const createJournal = async (journalData) => {
   });
 };
 
-export const updateJournal = async (id, journalData) => {
+export const updateJournal = async (id: any, journalData: any) => {
   const db = await getDB();
   const journal = await getJournal(id);
 
@@ -147,7 +137,7 @@ export const updateJournal = async (id, journalData) => {
   });
 };
 
-export const deleteJournal = async (id) => {
+export const deleteJournal = async (id: any) => {
   const db = await getDB();
   const journal = await getJournal(id);
 

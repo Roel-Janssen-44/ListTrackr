@@ -1,4 +1,4 @@
-import { Client } from "appwrite";
+import { Client, Account } from "appwrite";
 
 export const appwriteConfig = {
   endpoint: process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!,
@@ -10,6 +10,6 @@ export const appwriteConfig = {
 
 export const client = new Client()
   .setEndpoint(appwriteConfig.endpoint)
-  // .setEndpointRealtime(appwriteConfig.endpoint)
-  // .setEndpointRealtime(`${appwriteConfig.endpoint}/realtime`)
   .setProject(appwriteConfig.projectId);
+
+export const account = new Account(client);

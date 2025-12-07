@@ -1,1 +1,1 @@
-export * from "./appwrite-client";
+export * from "./auth";

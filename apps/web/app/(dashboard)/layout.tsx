@@ -1,4 +1,4 @@
-import { getLoggedInUser } from "@/queries/auth";
+// import { getLoggedInUser } from "@/queries/auth";
 import { redirect } from "next/navigation";
 
 export default async function AppLayout({
@@ -6,8 +6,8 @@ export default async function AppLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = await getLoggedInUser();
-  if (!user) redirect("/login");
+  // const user = await getLoggedInUser();
+  // if (!user) redirect("/login");
 
   return <div>{children}</div>;
 }

@@ -1,12 +1,13 @@
-import { getLoggedInUser } from "@/queries/auth";
-import { signOut } from "@/mutations";
+// import { getLoggedInUser } from "@/queries/auth";
+// import { signOut } from "@/mutations";
 
 export default async function HomePage() {
-  const user = await getLoggedInUser();
+  // const user = await getLoggedInUser();
 
   return (
-    <>
-      <ul>
+    <div>
+      <h1>Homepage</h1>
+      {/* <ul>
         <li>
           <strong>Email:</strong> {user.email}
         </li>
@@ -16,11 +17,11 @@ export default async function HomePage() {
         <li>
           <strong>ID: </strong> {user.$id}
         </li>
-      </ul>
+      </ul> */}
 
-      <form action={signOut}>
+      {/* <form action={signOut}>
         <button type="submit">Sign out</button>
-      </form>
-    </>
+      </form> */}
+    </div>
   );
 }

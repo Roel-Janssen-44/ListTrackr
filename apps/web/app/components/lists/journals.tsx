@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getDB } from "@/lib/local-first-test/databases";
+import { getDB } from "@/lib/client/databases";
 
-export default function JournalClient() {
+export function JournalList() {
   const [journals, setJournals] = useState([]);
 
   useEffect(() => {
@@ -29,5 +29,16 @@ export default function JournalClient() {
     };
   }, []);
 
-  return <pre>{JSON.stringify(journals, null, 2)}</pre>;
+  //   return <pre>{JSON.stringify(journals, null, 2)}</pre>;
+
+  return (
+    <div>
+      {journals.map((journal, index) => (
+        <div key={index}>
+          {/* @ts-expect-error */}
+          <h5>{journal._data.name}</h5>
+        </div>
+      ))}
+    </div>
+  );
 }
