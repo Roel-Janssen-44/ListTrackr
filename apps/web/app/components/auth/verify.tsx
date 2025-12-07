@@ -1,13 +1,15 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { account, client } from "@/lib/client/appwrite";
+import { useRouter } from "next/navigation";
+import { account } from "@/lib/client/appwrite";
 import { useSearchParams } from "next/navigation";
 
 export function VerrifyClientLogin() {
   const searchParams = useSearchParams();
 
   const userId = searchParams.get("userId") || "";
+  const router = useRouter();
 
   if (!userId) return "null";
 
@@ -24,7 +26,7 @@ export function VerrifyClientLogin() {
         secret,
       });
 
-      console.log("Verification successful:", result);
+      if (result) router.push("/dashboard");
     } catch (err: any) {
       console.error("Error during verification:", err);
     }
