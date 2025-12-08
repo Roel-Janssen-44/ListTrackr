@@ -1,0 +1,33 @@
+{
+  "extends": "@repo/typescript-config/nextjs.json",
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": "app",
+    "paths": {
+      "@*": ["./*"],
+      "@/hooks/*": ["hooks/*"],
+      "@/lib/*": ["lib/*"],
+      "@/utils/*": ["utils/*"],
+      "@/mutations": ["server/mutations/index.ts"],
+      "@/mutations/*": ["server/mutations/*"],
+      "@/queries": ["server/queries/index.ts"],
+      "@/queries/*": ["server/queries/*"],
+      "@/server": ["server/index.ts"],
+      "@/server/*": ["server/*"],
+      "@/components": ["server/components/index.ts"],
+      "@/components/*": ["server/components/*"]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "next-env.d.ts",
+    "next.config.js",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}

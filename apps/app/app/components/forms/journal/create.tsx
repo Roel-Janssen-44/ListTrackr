@@ -24,7 +24,7 @@ export function CreateJournal() {
         deleted: false,
       });
       setTitle("");
-      alert("Journal created!");
+      console.log("Journal created successfully");
     } catch (err) {
       console.error("Error creating journal:", err);
       alert("Failed to create journal");

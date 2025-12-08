@@ -1,0 +1,87 @@
+{
+  "theme_color": "#5E0035",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "name": "ListTrackr",
+  "short_name": "ListTrackr",
+  "version": "0.0.1",
+  "orientation": "portrait",
+  "dir": "ltr",
+  "lang": "en",
+  "display_override": [
+    "standalone",
+    "fullscreen",
+    "minimal-ui",
+    "window-controls-overlay",
+    "browser"
+  ],
+  "categories": ["business", "productivity"],
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/maskable.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/maskable.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/hero-1.png",
+      "sizes": "400x800",
+      "type": "image/png",
+      "form_factor": "regular"
+    },
+    {
+      "src": "/hero-2.png",
+      "sizes": "400x800",
+      "type": "image/png",
+      "form_factor": "regular"
+    }
+  ],
+  "splash_pages": [
+    {
+      "src": "/hero-1.png",
+      "sizes": "400x800",
+      "type": "image/png"
+    },
+    {
+      "src": "/hero-2.png",
+      "sizes": "400x800",
+      "type": "image/png"
+    }
+  ]
+}
