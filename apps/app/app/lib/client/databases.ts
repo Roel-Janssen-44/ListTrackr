@@ -78,14 +78,25 @@ export const getDB = async () => {
   }
 };
 
+// Add a BehaviorSubject to track sync status
+import { BehaviorSubject } from "rxjs";
+
+export const syncStatus$ = new BehaviorSubject<{
+  isSyncing: boolean;
+  error: string | null;
+  lastSync: number | null;
+}>({
+  isSyncing: false,
+  error: null,
+  lastSync: null,
+});
+
+// Update setupReplication to track status
 const setupReplication = async (db: any) => {
   try {
     const result = await getUser();
-
-    console.log("Setting up replication for user:", result);
     if (!result) return;
 
-    console.log("setup replication");
     const replicationState = replicateAppwrite({
       replicationIdentifier: "journals-replication",
       client,
@@ -97,19 +108,59 @@ const setupReplication = async (db: any) => {
       push: { batchSize: 25 },
     });
 
-    // replicationState.error$.subscribe((error: any) => {
-    //   console.error("Replication error:", error);
-    // });
+    replicationState.active$.subscribe((active: any) => {
+      syncStatus$.next({
+        isSyncing: active,
+        error: null,
+        lastSync: active ? Date.now() : syncStatus$.getValue().lastSync,
+      });
+    });
 
-    // replicationState.active$.subscribe((active: any) => {
-    //   console.log("ReplicationState:", replicationState);
-    // });
+    replicationState.error$.subscribe((error: any) => {
+      syncStatus$.next({
+        isSyncing: false,
+        error: error?.message || "Sync error",
+        lastSync: syncStatus$.getValue().lastSync,
+      });
+    });
 
     return replicationState;
   } catch (error) {
     console.error("Replication setup error:", error);
   }
 };
+// const setupReplication = async (db: any) => {
+//   try {
+//     const result = await getUser();
+
+//     console.log("Setting up replication for user:", result);
+//     if (!result) return;
+
+//     console.log("setup replication");
+//     const replicationState = replicateAppwrite({
+//       replicationIdentifier: "journals-replication",
+//       client,
+//       databaseId: appwriteConfig.databaseId,
+//       collectionId: appwriteConfig.collectionId,
+//       deletedField: "deleted",
+//       collection: db.entries,
+//       pull: { batchSize: 25 },
+//       push: { batchSize: 25 },
+//     });
+
+//     replicationState.error$.subscribe((error: any) => {
+//       console.error("Replication error:", error);
+//     });
+
+//     replicationState.active$.subscribe((active: any) => {
+//       console.log("ReplicationState:", replicationState);
+//     });
+
+//     return replicationState;
+//   } catch (error) {
+//     console.error("Replication setup error:", error);
+//   }
+// };
 
 export const getJournals = async () => {
   const db = await getDB();

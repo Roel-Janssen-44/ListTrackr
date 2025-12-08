@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Head from "next/head";
 
+import { OfflineIndicator } from "@components/offline-indicator";
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -256,6 +258,8 @@ export default function RootLayout({
         />
       </Head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <OfflineIndicator />
+
         {children}
       </body>
     </html>
