@@ -30,6 +30,7 @@
   "devDependencies": {
     "@listtrackr/eslint-config": "workspace:*",
     "@listtrackr/typescript-config": "workspace:*",
+    "@listtrackr/tailwind-config": "*",
     "@types/node": "^22.15.3",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",

@@ -1,10 +1,7 @@
-import { Button } from "@listtrackr/ui";
-
 export default function Home() {
   return (
-    <div>
-      Home
-      <Button>Click me</Button>
+    <div className="flex min-h-screen items-center justify-center">
+      <h1 className="text-3xl font-semibold">Docs</h1>
     </div>
   );
 }

@@ -8,7 +8,7 @@ export function Hero() {
     <div className="relative flex min-h-screen w-full flex-col items-center justify-center gap-4">
       {/* HERO SECTION */}
       <div className="flex min-h-screen flex-col items-center justify-center">
-        <h1 className="max-w-[767px] text-center leading-[1.1]">
+        <h1 className="max-w-[767px] text-center text-3xl leading-[1.1]">
           Task management <br />
           made <span className="text-pink">fun</span>
         </h1>
