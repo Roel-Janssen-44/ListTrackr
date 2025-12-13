@@ -14,9 +14,9 @@ importers:
 
   apps/app:
     specifiers:
-      '@repo/eslint-config': workspace:*
-      '@repo/typescript-config': workspace:*
-      '@repo/ui': workspace:*
+      '@listtrackr/eslint-config': workspace:*
+      '@listtrackr/typescript-config': workspace:*
+      '@listtrackr/ui': workspace:*
       '@tailwindcss/postcss': ^4.1.17
       '@types/node': ^22.15.3
       '@types/react': 19.2.2
@@ -37,7 +37,7 @@ importers:
       tailwindcss: ^4.1.17
       typescript: 5.9.2
     dependencies:
-      '@repo/ui': link:../../packages/ui
+      '@listtrackr/ui': link:../../packages/ui
       '@tailwindcss/postcss': 4.1.17
       appwrite: 21.4.0
       framer-motion: 12.23.24_lh6yjnbmlemn4t264xkzt2k63q
@@ -53,8 +53,8 @@ importers:
       rxjs: 7.8.2
       tailwindcss: 4.1.17
     devDependencies:
-      '@repo/eslint-config': link:../../packages/eslint-config
-      '@repo/typescript-config': link:../../packages/typescript-config
+      '@listtrackr/eslint-config': link:../../packages/eslint-config
+      '@listtrackr/typescript-config': link:../../packages/typescript-config
       '@types/node': 22.19.1
       '@types/react': 19.2.2
       '@types/react-dom': 19.2.2_@types+react@19.2.2
@@ -63,9 +63,9 @@ importers:
 
   apps/docs:
     specifiers:
-      '@repo/eslint-config': workspace:*
-      '@repo/typescript-config': workspace:*
-      '@repo/ui': workspace:*
+      '@listtrackr/eslint-config': workspace:*
+      '@listtrackr/typescript-config': workspace:*
+      '@listtrackr/ui': workspace:*
       '@types/node': ^22.15.3
       '@types/react': 19.2.2
       '@types/react-dom': 19.2.2
@@ -75,13 +75,13 @@ importers:
       react-dom: ^19.2.0
       typescript: 5.9.2
     dependencies:
-      '@repo/ui': link:../../packages/ui
+      '@listtrackr/ui': link:../../packages/ui
       next: 16.0.3_lh6yjnbmlemn4t264xkzt2k63q
       react: 19.2.0
       react-dom: 19.2.0_react@19.2.0
     devDependencies:
-      '@repo/eslint-config': link:../../packages/eslint-config
-      '@repo/typescript-config': link:../../packages/typescript-config
+      '@listtrackr/eslint-config': link:../../packages/eslint-config
+      '@listtrackr/typescript-config': link:../../packages/typescript-config
       '@types/node': 22.19.1
       '@types/react': 19.2.2
       '@types/react-dom': 19.2.2_@types+react@19.2.2
@@ -90,9 +90,9 @@ importers:
 
   apps/web:
     specifiers:
-      '@repo/eslint-config': workspace:*
-      '@repo/typescript-config': workspace:*
-      '@repo/ui': workspace:*
+      '@listtrackr/eslint-config': workspace:*
+      '@listtrackr/typescript-config': workspace:*
+      '@listtrackr/ui': workspace:*
       '@types/node': ^22.15.3
       '@types/react': 19.2.2
       '@types/react-dom': 19.2.2
@@ -102,13 +102,13 @@ importers:
       react-dom: ^19.2.0
       typescript: 5.9.2
     dependencies:
-      '@repo/ui': link:../../packages/ui
+      '@listtrackr/ui': link:../../packages/ui
       next: 16.0.3_lh6yjnbmlemn4t264xkzt2k63q
       react: 19.2.0
       react-dom: 19.2.0_react@19.2.0
     devDependencies:
-      '@repo/eslint-config': link:../../packages/eslint-config
-      '@repo/typescript-config': link:../../packages/typescript-config
+      '@listtrackr/eslint-config': link:../../packages/eslint-config
+      '@listtrackr/typescript-config': link:../../packages/typescript-config
       '@types/node': 22.19.1
       '@types/react': 19.2.2
       '@types/react-dom': 19.2.2_@types+react@19.2.2
@@ -147,6 +147,8 @@ importers:
   packages/ui:
     specifiers:
       '@hookform/resolvers': ^5.2.2
+      '@listtrackr/eslint-config': workspace:*
+      '@listtrackr/typescript-config': workspace:*
       '@radix-ui/react-accordion': ^1.2.12
       '@radix-ui/react-alert-dialog': ^1.1.15
       '@radix-ui/react-checkbox': ^1.3.3
@@ -167,8 +169,6 @@ importers:
       '@radix-ui/react-toggle': ^1.1.10
       '@radix-ui/react-toggle-group': ^1.1.11
       '@radix-ui/react-tooltip': ^1.2.8
-      '@repo/eslint-config': workspace:*
-      '@repo/typescript-config': workspace:*
       '@tanstack/react-table': ^8.21.3
       '@types/node': ^22.15.3
       '@types/react': 19.2.2
@@ -239,8 +239,8 @@ importers:
       vaul: 1.1.2_hmqeisujo2p6f46bt2cxopfwpe
       zod: 4.1.13
     devDependencies:
-      '@repo/eslint-config': link:../eslint-config
-      '@repo/typescript-config': link:../typescript-config
+      '@listtrackr/eslint-config': link:../eslint-config
+      '@listtrackr/typescript-config': link:../typescript-config
       '@types/node': 22.19.1
       '@types/react': 19.2.2
       '@types/react-dom': 19.2.2_@types+react@19.2.2
